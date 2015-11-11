@@ -1,0 +1,18 @@
+﻿Build started 11/11/2015 20:34:43.
+     1>Project "F:\FYP_Test_Solution\FYP_Test_Solution\FYP_Test_Solution.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IF:\FYP_Test_Solution\\Includes\OGRE\Overlay\ /IF:\FYP_Test_Solution\\Includes\OGRE\ /IF:\FYP_Test_Solution\\Includes\OIS\ /IF:\FYP_Test_Solution\\Includes\ /I"(AdditionalIncludeDirectories)" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp src\Bone.cpp src\Bone_Builder.cpp src\Skeleton.cpp src\Skeleton_Builder.cpp
+         main.cpp
+     1>f:\fyp_test_solution\includes\ogre\ExampleFrameListener.h(344): warning C4244: '+=' : conversion from 'double' to 'Ogre::Real', possible loss of data
+     1>f:\fyp_test_solution\includes\ogre\ExampleFrameListener.h(345): warning C4244: '-=' : conversion from 'double' to 'Ogre::Real', possible loss of data
+     1>f:\fyp_test_solution\includes\ogre\ExampleFrameListener.h(349): warning C4244: 'argument' : conversion from 'double' to 'Ogre::Real', possible loss of data
+     1>f:\fyp_test_solution\includes\ogre\ExampleFrameListener.h(350): warning C4244: 'argument' : conversion from 'double' to 'Ogre::Real', possible loss of data
+     1>f:\fyp_test_solution\includes\ogre\ExampleFrameListener.h(455): warning C4244: '-=' : conversion from 'double' to 'Ogre::Real', possible loss of data
+     1>f:\fyp_test_solution\fyp_test_solution\OgreBullet_Collision_test.h(87): warning C4305: 'argument' : truncation from 'double' to 'const float'
+     1>f:\fyp_test_solution\fyp_test_solution\OgreBullet_Collision_test.h(249): warning C4305: 'argument' : truncation from 'double' to 'const Ogre::Real'
+         Bone.cpp
+     1>Done Building Project "F:\FYP_Test_Solution\FYP_Test_Solution\FYP_Test_Solution.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:13.12
