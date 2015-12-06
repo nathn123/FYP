@@ -1,66 +1,24 @@
-﻿Build started 06/12/2015 14:46:52.
-     1>Project "C:\Users\nathan\Desktop\New folder\FYP_Test_Solution\FYP_Test_Solution.vcxproj" on node 2 (Build target(s)).
+﻿Build started 06/12/2015 19:47:48.
+     1>Project "C:\Users\nathan\Desktop\New folder\trunk\FYP_Test_Solution\FYP_Test_Solution.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\nathan\Desktop\New folder\\Include" /I"C:\Users\nathan\Desktop\New folder\FYP_Test_Solution\\header" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp src\Bone.cpp src\MotionState.cpp src\Skeleton_Builder.cpp
-         Skeleton_Builder.cpp
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(118): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(123): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(227): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(233): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(238): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(250): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(256): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(260): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(270): error C2512: 'btConeTwistConstraint' : no appropriate default constructor available
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(272): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(274): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(277): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(279): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(296): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(301): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(306): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(318): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(322): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(326): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(337): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(339): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(342): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(344): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(364): warning C4244: 'argument' : conversion from 'int' to 'Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(365): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(369): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(373): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(377): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(386): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(388): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(390): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(411): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(415): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(426): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(430): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(443): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(457): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(483): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(485): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(488): error C2661: 'btConeTwistConstraint::btConeTwistConstraint' : no overloaded function takes 6 arguments
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(490): error C2664: 'btHingeConstraint::btHingeConstraint(const btHingeConstraint &)' : cannot convert argument 1 from 'btRigidBody *' to 'btRigidBody &'
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(515): warning C4244: 'argument' : conversion from 'int' to 'Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(516): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(520): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(524): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\skeleton_builder.cpp(528): warning C4244: 'argument' : conversion from 'int' to 'const Ogre::Real', possible loss of data
-         MotionState.cpp
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\header\utils.h(9): error C2719: 'vec': formal parameter with __declspec(align('16')) won't be aligned
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\header\utils.h(17): error C2719: 'quat': formal parameter with __declspec(align('16')) won't be aligned
-         Bone.cpp
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\header\utils.h(9): error C2719: 'vec': formal parameter with __declspec(align('16')) won't be aligned
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\header\utils.h(17): error C2719: 'quat': formal parameter with __declspec(align('16')) won't be aligned
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\src\bone.cpp(11): warning C4316: 'MotionState' : object allocated on the heap may not be aligned 16
-         main.cpp
-     1>c:\users\nathan\desktop\new folder\fyp_test_solution\main.cpp(21): fatal error C1083: Cannot open include file: 'OgreBullet_Collision_test.h': No such file or directory
-         Generating Code...
-     1>Done Building Project "C:\Users\nathan\Desktop\New folder\FYP_Test_Solution\FYP_Test_Solution.vcxproj" (Build target(s)) -- FAILED.
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\nathan\Desktop\New folder\trunk\\Include\Bullet" /I"C:\Users\nathan\Desktop\New folder\trunk\\Include\OIS" /I"C:\Users\nathan\Desktop\New folder\trunk\\Include\OGRE" /I"C:\Users\nathan\Desktop\New folder\trunk\\Include" /I"C:\Users\nathan\Desktop\New folder\trunk\FYP_Test_Solution\\header" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt App.cpp
+         App.cpp
+     1>c:\users\nathan\desktop\new folder\trunk\fyp_test_solution\app.cpp(101): warning C4305: 'argument' : truncation from 'double' to 'float'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\nathan\Desktop\New folder\trunk\\bin\Debug\FYP_Solution.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\nathan\Desktop\New folder\trunk\\libs\Debug\\" OgreMain_d.lib OIS_d.lib OgreOverlay_d.lib bulletcollision_Debug.lib bulletdynamics_Debug.lib LinearMath_Debug.lib GIMPACTutils_Debug.lib ConvexDecomposition_Debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\nathan\Desktop\New folder\trunk\\bin\Debug\FYP_Solution.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\nathan\Desktop\New folder\trunk\\bin\Debug\FYP_Solution.lib" /MACHINE:X86 Debug\App.obj
+         Debug\main.obj
+         Debug\Bone.obj
+         Debug\Bone_Builder.obj
+         Debug\InputManager.obj
+         Debug\MotionState.obj
+         Debug\Physics.obj
+         Debug\Physics_FrameListener.obj
+         Debug\Skeleton.obj
+         Debug\Skeleton_Builder.obj
+         Debug\TrackableObject.obj
+         FYP_Test_Solution.vcxproj -> C:\Users\nathan\Desktop\New folder\trunk\\bin\Debug\FYP_Solution.exe
+     1>Done Building Project "C:\Users\nathan\Desktop\New folder\trunk\FYP_Test_Solution\FYP_Test_Solution.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:19.37
+Time Elapsed 00:00:08.64

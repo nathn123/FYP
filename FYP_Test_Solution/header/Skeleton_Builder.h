@@ -6,6 +6,8 @@
 
 class Skeleton_Builder
 {
+	
+public:
 	enum LegType
 	{
 		None,
@@ -34,12 +36,14 @@ class Skeleton_Builder
 		ShortNeckLongTailUpright,
 		ShortNeckNoTailUpright,
 	};
-public:
 	Skeleton_Builder(Ogre::SceneManager* scene, btDynamicsWorld* world);
 	~Skeleton_Builder();
 	void SetDimensions(int NeckIncline, int TailIncline, int height, int width);
 	void SetBodyType(LegType leg, ArmType arm, TorsoType torso);
 	bool BuildSkeleton(Skeleton* newSkel);
+	
+
+private: // this is only used by the class
 	bool BuildArm(int arm_Width, int arm_height, int torso_width);
 	bool BuildNeck(int neck_width, int neck_height);
 	bool BuildLeg(int leg_width, int leg_height, int torso_width);
@@ -50,7 +54,7 @@ public:
 	bool ShortTail();
 	void ClearData();
 
-private:
+
 	LegType mLeg;
 	ArmType mArm;
 	TorsoType mTorso;

@@ -18,7 +18,7 @@ LGPL like the rest of the OGRE engine.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreBullet_Collision_test.h"
+#include"App.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -37,10 +37,10 @@ extern "C" {
 #endif
 	{
 		// Create application object
-		OgreBullet_Collision_testApp app;
+		App app;
 
 		try {
-			app.go();
+			app.Go();
 		}
 		catch (Ogre::Exception& e) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

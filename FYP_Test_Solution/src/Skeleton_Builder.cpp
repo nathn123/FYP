@@ -1,4 +1,5 @@
 #include "..\header\Skeleton_Builder.h"
+#include "Utils.h"
 
 
 
@@ -263,20 +264,20 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 		mBones.push_back(Rshoulder);
 		mBones.push_back(RUpperArm);
 		mBones.push_back(RLowerArm);
-
 		//add joints
 		Ogre::Quaternion shoulderrotation;
 		shoulderrotation.FromAngleAxis(Ogre::Radian(Ogre::Math::PI / 2) / 2, Ogre::Vector3::UNIT_X);
-		btConeTwistConstraint* twist = new btConeTwistConstraint();
-		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(mShouldernode->GetRigidBody(),
-			Lshoulder->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-		btHingeConstraint* LArmConst = new btHingeConstraint(LUpperArm->GetRigidBody(), LLowerArm->GetRigidBody(),
-			Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),
+			*Lshoulder->GetRigidBody(), Utils::OgreNodeBtTransform(Lshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
 
-		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(mShouldernode->GetRigidBody(),
-			Rshoulder->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-		btHingeConstraint* RArmConst = new btHingeConstraint(RUpperArm->GetRigidBody(), RLowerArm->GetRigidBody(),
-			Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+		btHingeConstraint* LArmConst = new btHingeConstraint(*LUpperArm->GetRigidBody(), *LLowerArm->GetRigidBody(),
+			Utils::OgreNodeBtTransform(LLowerArm->GetNode()), Utils::OgreNodeBtTransform(LUpperArm->GetNode()));
+
+		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),*Rshoulder->GetRigidBody(),
+			Utils::OgreNodeBtTransform(Rshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
+
+		btHingeConstraint* RArmConst = new btHingeConstraint(*RUpperArm->GetRigidBody(), *RLowerArm->GetRigidBody(),
+			Utils::OgreNodeBtTransform(RLowerArm->GetNode()), Utils::OgreNodeBtTransform(RUpperArm->GetNode()));
 
 		mConstraints.push_back(LshoulderConst);
 		mConstraints.push_back(LArmConst);
@@ -333,15 +334,17 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 		Ogre::Quaternion shoulderrotation;
 		shoulderrotation.FromAngleAxis(Ogre::Radian(Ogre::Math::PI / 2) / 2, Ogre::Vector3::UNIT_X);
 
-		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(mShouldernode->GetRigidBody(),
-			Lshoulder->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-		btHingeConstraint* LArmConst = new btHingeConstraint(LUpperArm->GetRigidBody(), LLowerArm->GetRigidBody(),
-			Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),
+			*Lshoulder->GetRigidBody(), Utils::OgreNodeBtTransform(Lshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
 
-		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(mShouldernode->GetRigidBody(),
-			Rshoulder->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-		btHingeConstraint* RArmConst = new btHingeConstraint(RUpperArm->GetRigidBody(), RLowerArm->GetRigidBody(),
-			Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+		btHingeConstraint* LArmConst = new btHingeConstraint(*LUpperArm->GetRigidBody(), *LLowerArm->GetRigidBody(),
+			Utils::OgreNodeBtTransform(LLowerArm->GetNode()), Utils::OgreNodeBtTransform(LUpperArm->GetNode()));
+
+		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(), *Rshoulder->GetRigidBody(),
+			Utils::OgreNodeBtTransform(Rshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
+
+		btHingeConstraint* RArmConst = new btHingeConstraint(*RUpperArm->GetRigidBody(), *RLowerArm->GetRigidBody(),
+			Utils::OgreNodeBtTransform(RLowerArm->GetNode()), Utils::OgreNodeBtTransform(RUpperArm->GetNode()));
 
 		mConstraints.push_back(LshoulderConst);
 		mConstraints.push_back(LArmConst);
@@ -382,12 +385,12 @@ bool Skeleton_Builder::BuildNeck(int neck_width, int neck_height)
 	Ogre::Quaternion shoulderrotation;
 	shoulderrotation.FromAngleAxis(Ogre::Radian(Ogre::Math::PI / 2) / 2, Ogre::Vector3::UNIT_X);
 
-	btHingeConstraint* LNeckConst = new btHingeConstraint(LLNeck->GetRigidBody(), LNeck->GetRigidBody(),
-		Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
-	btHingeConstraint* MNeckConst = new btHingeConstraint(LNeck->GetRigidBody(), MNeck->GetRigidBody(),
-		Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
-	btHingeConstraint* HNeckConst = new btHingeConstraint(MNeck->GetRigidBody(), UNeck->GetRigidBody(),
-		Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+	btHingeConstraint* LNeckConst = new btHingeConstraint(*LLNeck->GetRigidBody(), *LNeck->GetRigidBody(),
+		Utils::OgreNodeBtTransform(LNeck->GetNode()), Utils::OgreNodeBtTransform(LLNeck->GetNode()));
+	btHingeConstraint* MNeckConst = new btHingeConstraint(*LNeck->GetRigidBody(), *MNeck->GetRigidBody(),
+		Utils::OgreNodeBtTransform(MNeck->GetNode()), Utils::OgreNodeBtTransform(LNeck->GetNode()));
+	btHingeConstraint* HNeckConst = new btHingeConstraint(*MNeck->GetRigidBody(), *UNeck->GetRigidBody(),
+		Utils::OgreNodeBtTransform(UNeck->GetNode()), Utils::OgreNodeBtTransform(MNeck->GetNode()));
 	mConstraints.push_back(LNeckConst);
 	mConstraints.push_back(MNeckConst);
 	mConstraints.push_back(HNeckConst);
@@ -476,18 +479,16 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 	//mBones.push_back(RFoot);
 
 	//add joints
-	Ogre::Quaternion shoulderrotation;
-	shoulderrotation.FromAngleAxis(Ogre::Radian(Ogre::Math::PI / 2) / 2, Ogre::Vector3::UNIT_X);
 
-	btConeTwistConstraint* LhipConst = new btConeTwistConstraint(mHipNode->GetRigidBody(),
-		LUpperLeg->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-	btHingeConstraint* LLegConst = new btHingeConstraint(LUpperLeg->GetRigidBody(), LLowerLeg->GetRigidBody(),
-		Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+	btConeTwistConstraint* LhipConst = new btConeTwistConstraint(*mHipNode->GetRigidBody(),*LUpperLeg->GetRigidBody(),
+		Utils::OgreNodeBtTransform(LUpperLeg->GetNode()), Utils::OgreNodeBtTransform(mHipNode->GetNode()));
+	btHingeConstraint* LLegConst = new btHingeConstraint(*LUpperLeg->GetRigidBody(), *LLowerLeg->GetRigidBody(),
+		Utils::OgreNodeBtTransform(LLowerLeg->GetNode()), Utils::OgreNodeBtTransform(LUpperLeg->GetNode()));
 
-	btConeTwistConstraint* RhipConst = new btConeTwistConstraint(mHipNode->GetRigidBody(),
-		RUpperLeg->GetRigidBody(), Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, Ogre::Vector3::ZERO, shoulderrotation);
-	btHingeConstraint* RLegConst = new btHingeConstraint(RUpperLeg->GetRigidBody(), RLowerLeg->GetRigidBody(),
-		Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
+	btConeTwistConstraint* RhipConst = new btConeTwistConstraint(*mHipNode->GetRigidBody(),*RUpperLeg->GetRigidBody(),
+		Utils::OgreNodeBtTransform(RUpperLeg->GetNode()), Utils::OgreNodeBtTransform(mHipNode->GetNode()));
+	btHingeConstraint* RLegConst = new btHingeConstraint(*RUpperLeg->GetRigidBody(), *RLowerLeg->GetRigidBody(),
+		Utils::OgreNodeBtTransform(RLowerLeg->GetNode()), Utils::OgreNodeBtTransform(RUpperLeg->GetNode()));
 
 	//btHingeConstraint* LFootConst = new btHingeConstraint(LLowerLeg->GetRigidBody(), LFoot->GetRigidBody(),
 	//	Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);

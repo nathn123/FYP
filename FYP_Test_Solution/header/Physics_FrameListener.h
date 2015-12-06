@@ -5,7 +5,7 @@
 class Physics_FrameListener : public Ogre::FrameListener
 {
 public:
-	Physics_FrameListener(Ogre::SceneManager* sceneMgr, Ogre::RenderWindow* rw);
+	Physics_FrameListener(Ogre::SceneManager* sceneMgr);
 	~Physics_FrameListener();
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 

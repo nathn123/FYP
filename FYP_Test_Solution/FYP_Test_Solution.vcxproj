@@ -50,12 +50,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(ProjectDir)\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include\Bullet;$(SolutionDir)\Include\OIS;$(SolutionDir)\Include\OGRE;$(SolutionDir)\Include;$(ProjectDir)\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;OgreBulletCollisions_d.lib;OgreBulletDynamics_d.lib;bulletcollision_Debug.lib;bulletdynamics_Debug.lib;LinearMath_Debug.lib;GIMPACTutils_Debug.lib;ConvexDecomposition_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;bulletcollision_Debug.lib;bulletdynamics_Debug.lib;LinearMath_Debug.lib;GIMPACTutils_Debug.lib;ConvexDecomposition_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,23 +72,30 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;OgreBulletCollisions.lib;OgreBulletDynamics.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;GIMPACTUtils.lib;ConvexDecomposition.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;GIMPACTUtils.lib;ConvexDecomposition.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\Bone_Builder.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\Physics_FrameListener.cpp" />
     <ClCompile Include="src\Skeleton.cpp" />
     <ClCompile Include="src\Skeleton_Builder.cpp" />
+    <ClCompile Include="src\TrackableObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="header\Bone.h" />
     <ClInclude Include="header\Bone_Builder.h" />
+    <ClInclude Include="header\InputManager.h" />
     <ClInclude Include="header\MotionState.h" />
     <ClInclude Include="header\Physics.h" />
+    <ClInclude Include="header\Physics_FrameListener.h" />
     <ClInclude Include="header\Skeleton.h" />
     <ClInclude Include="header\Skeleton_Builder.h" />
     <ClInclude Include="header\Utils.h" />
