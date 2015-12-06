@@ -1,8 +1,10 @@
 #include "..\header\Bone_Builder.h"
 
 
-Bone_Builder::Bone_Builder()
+Bone_Builder::Bone_Builder(Ogre::SceneManager* scenemanger, btDynamicsWorld* world)
 {
+	mSceneMgr = scenemanger;
+	mWorld = world;
 }
 
 
@@ -10,22 +12,23 @@ Bone_Builder::~Bone_Builder()
 {
 }
 
-void Bone_Builder::SetDimensions(int width, int height, int length)
+void Bone_Builder::SetDimensions(int width, int height)
 {
 	mWidth = width;
 	mHeight = height;
-	mLength = length;
+	mLength = 30;
 }
 
-void Bone_Builder::SetRelativePosition(Ogre::Vector3 relpos, Ogre::SceneNode* parent)
+void Bone_Builder::SetRelativePosition(Ogre::Vector3 relpos, Ogre::Quaternion RelRot, Ogre::SceneNode* parent)
 {
 	mPosition = relpos;
+	mRotation = RelRot;
 	mNode = parent;
 }
 
 bool Bone_Builder::BuildBone(Bone* newBone)
 {
-	if (mWidth <= 0 || mHeight <= 0 || mLength <= 0 || mPosition.isNaN() || mNode == nullptr) // ensure it has been initialised
+	if (mWidth <= 0 || mHeight <= 0 || mPosition.isNaN() || mNode == nullptr) // ensure it has been initialised
 		return false;
 	Ogre::ManualObject* bonecube = mSceneMgr->createManualObject("bone");
 	bonecube->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
@@ -97,5 +100,14 @@ bool Bone_Builder::BuildBone(Bone* newBone)
 	bonecube->index(7);
 
 	bonecube->end();
-	newBone = new Bone(bonecube,mPosition,mNode);
+	newBone = new Bone(bonecube,mPosition,mRotation,mNode,mWorld);
+	this->ClearData();
+	return true;
+}
+
+void Bone_Builder::ClearData()
+{
+	mWidth = 0;
+	mHeight = 0;
+	mNode = nullptr;
 }

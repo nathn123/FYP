@@ -50,7 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Includes\OGRE\Overlay\;$(SolutionDir)\Includes\OGRE\;$(SolutionDir)\Includes\OIS\;$(SolutionDir)\Includes\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(ProjectDir)\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -65,7 +65,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Includes\OGRE\Overlay\;$(SolutionDir)\Includes\OGRE\;$(SolutionDir)\Includes\OIS\;$(SolutionDir)\Includes\;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(ProjectDir)\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -79,6 +79,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\Bone_Builder.cpp" />
+    <ClCompile Include="src\MotionState.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Skeleton.cpp" />
     <ClCompile Include="src\Skeleton_Builder.cpp" />
@@ -86,11 +87,11 @@
   <ItemGroup>
     <ClInclude Include="header\Bone.h" />
     <ClInclude Include="header\Bone_Builder.h" />
+    <ClInclude Include="header\MotionState.h" />
     <ClInclude Include="header\Physics.h" />
-    <ClInclude Include="header\Singleton.h" />
     <ClInclude Include="header\Skeleton.h" />
     <ClInclude Include="header\Skeleton_Builder.h" />
-    <ClInclude Include="OgreBullet_Collision_test.h" />
+    <ClInclude Include="header\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

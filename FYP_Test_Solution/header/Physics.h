@@ -1,15 +1,20 @@
 #pragma once
-#include "OgreBulletDynamicsRigidBody.h"
+#include <OGRE\Ogre.h>
+#include <Bullet\btBulletDynamicsCommon.h>
 class Physics
 {
 public:
-	Physics();
+	Physics(Ogre::SceneManager* sceneMgr, Ogre::RenderWindow* rw);
 	~Physics();
-private:
+	bool BuildCharacter();
+	bool TestSkeleton();
+	void Update(Ogre::Real frametime);
 
-	OgreBulletDynamics::DynamicsWorld *mWorld;	// OgreBullet World
-	OgreBulletCollisions::DebugDrawer *debugDrawer;
-	std::deque<OgreBulletDynamics::RigidBody *>         mBodies;
-	std::deque<OgreBulletCollisions::CollisionShape *>  mShapes;
+private:
+	Ogre::SceneManager* mSceneMgr;
+	btDynamicsWorld *mWorld;	// OgreBullet World
+	//OgreBulletCollisions::DebugDrawer *debugDrawer;
+	std::deque<btRigidBody *>         mBodies;
+	std::deque<btCollisionShape *>  mShapes;
 };
 

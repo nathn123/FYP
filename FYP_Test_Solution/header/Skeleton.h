@@ -1,17 +1,18 @@
 #pragma once
 #include<vector>
-#include<Ogre.h>
-#include<OgreBulletCollisions.h>
-#include"..\header\Bone.h"
+#include<OGRE\Ogre.h>
+#include"Bone.h"
 
 class Skeleton
 {
 public:
-	Skeleton();
+	Skeleton(std::vector<Bone*> mBones, 
+		std::vector<btTypedConstraint*> mConstraints,
+		Ogre::SceneNode* mNode,
+		btDynamicsWorld* World);
 	~Skeleton();
 private:
 	std::vector<Bone*> mBones;
-	Ogre::SceneNode mNode;
-	OgreBulletCollisions::CompoundCollisionShape* mCollider;
+	Ogre::SceneNode* mNode;
 };
 

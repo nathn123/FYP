@@ -1,22 +1,38 @@
-#include"..\header\Bone.h"
+#include"Bone.h"
+#include"Utils.h"
 
 
-Bone::Bone(Ogre::ManualObject* newbone, Ogre::Vector3 RelPos, Ogre::SceneNode* parent)
+
+Bone::Bone(Ogre::ManualObject* newbone, Ogre::Vector3 RelPos,Ogre::Quaternion RelRot, Ogre::SceneNode* parent,btDynamicsWorld* World)
 {
-	mNode = parent->createChildSceneNode(RelPos);
+	mNode = parent->createChildSceneNode(RelPos, RelRot);
 	mNode->attachObject(newbone);
+	mCollider = new btBoxShape(Utils::OgreBTVector(newbone->getBoundingBox().getHalfSize()));
+	mMotionState = new MotionState(mNode);
+	auto mass = newbone->getBoundingBox().getSize().x*newbone->getBoundingBox().getSize().y*newbone->getBoundingBox().getSize().z;
+	btVector3 Inertia(0,0,0);
+	mCollider->calculateLocalInertia(mass, Inertia);
+	btRigidBody::btRigidBodyConstructionInfo boneRigidBody(mass, mMotionState, mCollider, Inertia);
+	mRigidBody = new btRigidBody(boneRigidBody);
+	World->addRigidBody(mRigidBody);
 }
+Bone::Bone()
+{
 
+}
 
 Bone::~Bone()
 {
 }
 
-OgreBulletCollisions::BoxCollisionShape* Bone::GetCollider()
+btCollisionShape* Bone::GetCollider()
 {
 	return mCollider;
 }
-
+btRigidBody* Bone::GetRigidBody()
+{
+	return mRigidBody;
+}
 Ogre::SceneNode* Bone::GetNode()
 {
 	return mNode;
