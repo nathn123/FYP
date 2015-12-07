@@ -9,7 +9,10 @@ Skeleton::Skeleton(std::vector<Bone*> Bones, std::vector<btTypedConstraint*> Con
 		World->addConstraint(constraint);
 	
 }
+Skeleton::Skeleton()
+{
 
+}
 
 Skeleton::~Skeleton()
 {

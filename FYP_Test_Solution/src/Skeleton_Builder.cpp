@@ -28,17 +28,17 @@ void Skeleton_Builder::SetBodyType(LegType leg, ArmType arm, TorsoType torso)
 	mArm = arm;
 	mTorso = torso;
 }
-bool Skeleton_Builder::BuildSkeleton(Skeleton* newSkel)
+bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 {
 	if (mLeg == LegType::None || mTorso == TorsoType::None1 || mHeight <= 10) // check to ensure all attribs required
 		return false;
 	
-	int neck_height;
-	int torso_height;
-	int Leg_height;
-	int tail_height;
+	float neck_height;
+	float torso_height;
+	float Leg_height;
+	float tail_height;
 	//create base node for skeleton
-	auto node = mSceneMgr->createSceneNode();
+	mBase = mSceneMgr->getRootSceneNode()->createChildSceneNode(pos);
 	// set block area heights
 	// if longneck  neck/legs ratio = 2:1
 	// if shortneck neck/legs ratio = 1:2
@@ -88,10 +88,10 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton* newSkel)
 	}
 
 	//set block area widths
-	int neck_width;
-	int torso_width;
-	int Leg_width;
-	int Arm_width;
+	float neck_width;
+	float torso_width;
+	float Leg_width;
+	float Arm_width;
 
 	auto onepercentW = mWidth / 100;
 	// arms take 35% of width i.e 17.5% each side if needed
@@ -104,25 +104,25 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton* newSkel)
 
 	if (Upright())
 	{
-		Bone* CentreTorso = nullptr;
-		Bone* TopTorso = nullptr;
-		Bone* BotTorso = nullptr;
+		Bone* CentreTorso = new Bone();
+		Bone* TopTorso = new Bone();
+		Bone* BotTorso = new Bone();
 		//build 3 torso pieces
 		auto torsoPiece_height = torso_height / 3;
 		//build centre piece
 		mBuilder->SetDimensions(torso_width, torsoPiece_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, node);
-		if (!mBuilder->BuildBone(CentreTorso))
+		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY,*mBase);
+		if (!mBuilder->BuildBone(*CentreTorso))
 			return false;
 		//build bot piece
 		mBuilder->SetDimensions(torso_width, torsoPiece_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, -torsoPiece_height, 0), Ogre::Quaternion::IDENTITY, CentreTorso->GetNode());
-		if (!mBuilder->BuildBone(BotTorso))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, -torsoPiece_height, 0), Ogre::Quaternion::IDENTITY, *CentreTorso->GetNode());
+		if (!mBuilder->BuildBone(*BotTorso))
 			return false;
 		//build top piece
 		mBuilder->SetDimensions(torso_width, torsoPiece_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, torsoPiece_height, 0), Ogre::Quaternion::IDENTITY, CentreTorso->GetNode());
-		if (!mBuilder->BuildBone(TopTorso))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, torsoPiece_height, 0), Ogre::Quaternion::IDENTITY, *CentreTorso->GetNode());
+		if (!mBuilder->BuildBone(*TopTorso))
 			return false;
 		mShouldernode = TopTorso;
 		mHipNode = BotTorso;
@@ -134,11 +134,11 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton* newSkel)
 	}
 	else
 	{
-		Bone* CentreTorso = nullptr;
+		Bone* CentreTorso = new Bone();
 		//build centre piece
 		mBuilder->SetDimensions(torso_width, torso_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, node);
-		if (!mBuilder->BuildBone(CentreTorso))
+		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mBase);
+		if (!mBuilder->BuildBone(*CentreTorso))
 			return false;
 		mBones.push_back(CentreTorso);
 		mShouldernode = CentreTorso;
@@ -159,7 +159,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton* newSkel)
 		//	bone->GetNode()->convertLocalToWorldPosition(Ogre::Vector3::ZERO),
 		//	bone->GetNode()->convertLocalToWorldOrientation(Ogre::Quaternion::IDENTITY));
 
-		newSkel = new Skeleton(mBones,mConstraints, node,mWorld);
+		newSkel = Skeleton(mBones, mConstraints, mBase, mWorld);
 
 		ClearData();
 		return true;
@@ -219,47 +219,47 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 	if (mArm == ArmType::ShortArms)
 	{
 		//half height of legs
-		Bone* Lshoulder = nullptr;
-		Bone* LUpperArm = nullptr;
-		Bone* LLowerArm = nullptr;
+		Bone* Lshoulder = new Bone();
+		Bone* LUpperArm = new Bone();
+		Bone* LLowerArm = new Bone();
 		//build shoulder piece
 		
 		mBuilder->SetDimensions(arm_Width, arm_height/2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(torso_width, 0, 0), Ogre::Quaternion::IDENTITY, mShouldernode->GetNode());
-		if (!mBuilder->BuildBone(Lshoulder))
+		mBuilder->SetRelativePosition(Ogre::Vector3(torso_width, 0, 0), Ogre::Quaternion::IDENTITY, *mShouldernode->GetNode());
+		if (!mBuilder->BuildBone(*Lshoulder))
 			return false;
 		
 
 		mBuilder->SetDimensions(arm_Width, arm_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0,arm_height/2,0), Ogre::Quaternion::IDENTITY, Lshoulder->GetNode());
-		if (!mBuilder->BuildBone(LUpperArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, *Lshoulder->GetNode());
+		if (!mBuilder->BuildBone(*LUpperArm))
 			return false;
 
 		mBuilder->SetDimensions(arm_Width, arm_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0,arm_height/2,0), Ogre::Quaternion::IDENTITY, LUpperArm->GetNode());
-		if (!mBuilder->BuildBone(LLowerArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, *LUpperArm->GetNode());
+		if (!mBuilder->BuildBone(*LLowerArm))
 			return false;
 		mBones.push_back(Lshoulder);
 		mBones.push_back(LUpperArm);
 		mBones.push_back(LLowerArm);
 
-		Bone* Rshoulder = nullptr;
-		Bone* RUpperArm = nullptr;
-		Bone* RLowerArm = nullptr;
+		Bone* Rshoulder = new Bone();
+		Bone* RUpperArm = new Bone();
+		Bone* RLowerArm = new Bone();
 
 		mBuilder->SetDimensions(arm_Width, arm_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(-torso_width, 0, 0), Ogre::Quaternion::IDENTITY, mShouldernode->GetNode());
-		if (!mBuilder->BuildBone(Rshoulder))
+		mBuilder->SetRelativePosition(Ogre::Vector3(-torso_width, 0, 0), Ogre::Quaternion::IDENTITY, *mShouldernode->GetNode());
+		if (!mBuilder->BuildBone(*Rshoulder))
 			return false;
 		
 
 		mBuilder->SetDimensions(arm_Width, arm_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, Rshoulder->GetNode());
-		if (!mBuilder->BuildBone(RUpperArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, *Rshoulder->GetNode());
+		if (!mBuilder->BuildBone(*RUpperArm))
 			return false;
 		mBuilder->SetDimensions(arm_Width, arm_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, RUpperArm->GetNode());
-		if (!mBuilder->BuildBone(RLowerArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height / 2, 0), Ogre::Quaternion::IDENTITY, *RUpperArm->GetNode());
+		if (!mBuilder->BuildBone(*RLowerArm))
 			return false;
 		mBones.push_back(Rshoulder);
 		mBones.push_back(RUpperArm);
@@ -288,44 +288,44 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 	else if (mArm == ArmType::LongArms)
 	{
 		// same height of legs
-		Bone* Lshoulder = nullptr;
-		Bone* LUpperArm = nullptr;
-		Bone* LLowerArm = nullptr;
+		Bone* Lshoulder = new Bone();
+		Bone* LUpperArm = new Bone();
+		Bone* LLowerArm = new Bone();
 		//build shoulder piece
 
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(torso_width, 0, 0), Ogre::Quaternion::IDENTITY, mShouldernode->GetNode());
-		if (!mBuilder->BuildBone(Lshoulder))
+		mBuilder->SetRelativePosition(Ogre::Vector3(torso_width, 0, 0), Ogre::Quaternion::IDENTITY, *mShouldernode->GetNode());
+		if (!mBuilder->BuildBone(*Lshoulder))
 			return false;
 
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, Lshoulder->GetNode());
-		if (!mBuilder->BuildBone(LUpperArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, *Lshoulder->GetNode());
+		if (!mBuilder->BuildBone(*LUpperArm))
 			return false;
 
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, LUpperArm->GetNode());
-		if (!mBuilder->BuildBone(LLowerArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, *LUpperArm->GetNode());
+		if (!mBuilder->BuildBone(*LLowerArm))
 			return false;
 		mBones.push_back(Lshoulder);
 		mBones.push_back(LUpperArm);
 		mBones.push_back(LLowerArm);
 
-		Bone* Rshoulder = nullptr;
-		Bone* RUpperArm = nullptr;
-		Bone* RLowerArm = nullptr;
+		Bone* Rshoulder = new Bone();
+		Bone* RUpperArm = new Bone();
+		Bone* RLowerArm = new Bone();
 
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(-torso_width, 0, 0), Ogre::Quaternion::IDENTITY, mShouldernode->GetNode() );
-		if (!mBuilder->BuildBone(Rshoulder))
+		mBuilder->SetRelativePosition(Ogre::Vector3(-torso_width, 0, 0), Ogre::Quaternion::IDENTITY, *mShouldernode->GetNode());
+		if (!mBuilder->BuildBone(*Rshoulder))
 			return false;
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, Rshoulder->GetNode());
-		if (!mBuilder->BuildBone(RUpperArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, *Rshoulder->GetNode());
+		if (!mBuilder->BuildBone(*RUpperArm))
 			return false;
 		mBuilder->SetDimensions(arm_Width, arm_height);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, RUpperArm->GetNode());
-		if (!mBuilder->BuildBone(RLowerArm))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, arm_height, 0), Ogre::Quaternion::IDENTITY, *RUpperArm->GetNode());
+		if (!mBuilder->BuildBone(*RLowerArm))
 			return false;
 		mBones.push_back(Rshoulder);
 		mBones.push_back(RUpperArm);
@@ -357,28 +357,28 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 }
 bool Skeleton_Builder::BuildNeck(int neck_width, int neck_height)
 {
-	Bone* UNeck = nullptr;
-	Bone* MNeck = nullptr;
-	Bone* LNeck = nullptr;
-	Bone* LLNeck = nullptr;
+	Bone* UNeck = new Bone();
+	Bone* MNeck = new Bone();
+	Bone* LNeck = new Bone();
+	Bone* LLNeck = new Bone();
 
 	mBuilder->SetDimensions(neck_width, neck_height / 4);
 	Ogre::Quaternion neckrotation;
 	neckrotation.FromAngleAxis(Ogre::Radian(Ogre::Degree(mNeckIncline)), Ogre::Vector3::UNIT_X);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, mShouldernode->GetNode());
-	if (!mBuilder->BuildBone(LLNeck))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, *mShouldernode->GetNode());
+	if (!mBuilder->BuildBone(*LLNeck))
 		return false;
 	mBuilder->SetDimensions(neck_width, neck_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, LLNeck->GetNode());
-	if (!mBuilder->BuildBone(LNeck))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, *LLNeck->GetNode());
+	if (!mBuilder->BuildBone(*LNeck))
 		return false;
 	mBuilder->SetDimensions(neck_width, neck_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, LNeck->GetNode());
-	if (!mBuilder->BuildBone(MNeck))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, *LNeck->GetNode());
+	if (!mBuilder->BuildBone(*MNeck))
 		return false;
 	mBuilder->SetDimensions(neck_width, neck_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, MNeck->GetNode());
-	if (!mBuilder->BuildBone(UNeck))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, *MNeck->GetNode());
+	if (!mBuilder->BuildBone(*UNeck))
 		return false;
 	
 	//add joints
@@ -402,21 +402,21 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 	auto halfgap = (torso_width / 2) - leg_width;
 	auto legnodepos = halfgap + leg_width / 2;
 
-	Bone* LUpperLeg = nullptr;
-	Bone* LLowerLeg = nullptr;
-	Bone* LFoot = nullptr;
-	Bone* RUpperLeg = nullptr;
-	Bone* RLowerLeg = nullptr;
-	Bone* RFoot = nullptr;
+	Bone* LUpperLeg = new Bone();
+	Bone* LLowerLeg = new Bone();
+	Bone* LFoot = new Bone();
+	Bone* RUpperLeg = new Bone();
+	Bone* RLowerLeg = new Bone();
+	Bone* RFoot = new Bone();
 	if (mLeg == LegType::Uninverted)
 	{
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, mHipNode->GetNode());
-		if (!mBuilder->BuildBone(LUpperLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		if (!mBuilder->BuildBone(*LUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, LUpperLeg->GetNode());
-		if (!mBuilder->BuildBone(LLowerLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, *LUpperLeg->GetNode());
+		if (!mBuilder->BuildBone(*LLowerLeg))
 			return false;
 
 		// foot generation
@@ -426,12 +426,12 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 		//	return false;
 
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, mHipNode->GetNode());
-		if (!mBuilder->BuildBone(RUpperLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		if (!mBuilder->BuildBone(*RUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, RUpperLeg->GetNode());
-		if (!mBuilder->BuildBone(RLowerLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, *RUpperLeg->GetNode());
+		if (!mBuilder->BuildBone(*RLowerLeg))
 			return false;
 
 		// foot generation
@@ -443,12 +443,12 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 	else
 	{
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, mHipNode->GetNode());
-		if (!mBuilder->BuildBone(LUpperLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		if (!mBuilder->BuildBone(*LUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, LUpperLeg->GetNode());
-		if (!mBuilder->BuildBone(LLowerLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, *LUpperLeg->GetNode());
+		if (!mBuilder->BuildBone(*LLowerLeg))
 			return false;
 
 		// foot generation
@@ -457,12 +457,12 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 		//if (!mBuilder->BuildBone(LUpperLeg))
 		//	return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, mHipNode->GetNode());
-		if (!mBuilder->BuildBone(RUpperLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		if (!mBuilder->BuildBone(*RUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, RUpperLeg->GetNode());
-		if (!mBuilder->BuildBone(RLowerLeg))
+		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, *RUpperLeg->GetNode());
+		if (!mBuilder->BuildBone(*RLowerLeg))
 			return false;
 
 		// foot generation
@@ -506,28 +506,28 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 }
 bool Skeleton_Builder::BuildTail(int tail_width,int tail_height)
 {
-	Bone* UTail = nullptr;
-	Bone* MTail = nullptr;
-	Bone* LTail = nullptr;
-	Bone* LLTail = nullptr;
+	Bone* UTail = new Bone();
+	Bone* MTail = new Bone();
+	Bone* LTail = new Bone();
+	Bone* LLTail = new Bone();
 
 	mBuilder->SetDimensions(tail_width, tail_height / 4);
 	Ogre::Quaternion neckrotation;
 	neckrotation.FromAngleAxis(Ogre::Radian(Ogre::Degree(mTailIncline)), Ogre::Vector3::UNIT_X);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, mHipNode->GetNode());
-	if (!mBuilder->BuildBone(LLTail))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, *mHipNode->GetNode());
+	if (!mBuilder->BuildBone(*LLTail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, LLTail->GetNode());
-	if (!mBuilder->BuildBone(LTail))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, *LLTail->GetNode());
+	if (!mBuilder->BuildBone(*LTail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, LTail->GetNode());
-	if (!mBuilder->BuildBone(MTail))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, *LTail->GetNode());
+	if (!mBuilder->BuildBone(*MTail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height / 4);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, MTail->GetNode());
-	if (!mBuilder->BuildBone(UTail))
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, *MTail->GetNode());
+	if (!mBuilder->BuildBone(*UTail))
 		return false;
 
 	return true;

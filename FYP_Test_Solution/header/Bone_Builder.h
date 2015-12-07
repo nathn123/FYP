@@ -8,11 +8,11 @@ public:
 	Bone_Builder(Ogre::SceneManager* scenemanager, btDynamicsWorld* world);
 	~Bone_Builder();
 	void SetDimensions(int width, int height);
-	void SetRelativePosition(Ogre::Vector3 pos, Ogre::Quaternion RelRot, Ogre::SceneNode* mNode);
-	bool BuildBone(Bone* newBone);
+	void SetRelativePosition(Ogre::Vector3 pos, Ogre::Quaternion RelRot, Ogre::SceneNode& mNode);
+	bool BuildBone(Bone& newBone);
 	void ClearData();
 private:
-	int mWidth, mHeight, mLength;
+	float mWidth, mHeight, mLength;
 	Ogre::Vector3 mPosition;
 	Ogre::Quaternion mRotation;
 	Ogre::SceneNode* mNode;

@@ -5,6 +5,8 @@
 #include <OgreViewport.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
+#include <SdkTrays.h>
+#include <SdkCameraMan.h>
 #include <OgreEntity.h>
 #include "Physics_FrameListener.h"
 
@@ -104,9 +106,10 @@ void App::Create_Scene()
 	L->setDirection(-0.5, -0.5, 0);
 	//Camera
 	mCamera = mSceneMgr->createCamera("MainCam");
-	mCamera->setPosition(Ogre::Vector3(0, 0, 80));
-	mCamera->lookAt(Ogre::Vector3(0, 0, -300));
+	mCamera->setPosition(Ogre::Vector3(0, 300, 80));
+	mCamera->lookAt(Ogre::Vector3(0, 0, 0));
 	mCamera->setNearClipDistance(5);
+	//auto camerama = new OgreBites::SdkCameraMan(mCamera);
 	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
 	vp->setBackgroundColour(Ogre::ColourValue(1, 0, 0));
 	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
@@ -119,7 +122,6 @@ void App::Create_Scene()
 	FloorEnt->setMaterialName("Examples/BumpyMetal");
 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
 
-	// create character
 
 	Physics_FrameListener* physicsframe = new Physics_FrameListener(mSceneMgr);
 	mRoot->addFrameListener(physicsframe);

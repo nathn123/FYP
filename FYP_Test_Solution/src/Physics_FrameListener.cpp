@@ -21,12 +21,12 @@ bool Physics_FrameListener::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 	if (key->isKeyDown(OIS::KC_P) && mToggleTime<=0)
 	{
-		//mPhysics->CreateTestBox();
+		mPhysics->BuildCharacter();
 		mToggleTime = 10.0f;
 	}
 	if (key->isKeyDown(OIS::KC_O) && mToggleTime <= 0)
 	{
-		//mPhysics->CreateTestHead();
+		mPhysics->TestBone();
 		mToggleTime = 10.0f;
 	}
 	mToggleTime -= evt.timeSinceLastFrame;

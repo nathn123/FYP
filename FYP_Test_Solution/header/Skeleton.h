@@ -10,6 +10,7 @@ public:
 		std::vector<btTypedConstraint*> mConstraints,
 		Ogre::SceneNode* mNode,
 		btDynamicsWorld* World);
+	Skeleton();
 	~Skeleton();
 private:
 	std::vector<Bone*> mBones;

@@ -9,12 +9,14 @@ public:
 	~Physics();
 	bool BuildCourse(std::string filename); // possible xml based courses
 	bool BuildCharacter();
+	bool TestBone();
 	//bool AddSkeleton(Skeleton* skel);
 	void Update(Ogre::Real frametime);
 
 private:
 	Ogre::SceneManager* mSceneMgr;
 	Skeleton_Builder* mBuilder;
+	Bone_Builder*mBoneBuilder;
 	btDynamicsWorld *mWorld;	// OgreBullet World
 	btBroadphaseInterface* broadphase;
 	btDefaultCollisionConfiguration* collisionConfiguration;

@@ -40,7 +40,7 @@ public:
 	~Skeleton_Builder();
 	void SetDimensions(int NeckIncline, int TailIncline, int height, int width);
 	void SetBodyType(LegType leg, ArmType arm, TorsoType torso);
-	bool BuildSkeleton(Skeleton* newSkel);
+	bool BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos);
 	
 
 private: // this is only used by the class
@@ -59,14 +59,15 @@ private: // this is only used by the class
 	ArmType mArm;
 	TorsoType mTorso;
 	Bone* mShouldernode,*mHipNode;
-	int mNeckIncline;
-	int mTailIncline;
-	int mHeight;
-	int mWidth;
+	float mNeckIncline;
+	float mTailIncline;
+	float mHeight;
+	float mWidth;
 	Bone_Builder* mBuilder;
 	Ogre::SceneManager* mSceneMgr;
 	std::vector<Bone*> mBones;
 	std::vector<btTypedConstraint*>mConstraints;
+	Ogre::SceneNode* mBase;
 	btDynamicsWorld* mWorld;
 };
 
