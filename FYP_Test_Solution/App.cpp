@@ -9,6 +9,7 @@
 #include <SdkCameraMan.h>
 #include <OgreEntity.h>
 #include "Physics_FrameListener.h"
+#include "Camera_FrameListener.h"
 
 App::App() : mRoot(0), mWindow(0), mSceneMgr(0), mCamera(0),
 mPluginsCfg(Ogre::StringUtil::BLANK),
@@ -105,14 +106,7 @@ void App::Create_Scene()
 	L->setType(Ogre::Light::LT_DIRECTIONAL);
 	L->setDirection(-0.5, -0.5, 0);
 	//Camera
-	mCamera = mSceneMgr->createCamera("MainCam");
-	mCamera->setPosition(Ogre::Vector3(0, 300, 80));
-	mCamera->lookAt(Ogre::Vector3(0, 0, 0));
-	mCamera->setNearClipDistance(5);
-	//auto camerama = new OgreBites::SdkCameraMan(mCamera);
-	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-	vp->setBackgroundColour(Ogre::ColourValue(1, 0, 0));
-	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+
 	// create terrain
 	Ogre::Entity* FloorEnt;
 	Ogre::Plane FloorP;
@@ -122,8 +116,9 @@ void App::Create_Scene()
 	FloorEnt->setMaterialName("Examples/BumpyMetal");
 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
 
-
+	Camera_FrameListener* camframe = new Camera_FrameListener(mSceneMgr, mWindow);
 	Physics_FrameListener* physicsframe = new Physics_FrameListener(mSceneMgr);
+	mRoot->addFrameListener(camframe);
 	mRoot->addFrameListener(physicsframe);
 
 

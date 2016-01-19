@@ -5,7 +5,7 @@
 class Utils
 {
 public:
-	static inline const Ogre::Vector3 BTOgreVector(const btVector3 &vec)
+	static inline Ogre::Vector3 BTOgreVector(const btVector3 &vec)
 	{
 		return Ogre::Vector3(vec.x(), vec.y(), vec.z());
 	}
