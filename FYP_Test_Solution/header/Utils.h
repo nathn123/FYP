@@ -1,7 +1,7 @@
 #pragma once
 #include<OGRE/Ogre.h>
 #include<Bullet/btBulletCollisionCommon.h>
-
+#define BIT(x) (1<<(x))
 class Utils
 {
 public:
@@ -23,7 +23,13 @@ public:
 	}
 	static inline btTransform OgreNodeBtTransform(const Ogre::Node* node)
 	{
-		
+
 		return btTransform(OgreBTQuat(node->_getDerivedOrientation()), OgreBTVector(node->_getDerivedPosition()));
 	}
+	static enum collisiontypes
+	{
+		COL_NOTHING = 0, //<Collide with nothing
+		COL_SKELETON = BIT(1), //<Collide with skeleton
+		COL_WALL = BIT(2) //<Collide with walls
+	};
 };

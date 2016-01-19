@@ -5,6 +5,8 @@
 class Physics
 {
 public:
+
+
 	Physics(Ogre::SceneManager* sceneMgr);
 	~Physics();
 	bool BuildCourse(std::string filename); // possible xml based courses

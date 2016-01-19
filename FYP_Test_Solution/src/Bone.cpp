@@ -3,6 +3,7 @@
 
 
 
+
 Bone::Bone(Ogre::ManualObject* newbone, Ogre::Vector3 RelPos,Ogre::Quaternion RelRot, Ogre::SceneNode* parent,btDynamicsWorld* World)
 {
 	mNode = parent->createChildSceneNode(RelPos, RelRot);
@@ -14,7 +15,7 @@ Bone::Bone(Ogre::ManualObject* newbone, Ogre::Vector3 RelPos,Ogre::Quaternion Re
 	mCollider->calculateLocalInertia(mass, Inertia);
 	btRigidBody::btRigidBodyConstructionInfo boneRigidBody(mass, mMotionState, mCollider, Inertia);
 	mRigidBody = new btRigidBody(boneRigidBody);
-	World->addRigidBody(mRigidBody);
+	World->addRigidBody(mRigidBody,Utils::COL_SKELETON,Utils::COL_WALL);
 }
 Bone::Bone()
 {

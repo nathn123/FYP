@@ -1,7 +1,7 @@
 #include "..\header\Skeleton_Builder.h"
 #include "Utils.h"
-
-
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 Skeleton_Builder::Skeleton_Builder(Ogre::SceneManager* scene,btDynamicsWorld* world)
 {
@@ -265,24 +265,25 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 		mBones.push_back(RUpperArm);
 		mBones.push_back(RLowerArm);
 		//add joints
-		Ogre::Quaternion shoulderrotation;
-		shoulderrotation.FromAngleAxis(Ogre::Radian(Ogre::Math::PI / 2) / 2, Ogre::Vector3::UNIT_X);
+		btTransform localA, localB;
+		
+		localA.setIdentity(); localB.setIdentity();
+		localA.getBasis().setRotation(Utils::OgreBTQuat(mShouldernode->GetNode()->getOrientation() - Lshoulder->GetNode()->getOrientation()));
+		localA.setOrigin(Utils::OgreBTVector(mShouldernode->GetNode()->getPosition() - Lshoulder->GetNode()->getPosition()));
+		localB.setOrigin(Utils::OgreBTVector(Lshoulder->GetNode()->getPosition() - mShouldernode->GetNode()->getPosition()));
 		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),
-			*Lshoulder->GetRigidBody(), Utils::OgreNodeBtTransform(Lshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
+			*Lshoulder->GetRigidBody(),localA,localB);
 
-		btHingeConstraint* LArmConst = new btHingeConstraint(*LUpperArm->GetRigidBody(), *LLowerArm->GetRigidBody(),
-			Utils::OgreNodeBtTransform(LLowerArm->GetNode()), Utils::OgreNodeBtTransform(LUpperArm->GetNode()));
+		btHingeConstraint* LArmConst = new btHingeConstraint(*LUpperArm->GetRigidBody(), *LLowerArm->GetRigidBody(), localA, localB);
 
-		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),*Rshoulder->GetRigidBody(),
-			Utils::OgreNodeBtTransform(Rshoulder->GetNode()), Utils::OgreNodeBtTransform(mShouldernode->GetNode()));
+		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(), *Rshoulder->GetRigidBody(), localA, localB);
 
-		btHingeConstraint* RArmConst = new btHingeConstraint(*RUpperArm->GetRigidBody(), *RLowerArm->GetRigidBody(),
-			Utils::OgreNodeBtTransform(RLowerArm->GetNode()), Utils::OgreNodeBtTransform(RUpperArm->GetNode()));
+		btHingeConstraint* RArmConst = new btHingeConstraint(*RUpperArm->GetRigidBody(), *RLowerArm->GetRigidBody(), localA, localB);
 
-		mConstraints.push_back(LshoulderConst);
-		mConstraints.push_back(LArmConst);
-		mConstraints.push_back(RshoulderConst);
-		mConstraints.push_back(RArmConst);
+		//mConstraints.push_back(LshoulderConst);
+		//mConstraints.push_back(LArmConst);
+		//mConstraints.push_back(RshoulderConst);
+		//mConstraints.push_back(RArmConst);
 		
 	}
 	else if (mArm == ArmType::LongArms)
@@ -346,10 +347,10 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 		btHingeConstraint* RArmConst = new btHingeConstraint(*RUpperArm->GetRigidBody(), *RLowerArm->GetRigidBody(),
 			Utils::OgreNodeBtTransform(RLowerArm->GetNode()), Utils::OgreNodeBtTransform(RUpperArm->GetNode()));
 
-		mConstraints.push_back(LshoulderConst);
-		mConstraints.push_back(LArmConst);
-		mConstraints.push_back(RshoulderConst);
-		mConstraints.push_back(RArmConst);
+		//mConstraints.push_back(LshoulderConst);
+		//mConstraints.push_back(LArmConst);
+		//mConstraints.push_back(RshoulderConst);
+		//mConstraints.push_back(RArmConst);
 	}
 	// means no arms to continue
 
@@ -391,9 +392,9 @@ bool Skeleton_Builder::BuildNeck(int neck_width, int neck_height)
 		Utils::OgreNodeBtTransform(MNeck->GetNode()), Utils::OgreNodeBtTransform(LNeck->GetNode()));
 	btHingeConstraint* HNeckConst = new btHingeConstraint(*MNeck->GetRigidBody(), *UNeck->GetRigidBody(),
 		Utils::OgreNodeBtTransform(UNeck->GetNode()), Utils::OgreNodeBtTransform(MNeck->GetNode()));
-	mConstraints.push_back(LNeckConst);
-	mConstraints.push_back(MNeckConst);
-	mConstraints.push_back(HNeckConst);
+	//mConstraints.push_back(LNeckConst);
+	//mConstraints.push_back(MNeckConst);
+	//mConstraints.push_back(HNeckConst);
 
 	return true;
 }
@@ -404,70 +405,70 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 
 	Bone* LUpperLeg = new Bone();
 	Bone* LLowerLeg = new Bone();
-	Bone* LFoot = new Bone();
+	//Bone* LFoot = new Bone();
 	Bone* RUpperLeg = new Bone();
 	Bone* RLowerLeg = new Bone();
-	Bone* RFoot = new Bone();
+	//Bone* RFoot = new Bone();
 	if (mLeg == LegType::Uninverted)
 	{
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, *mHipNode->GetNode());
 		if (!mBuilder->BuildBone(*LUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, *LUpperLeg->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::IDENTITY, *LUpperLeg->GetNode());
 		if (!mBuilder->BuildBone(*LLowerLeg))
 			return false;
 
 		// foot generation
 		//mBuilder->SetDimensions(leg_width, leg_height / 2);
-		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, Hip->GetNode());
+		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, Hip->GetNode());
 		//if (!mBuilder->BuildBone(LUpperLeg))
 		//	return false;
 
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, *mHipNode->GetNode());
 		if (!mBuilder->BuildBone(*RUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::ZERO, *RUpperLeg->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::IDENTITY, *RUpperLeg->GetNode());
 		if (!mBuilder->BuildBone(*RLowerLeg))
 			return false;
 
 		// foot generation
 		//mBuilder->SetDimensions(leg_width, leg_height / 2);
-		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, Hip->GetNode());
+		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, Hip->GetNode());
 		//if (!mBuilder->BuildBone(LUpperLeg))
 		//	return false;
 	}
 	else
 	{
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, *mHipNode->GetNode());
 		if (!mBuilder->BuildBone(*LUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, *LUpperLeg->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::IDENTITY, *LUpperLeg->GetNode());
 		if (!mBuilder->BuildBone(*LLowerLeg))
 			return false;
 
 		// foot generation
 		//mBuilder->SetDimensions(leg_width, leg_height / 2);
-		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, Hip->GetNode());
+		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, Hip->GetNode());
 		//if (!mBuilder->BuildBone(LUpperLeg))
 		//	return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, *mHipNode->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, *mHipNode->GetNode());
 		if (!mBuilder->BuildBone(*RUpperLeg))
 			return false;
 		mBuilder->SetDimensions(leg_width, leg_height / 2);
-		mBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::ZERO, *RUpperLeg->GetNode());
+		mBuilder->SetRelativePosition(Ogre::Vector3(0, leg_height / 2, 0), Ogre::Quaternion::IDENTITY, *RUpperLeg->GetNode());
 		if (!mBuilder->BuildBone(*RLowerLeg))
 			return false;
 
 		// foot generation
 		//mBuilder->SetDimensions(leg_width, leg_height / 2);
-		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::ZERO, Hip->GetNode());
+		//mBuilder->SetRelativePosition(Ogre::Vector3(legnodepos, 0, 0), Ogre::Quaternion::IDENTITY, Hip->GetNode());
 		//if (!mBuilder->BuildBone(LUpperLeg))
 		//	return false;
 	}
@@ -480,7 +481,7 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 
 	//add joints
 
-	btConeTwistConstraint* LhipConst = new btConeTwistConstraint(*mHipNode->GetRigidBody(),*LUpperLeg->GetRigidBody(),
+	/*btConeTwistConstraint* LhipConst = new btConeTwistConstraint(*mHipNode->GetRigidBody(),*LUpperLeg->GetRigidBody(),
 		Utils::OgreNodeBtTransform(LUpperLeg->GetNode()), Utils::OgreNodeBtTransform(mHipNode->GetNode()));
 	btHingeConstraint* LLegConst = new btHingeConstraint(*LUpperLeg->GetRigidBody(), *LLowerLeg->GetRigidBody(),
 		Utils::OgreNodeBtTransform(LLowerLeg->GetNode()), Utils::OgreNodeBtTransform(LUpperLeg->GetNode()));
@@ -488,17 +489,17 @@ bool Skeleton_Builder::BuildLeg(int leg_width,int leg_height,int torso_width)
 	btConeTwistConstraint* RhipConst = new btConeTwistConstraint(*mHipNode->GetRigidBody(),*RUpperLeg->GetRigidBody(),
 		Utils::OgreNodeBtTransform(RUpperLeg->GetNode()), Utils::OgreNodeBtTransform(mHipNode->GetNode()));
 	btHingeConstraint* RLegConst = new btHingeConstraint(*RUpperLeg->GetRigidBody(), *RLowerLeg->GetRigidBody(),
-		Utils::OgreNodeBtTransform(RLowerLeg->GetNode()), Utils::OgreNodeBtTransform(RUpperLeg->GetNode()));
+		Utils::OgreNodeBtTransform(RLowerLeg->GetNode()), Utils::OgreNodeBtTransform(RUpperLeg->GetNode()));*/
 
 	//btHingeConstraint* LFootConst = new btHingeConstraint(LLowerLeg->GetRigidBody(), LFoot->GetRigidBody(),
 	//	Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
 	//btHingeConstraint* RFootConst = new btHingeConstraint(RLowerLeg->GetRigidBody(), RFoot->GetRigidBody(),
 	//	Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::ZERO, Ogre::Vector3::UNIT_Y);
 
-	mConstraints.push_back(LhipConst);
-	mConstraints.push_back(LLegConst);
-	mConstraints.push_back(RhipConst);
-	mConstraints.push_back(RLegConst);
+	//mConstraints.push_back(LhipConst);
+	//mConstraints.push_back(LLegConst);
+	//mConstraints.push_back(RhipConst);
+	//mConstraints.push_back(RLegConst);
 	//mConstraints.push_back(LFootConst);
 	//mConstraints.push_back(RFootConst);
 

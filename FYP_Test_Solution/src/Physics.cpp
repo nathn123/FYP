@@ -1,5 +1,6 @@
 #include "..\header\Physics.h"
 #include <BulletCollision\Gimpact\btGImpactCollisionAlgorithm.h>
+#include "Utils.h"
 
 Physics::Physics(Ogre::SceneManager* sceneMgr)
 {
@@ -20,8 +21,8 @@ Physics::Physics(Ogre::SceneManager* sceneMgr)
 	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 	btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
 	btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
-	mWorld->addRigidBody(groundRigidBody);
-
+	mWorld->addRigidBody(groundRigidBody,Utils::COL_WALL,Utils::COL_SKELETON);
+	
 	// create skeleton builder
 	mBuilder = new Skeleton_Builder(mSceneMgr, mWorld);
 	mBoneBuilder = new Bone_Builder(mSceneMgr, mWorld);
@@ -43,7 +44,7 @@ bool Physics::BuildCharacter()
 	// just for testing
 	mBuilder->SetDimensions(15, 15, 100, 40);
 	mBuilder->SetBodyType(Skeleton_Builder::LegType::Uninverted, Skeleton_Builder::ArmType::LongArms, Skeleton_Builder::TorsoType::LongNeckLongTail);
-	return mBuilder->BuildSkeleton(*skel,Ogre::Vector3(0,250,0));
+	return mBuilder->BuildSkeleton(*skel, Ogre::Vector3(20, 20, 20));
 }
 bool Physics::TestBone()
 {
