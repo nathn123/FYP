@@ -83,6 +83,7 @@
     <ClCompile Include="src\Camera_FrameListener.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
+    <ClCompile Include="src\Muscle.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Physics_FrameListener.cpp" />
     <ClCompile Include="src\Skeleton.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="header\Camera_FrameListener.h" />
     <ClInclude Include="header\InputManager.h" />
     <ClInclude Include="header\MotionState.h" />
+    <ClInclude Include="header\Muscle.h" />
     <ClInclude Include="header\Physics.h" />
     <ClInclude Include="header\Physics_FrameListener.h" />
     <ClInclude Include="header\Skeleton.h" />
