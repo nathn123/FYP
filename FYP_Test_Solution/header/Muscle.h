@@ -1,14 +1,16 @@
 #pragma once
+#include "Bone.h"
 class Muscle
 {
 public:
-	Muscle();
+	Muscle(Bone* BoneA, Bone* BoneB, bool Topside);
 	~Muscle();
 	int ForceLength(int ContractileLength);
 	int ForceVelocity(int ContractileVelocity);
 	int ForceContractile();
 	int ForceSerial(int value);
 	int ForcePassive(int value);
+	void Constraints();
 
 private:
 
@@ -23,6 +25,8 @@ private:
 	int mForceSerial;
 	int mTotalForce;
 	float mActivationState;
-	//btGeneric6DofSpringConstraint spring;
+	btGeneric6DofSpring2Constraint* mTendon;
+	btSliderConstraint* mMuscle;
+	btRigidBody* mBodyA, *mBodyB, *mBodyC;
 };
 

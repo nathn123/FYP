@@ -1,5 +1,10 @@
-﻿Build started 19/01/2016 18:11:23.
+﻿Build started 08/03/2016 06:41:00.
+     1>Project "F:\FYP_Solution\trunk\FYP_Test_Solution\FYP_Test_Solution.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IF:\FYP_Solution\trunk\\Include\Bullet /IF:\FYP_Solution\trunk\\Include\OIS /IF:\FYP_Solution\trunk\\Include\Overlay /IF:\FYP_Solution\trunk\\Include\OGRE /IF:\FYP_Solution\trunk\\Include /IF:\FYP_Solution\trunk\FYP_Test_Solution\\header /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt App.cpp main.cpp src\Bone.cpp src\Bone_Builder.cpp src\Camera_FrameListener.cpp src\InputManager.cpp src\MotionState.cpp src\Muscle.cpp src\Physics.cpp src\Physics_FrameListener.cpp src\Skeleton.cpp src\Skeleton_Builder.cpp src\TrackableObject.cpp
+         TrackableObject.cpp
+     1>Done Building Project "F:\FYP_Solution\trunk\FYP_Test_Solution\FYP_Test_Solution.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.04
+Time Elapsed 00:00:03.74
