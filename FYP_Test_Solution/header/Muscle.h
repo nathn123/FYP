@@ -1,5 +1,7 @@
 #pragma once
 #include "Bone.h"
+#include "BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.h"
+#include "Bullet\BulletDynamics\ConstraintSolver\btSliderConstraint.h"
 class Muscle
 {
 public:
@@ -8,16 +10,19 @@ public:
 	int ForceLength(int ContractileLength);
 	int ForceVelocity(int ContractileVelocity);
 	int ForceContractile();
-	int ForceSerial(int value);
-	int ForcePassive(int value);
+	int ForceSerial();
+	int ForcePassive();
 	void Constraints();
 
 private:
 
 	int mLength;
 	int mParallelLength;
+	float mCurParallelLength;
 	int mOptimumLength;
 	int mSerialLength;
+	float mCurSerialLength;
+	float mVelocityMax;
 	int mContVel;
 	int mForceMax;
 	int mForceCont;

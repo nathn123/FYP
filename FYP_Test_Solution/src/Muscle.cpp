@@ -1,15 +1,13 @@
 #include "..\header\Muscle.h"
 #include "btBulletDynamicsCommon.h"
-#include "BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.h"
-#include "Bullet\BulletDynamics\ConstraintSolver\btSliderConstraint.h"
+#include <math.h>
+
 #include <math.h>
 
 
 Muscle::Muscle(Bone* BoneA, Bone* BoneB,bool Topside)
 {
-	mLength = 0;
-	mParallelLength = 0;
-	mSerialLength = 0;
+	
 	mContVel = 0;
 	mForceMax = 0;
 	mForceCont = 0;
@@ -37,23 +35,36 @@ Muscle::Muscle(Bone* BoneA, Bone* BoneB,bool Topside)
 	auto identity = new btMatrix3x3();
 	btVector3* transA;
 	btVector3* transB;
+	btVector3* transB2;
+	btVector3* transC;
+	
 	if (Topside)
 	{
 		transA = new btVector3(-0.1f, 0.1f, 0);
-		transB = new btVector3(0.1f, 0.1f, 0);
+		transB = new btVector3(0.1f, -0.1f, 0);
+		transB2 = new btVector3(0.5f, -0.1f, 0);
+		transC = new btVector3(-0.5f, 0.1f, 0);
 	}
 	else
 	{
 		transA = new btVector3(-0.1f, -0.1f, 0);
-		transB = new btVector3(0.1f, -0.1f, 0);
+		transB = new btVector3(0.1f, 0.1f, 0);
+		transB2 = new btVector3(0.5f, 0.1f, 0);
+		transC = new btVector3(-0.5f, -0.1f, 0);
 	}
-	btTransform* transformA = new btTransform(identity->getIdentity, *transA);
-	btTransform* transformB = new btTransform(identity->getIdentity, *transB);
+	btTransform* transformA = new btTransform(identity->getIdentity(), *transA);
+	btTransform* transformB = new btTransform(identity->getIdentity(), *transB);
+	btTransform* transformC = new btTransform(identity->getIdentity(), *transC);
+	btTransform* transformB2 = new btTransform(identity->getIdentity(), *transB2);
 	mTendon = new btGeneric6DofSpring2Constraint(*mBodyA, *mBodyB, *transformA, *transformB);
+	mMuscle = new btSliderConstraint(*mBodyC, *mBodyB, *transformC, *transformB2, true);
 	
-	mMuscle = new btSliderConstraint(*mBodyC, *mBodyB, *transform, transform->inverse(), true);
 	
 
+	
+	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));;//muscle/ slider dist 
+	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));;//tendon dist
+	mLength = mParallelLength + mSerialLength;// total length
 }
 
 
@@ -66,7 +77,7 @@ Muscle::~Muscle()
 int Muscle::ForceLength(int ContractileLength)
 {
 	auto c = log(0.05f);
-	auto w = 0.5;
+	auto w = 0.4 * mOptimumLength;
 	return exp(pow(c*(mParallelLength - mOptimumLength) / pow(mOptimumLength, w), 3));
 }
 int Muscle::ForceVelocity(int ContractileVelocity)
@@ -86,21 +97,23 @@ int Muscle::ForceVelocity(int ContractileVelocity)
 }
 int Muscle::ForceContractile()
 {
-	return mActivationState * mForceMax* ForceLength(ContractileVel)*ForceVelocity(ContractileVel);
+	return mActivationState * mForceMax* ForceLength(mParallelLength)*ForceVelocity(mContVel);
 }
-int Muscle::ForceSerial(int value)
+int Muscle::ForceSerial()
 {
+	float tendon_strain = (mCurSerialLength - mSerialLength) / mSerialLength;
 	// non linear spring
-	if (value <= 0)
+	if (tendon_strain <= 0)
 		return 0;
-	return pow((value / refval), 2);
+	return pow((tendon_strain / (0.04 * mSerialLength)), 2);
 }
-int Muscle::ForcePassive(int value)
+int Muscle::ForcePassive()
 {
+	int muscle_strain = (mCurParallelLength - mParallelLength) / mParallelLength;
 	// non linear spring
-	if (value <= 0)
+	if (muscle_strain <= 0)
 		return 0;
-	return pow((value / refval), 2);
+	return pow((muscle_strain / (0.04 * mParallelLength)), 2);
 }
 void Muscle::Constraints()
 {
