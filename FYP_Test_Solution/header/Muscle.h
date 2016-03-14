@@ -5,25 +5,26 @@
 class Muscle
 {
 public:
-	Muscle(Bone* BoneA, Bone* BoneB, bool Topside);
+	Muscle(Bone* BoneA, Bone* BoneB, btDynamicsWorld* world);
 	~Muscle();
 	int ForceLength(int ContractileLength);
 	int ForceVelocity(int ContractileVelocity);
 	int ForceContractile();
 	int ForceSerial();
 	int ForcePassive();
-	void Constraints();
+	void ActivationState(float a);
+	void Update(float dt);
 
 private:
 
 	int mLength;
-	int mParallelLength;
-	float mCurParallelLength;
+	float mParallelLength;
+	float mPrevParallelLength;
 	int mOptimumLength;
 	int mSerialLength;
-	float mCurSerialLength;
+	float mPrevSerialLength;
 	float mVelocityMax;
-	int mContVel;
+	float mContractileVelocity;
 	int mForceMax;
 	int mForceCont;
 	int mForceParallel;

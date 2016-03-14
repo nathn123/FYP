@@ -12,6 +12,7 @@ public:
 	bool BuildCourse(std::string filename); // possible xml based courses
 	bool BuildCharacter();
 	bool TestBone();
+	bool TestLimb();
 	//bool AddSkeleton(Skeleton* skel);
 	void Update(Ogre::Real frametime);
 

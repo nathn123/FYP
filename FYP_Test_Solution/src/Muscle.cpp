@@ -5,10 +5,10 @@
 #include <math.h>
 
 
-Muscle::Muscle(Bone* BoneA, Bone* BoneB,bool Topside)
+Muscle::Muscle(Bone* BoneA, Bone* BoneB, btDynamicsWorld* world)
 {
 	
-	mContVel = 0;
+	mContractileVelocity = 0;
 	mForceMax = 0;
 	mForceCont = 0;
 	mForceParallel = 0;
@@ -33,45 +33,29 @@ Muscle::Muscle(Bone* BoneA, Bone* BoneB,bool Topside)
 	// if predefined needs to be considerations at too 
 	// will the muscle be on the correct side of the leg for the appropriate motion
 	auto identity = new btMatrix3x3();
-	btVector3* transA;
-	btVector3* transB;
-	btVector3* transB2;
-	btVector3* transC;
-	
-	if (Topside)
-	{
-		transA = new btVector3(-0.1f, 0.1f, 0);
-		transB = new btVector3(0.1f, -0.1f, 0);
-		transB2 = new btVector3(0.5f, -0.1f, 0);
-		transC = new btVector3(-0.5f, 0.1f, 0);
-	}
-	else
-	{
-		transA = new btVector3(-0.1f, -0.1f, 0);
-		transB = new btVector3(0.1f, 0.1f, 0);
-		transB2 = new btVector3(0.5f, 0.1f, 0);
-		transC = new btVector3(-0.5f, -0.1f, 0);
-	}
+	btVector3* transA = new btVector3(-0.1f, 0.1f, 0);
+	btVector3* transB = new btVector3(0.1f, -0.1f, 0);
+	btVector3* transB2 = new btVector3(0.5f, -0.1f, 0);
+	btVector3* transC = new btVector3(-0.5f, 0.1f, 0);
+
 	btTransform* transformA = new btTransform(identity->getIdentity(), *transA);
 	btTransform* transformB = new btTransform(identity->getIdentity(), *transB);
 	btTransform* transformC = new btTransform(identity->getIdentity(), *transC);
 	btTransform* transformB2 = new btTransform(identity->getIdentity(), *transB2);
 	mTendon = new btGeneric6DofSpring2Constraint(*mBodyA, *mBodyB, *transformA, *transformB);
 	mMuscle = new btSliderConstraint(*mBodyC, *mBodyB, *transformC, *transformB2, true);
+	world->addRigidBody(mBodyA);
+	world->addRigidBody(mBodyB);
+	world->addRigidBody(mBodyC);
+	world->addConstraint(mTendon);
+	world->addConstraint(mMuscle);
 	
-	
-
-	
-	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));;//muscle/ slider dist 
-	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));;//tendon dist
+	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));//muscle/ slider dist 
+	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));//tendon dist
 	mLength = mParallelLength + mSerialLength;// total length
 }
-
-
 Muscle::~Muscle()
 {
-	
-
 
 }
 int Muscle::ForceLength(int ContractileLength)
@@ -97,11 +81,11 @@ int Muscle::ForceVelocity(int ContractileVelocity)
 }
 int Muscle::ForceContractile()
 {
-	return mActivationState * mForceMax* ForceLength(mParallelLength)*ForceVelocity(mContVel);
+	return mActivationState * mForceMax* ForceLength(mParallelLength)*ForceVelocity(mContractileVelocity);
 }
 int Muscle::ForceSerial()
 {
-	float tendon_strain = (mCurSerialLength - mSerialLength) / mSerialLength;
+	float tendon_strain = (mSerialLength - mPrevSerialLength) / mSerialLength;
 	// non linear spring
 	if (tendon_strain <= 0)
 		return 0;
@@ -109,14 +93,27 @@ int Muscle::ForceSerial()
 }
 int Muscle::ForcePassive()
 {
-	int muscle_strain = (mCurParallelLength - mParallelLength) / mParallelLength;
+	int muscle_strain = (mParallelLength - mPrevParallelLength) / mParallelLength;
 	// non linear spring
 	if (muscle_strain <= 0)
 		return 0;
 	return pow((muscle_strain / (0.04 * mParallelLength)), 2);
 }
-void Muscle::Constraints()
+void Muscle::ActivationState(float a)
 {
-
+	mActivationState = a;
 }
-
+void Muscle::Update(float dt)
+{
+	// calculate the contractile length
+	mPrevParallelLength = mParallelLength;
+	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
+	mPrevSerialLength = mSerialLength;
+	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
+	// calculate the contractile velocity
+	//velocity = displacement/time
+	//displacement = curr - prev
+	mContractileVelocity = (mParallelLength - mPrevParallelLength) / dt; 
+	// now we need to apply the force of the muscle into the slider
+	// force can only be applied 
+}

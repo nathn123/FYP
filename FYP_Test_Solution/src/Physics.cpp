@@ -54,7 +54,14 @@ bool Physics::TestBone()
 	mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(20, 20, 20)));
 	return mBoneBuilder->BuildBone(*test);
 }
-
+bool Physics::TestLimb()
+{
+	Bone* Upper = new Bone();
+	Bone* Lower = new Bone();
+	
+	mBoneBuilder->SetDimensions(10, 20);
+	mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(20, 20, 20)));
+}
 void Physics::Update(Ogre::Real frametime)
 {
 	mWorld->stepSimulation(frametime);
