@@ -61,6 +61,7 @@ bool Physics::TestLimb()
 	
 	mBoneBuilder->SetDimensions(10, 20);
 	mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(20, 20, 20)));
+	return false;
 }
 void Physics::Update(Ogre::Real frametime)
 {

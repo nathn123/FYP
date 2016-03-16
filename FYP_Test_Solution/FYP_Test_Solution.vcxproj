@@ -80,6 +80,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\Bone_Builder.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Camera_FrameListener.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="header\Bone.h" />
     <ClInclude Include="header\Bone_Builder.h" />
+    <ClInclude Include="header\Camera.h" />
     <ClInclude Include="header\Camera_FrameListener.h" />
     <ClInclude Include="header\InputManager.h" />
     <ClInclude Include="header\MotionState.h" />

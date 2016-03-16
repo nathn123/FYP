@@ -90,9 +90,6 @@ bool App::Go()
 	//register as a Window listener
 	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 	Create_Scene();
-	// set up physics
-	Physics_FrameListener* mPhysics = new Physics_FrameListener(mSceneMgr);
-	mRoot->addFrameListener(mPhysics);
 	mRoot->addFrameListener(this); // set this as framelistener
 	mRoot->startRendering();
 	return true;
@@ -116,7 +113,7 @@ void App::Create_Scene()
 	FloorEnt->setMaterialName("Examples/BumpyMetal");
 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
 
-	Camera_FrameListener* camframe = new Camera_FrameListener(mSceneMgr, mWindow);
+	Camera_FrameListener* camframe = new Camera_FrameListener(mSceneMgr,mWindow, "Maincam");
 	Physics_FrameListener* physicsframe = new Physics_FrameListener(mSceneMgr);
 	mRoot->addFrameListener(camframe);
 	mRoot->addFrameListener(physicsframe);

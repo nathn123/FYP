@@ -115,5 +115,10 @@ void Muscle::Update(float dt)
 	//displacement = curr - prev
 	mContractileVelocity = (mParallelLength - mPrevParallelLength) / dt; 
 	// now we need to apply the force of the muscle into the slider
-	// force can only be applied 
+	// force can only be applied to rigid bodies so we gotta get hacky xD
+	mTotalForce = ForceContractile() + ForceSerial() + ForcePassive();
+	btVector3 Muscleaxisinworld = mBodyC->getWorldTransform().getBasis() * mMuscle->getFrameOffsetA().getBasis().getColumn(2);
+	mBodyC->applyCentralForce(-Muscleaxisinworld * mTotalForce);
+	mBodyB->applyCentralForce(Muscleaxisinworld * mTotalForce);
+
 }
