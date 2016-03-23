@@ -265,6 +265,7 @@ bool Skeleton_Builder::BuildArm(int arm_Width, int arm_height,int torso_width)
 		btTransform localA, localB;
 		
 		SetJointTransform(localA, localB, mShouldernode, Lshoulder);
+
 		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(),*Lshoulder->GetRigidBody(),localA,localB);
 		SetJointTransform(localA, localB, LUpperArm, LLowerArm);
 		btHingeConstraint* LArmConst = new btHingeConstraint(*LUpperArm->GetRigidBody(), *LLowerArm->GetRigidBody(), localA, localB);
@@ -527,11 +528,12 @@ bool Skeleton_Builder::BuildTail(int tail_width,int tail_height)
 
 	return true;
 }
-void Skeleton_Builder::SetJointTransform(btTransform& TransformA, btTransform& TransformB, Bone* boneA, Bone* boneB)
+void Skeleton_Builder::SetJointTransform(btTransform& TransformA, btTransform& TransformB,btVector3 JointPosWorld, Bone* boneA, Bone* boneB)
 {
 	TransformA.setIdentity(); TransformB.setIdentity();
-	TransformA.getBasis().setRotation(Utils::OgreBTQuat(boneA->GetNode()->getOrientation() - boneB->GetNode()->getOrientation()));
-	TransformB.getBasis().setRotation(Utils::OgreBTQuat(boneB->GetNode()->getOrientation() - boneA->GetNode()->getOrientation()));
-	TransformA.setOrigin(Utils::OgreBTVector(boneA->GetNode()->getPosition() - boneB->GetNode()->getPosition()));
-	TransformB.setOrigin(Utils::OgreBTVector(boneB->GetNode()->getPosition() - boneA->GetNode()->getPosition()));
+	/*TransformA.getBasis().setRotation(Utils::OgreBTQuat(boneA->GetNode()->getOrientation() - boneB->GetNode()->getOrientation()));
+	TransformB.getBasis().setRotation(Utils::OgreBTQuat(boneB->GetNode()->getOrientation() - boneA->GetNode()->getOrientation()));*/
+
+	TransformA.setOrigin(JointPosWorld - Utils::OgreBTVector(boneA->GetNode()->getPosition()));
+	TransformB.setOrigin(JointPosWorld - Utils::OgreBTVector(boneB->GetNode()->getPosition()));
 }

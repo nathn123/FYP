@@ -54,7 +54,7 @@ private: // this is only used by the class
 	bool LongTail();
 	bool ShortTail();
 	void ClearData();
-	void SetJointTransform(btTransform& TransformA, btTransform& TransformB, Bone* boneA, Bone* boneB);
+	void SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3 JointPosWorld, Bone* boneA, Bone* boneB);
 
 
 	LegType mLeg;
