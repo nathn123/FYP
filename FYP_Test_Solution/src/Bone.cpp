@@ -10,7 +10,7 @@ Bone::Bone(Ogre::ManualObject* newbone, Ogre::Vector3 RelPos,Ogre::Quaternion Re
 	mNode->attachObject(newbone);
 	mCollider = new btBoxShape(Utils::OgreBTVector(newbone->getBoundingBox().getHalfSize()));
 	mMotionState = new MotionState(mNode);
-	auto mass = newbone->getBoundingBox().getSize().x*newbone->getBoundingBox().getSize().y*newbone->getBoundingBox().getSize().z;
+	auto mass = (newbone->getBoundingBox().getSize().x*newbone->getBoundingBox().getSize().y*newbone->getBoundingBox().getSize().z)/1000;
 	btVector3 Inertia(0,0,0);
 	mCollider->calculateLocalInertia(mass, Inertia);
 	btRigidBody::btRigidBodyConstructionInfo boneRigidBody(mass, mMotionState, mCollider, Inertia);

@@ -14,5 +14,6 @@ private:
 	Ogre::SceneNode* mTracking;
 	Ogre::Vector3 mLastTrackedPos;
 	Camera* mCam;
+	float movespeed;
 };
 

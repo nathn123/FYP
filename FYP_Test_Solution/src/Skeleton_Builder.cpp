@@ -9,12 +9,9 @@ Skeleton_Builder::Skeleton_Builder(Ogre::SceneManager* scene,btDynamicsWorld* wo
 	mWorld = world;
 	mBuilder = new Bone_Builder(mSceneMgr, mWorld);
 }
-
-
 Skeleton_Builder::~Skeleton_Builder()
 {
 }
-
 void Skeleton_Builder::SetDimensions(int NeckIncline, int TailIncline, int height,int width)
 {
 	mNeckIncline = NeckIncline;
@@ -159,7 +156,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 		//	bone->GetNode()->convertLocalToWorldPosition(Ogre::Vector3::ZERO),
 		//	bone->GetNode()->convertLocalToWorldOrientation(Ogre::Quaternion::IDENTITY));
 
-		newSkel = Skeleton(mBones, mConstraints, mBase, mWorld);
+		newSkel = Skeleton(mBones,mMuscles, mConstraints, mBase, mWorld);
 
 		ClearData();
 		return true;

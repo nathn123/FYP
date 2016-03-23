@@ -3,6 +3,7 @@
 #include"..\header\Bone.h"
 #include"..\header\Bone_Builder.h"
 #include"..\header\Skeleton.h"
+#include"Muscle_Builder.h"
 
 class Skeleton_Builder
 {
@@ -65,8 +66,10 @@ private: // this is only used by the class
 	float mHeight;
 	float mWidth;
 	Bone_Builder* mBuilder;
+	Muscle_Builder* mMuscleBuilder;
 	Ogre::SceneManager* mSceneMgr;
 	std::vector<Bone*> mBones;
+	std::vector<Muscle*>mMuscles;
 	std::vector<btTypedConstraint*>mConstraints;
 	Ogre::SceneNode* mBase;
 	btDynamicsWorld* mWorld;

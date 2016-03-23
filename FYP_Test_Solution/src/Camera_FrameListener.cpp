@@ -5,6 +5,8 @@ Camera_FrameListener::Camera_FrameListener(Ogre::SceneManager* sceneMgr, Ogre::R
 {
 	mCam = new Camera(name,sceneMgr,rw);
 	mInput = InputManager::getSingletonPtr();
+	movespeed = 0.01f;
+	mCam->instantUpdate(Ogre::Vector3(90, 100, 0), Ogre::Vector3(0, 10, 0));
 }
 
 Camera_FrameListener::~Camera_FrameListener()
@@ -27,7 +29,7 @@ bool Camera_FrameListener::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if (key->isKeyDown(OIS::KC_UP) )
 	{
 		auto dir = mLastTrackedPos - mCam->getCameraPosition();
-		rotQuat.FromAngleAxis(Ogre::Degree(0.5), mCam->getCameraPosition().UNIT_X);
+		rotQuat.FromAngleAxis(Ogre::Degree(movespeed), mCam->getCameraPosition().UNIT_X);
 		dir = rotQuat * dir;
 		dir.normalise();
 		// rotate up
@@ -36,7 +38,7 @@ bool Camera_FrameListener::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if (key->isKeyDown(OIS::KC_DOWN))
 	{
 		auto dir = mLastTrackedPos - mCam->getCameraPosition();
-		rotQuat.FromAngleAxis(Ogre::Degree(-0.5), mCam->getCameraPosition().UNIT_X);
+		rotQuat.FromAngleAxis(Ogre::Degree(-movespeed), mCam->getCameraPosition().UNIT_X);
 		dir = rotQuat * dir;
 		//rotate down
 		mCam->update(evt.timeSinceLastFrame, mCam->getCameraPosition() + dir, mLastTrackedPos);
@@ -44,7 +46,7 @@ bool Camera_FrameListener::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if (key->isKeyDown(OIS::KC_LEFT))
 	{
 		auto dir = mLastTrackedPos - mCam->getCameraPosition();
-		rotQuat.FromAngleAxis(Ogre::Degree(0.5), mCam->getCameraPosition().UNIT_Y);
+		rotQuat.FromAngleAxis(Ogre::Degree(movespeed), mCam->getCameraPosition().UNIT_Y);
 		dir = rotQuat * dir;
 		//rotate left
 		mCam->update(evt.timeSinceLastFrame, mCam->getCameraPosition() + dir, mLastTrackedPos);
@@ -52,7 +54,7 @@ bool Camera_FrameListener::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if (key->isKeyDown(OIS::KC_RIGHT))
 	{
 		auto dir = mLastTrackedPos - mCam->getCameraPosition();
-		rotQuat.FromAngleAxis(Ogre::Degree(-0.5), mCam->getCameraPosition().UNIT_Y);
+		rotQuat.FromAngleAxis(Ogre::Degree(-movespeed), mCam->getCameraPosition().UNIT_Y);
 		dir = rotQuat * dir;
 		//rotate right
 		mCam->update(evt.timeSinceLastFrame, mCam->getCameraPosition() + dir, mLastTrackedPos);

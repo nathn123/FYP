@@ -58,15 +58,15 @@ Muscle::~Muscle()
 {
 
 }
-int Muscle::ForceLength(int ContractileLength)
+float Muscle::ForceLength(float ContractileLength)
 {
 	auto c = log(0.05f);
 	auto w = 0.4 * mOptimumLength;
 	return exp(pow(c*(mParallelLength - mOptimumLength) / pow(mOptimumLength, w), 3));
 }
-int Muscle::ForceVelocity(int ContractileVelocity)
+float Muscle::ForceVelocity(float ContractileVelocity)
 {
-	int VCE;
+	float VCE;
 	if (ContractileVelocity < 0)
 	{
 		VCE = mVelocityMax - ContractileVelocity / mVelocityMax + 5;
@@ -79,11 +79,11 @@ int Muscle::ForceVelocity(int ContractileVelocity)
 
 	return VCE;
 }
-int Muscle::ForceContractile()
+float Muscle::ForceContractile()
 {
 	return mActivationState * mForceMax* ForceLength(mParallelLength)*ForceVelocity(mContractileVelocity);
 }
-int Muscle::ForceSerial()
+float Muscle::ForceSerial()
 {
 	float tendon_strain = (mSerialLength - mPrevSerialLength) / mSerialLength;
 	// non linear spring
@@ -91,9 +91,9 @@ int Muscle::ForceSerial()
 		return 0;
 	return pow((tendon_strain / (0.04 * mSerialLength)), 2);
 }
-int Muscle::ForcePassive()
+float Muscle::ForcePassive()
 {
-	int muscle_strain = (mParallelLength - mPrevParallelLength) / mParallelLength;
+	float muscle_strain = (mParallelLength - mPrevParallelLength) / mParallelLength;
 	// non linear spring
 	if (muscle_strain <= 0)
 		return 0;

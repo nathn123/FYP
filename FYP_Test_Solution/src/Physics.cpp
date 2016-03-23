@@ -44,7 +44,7 @@ bool Physics::BuildCharacter()
 	// just for testing
 	mBuilder->SetDimensions(15, 15, 100, 40);
 	mBuilder->SetBodyType(Skeleton_Builder::LegType::Uninverted, Skeleton_Builder::ArmType::LongArms, Skeleton_Builder::TorsoType::LongNeckLongTail);
-	return mBuilder->BuildSkeleton(*skel, Ogre::Vector3(20, 200, 20));
+	return mBuilder->BuildSkeleton(*skel, Ogre::Vector3(0, 100, 0));
 	
 }
 bool Physics::TestBone()

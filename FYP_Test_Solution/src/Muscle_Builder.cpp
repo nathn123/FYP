@@ -5,12 +5,12 @@ Muscle_Builder::Muscle_Builder(Ogre::SceneManager* scenemanger, btDynamicsWorld*
 	mSceneMgr = scenemanger;
 	mWorld = world;
 }
-bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB)
+std::vector<Muscle*> Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB)
 {
+	std::vector<Muscle*> mMuscles;
 	Muscle* T = new Muscle(boneA, boneB, mWorld);
-
 	Muscle* B = new Muscle(boneB, boneA, mWorld);
 	mMuscles.push_back(T);
 	mMuscles.push_back(B);
-	return true;
+	return mMuscles;
 }
