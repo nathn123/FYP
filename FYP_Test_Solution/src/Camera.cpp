@@ -7,8 +7,9 @@ Camera::Camera(Ogre::String name, Ogre::SceneManager* sceneMgr, Ogre::RenderWind
 	mSceneMgr = sceneMgr;
 
 	// camera node structure
-	mCameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mName);
+	
 	mTargetNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mName + "_target");
+	mCameraNode = mTargetNode->createChildSceneNode(mName);
 	mCameraNode->setAutoTracking(true, mTargetNode);
 	mCameraNode->setFixedYawAxis(true);
 	
@@ -24,7 +25,7 @@ Camera::Camera(Ogre::String name, Ogre::SceneManager* sceneMgr, Ogre::RenderWind
 		mOwnCamera = false;
 	}
 	mCameraNode->attachObject(mCamera);
-	mCameraNode->setPosition(0, 100, 0);
+	mCameraNode->setPosition(200, 100, 0);
 	mVP = rw->addViewport(mCamera);
 	mVP->setBackgroundColour(Ogre::ColourValue::Blue);
 	mCamera->setAutoAspectRatio(true);
@@ -65,13 +66,23 @@ void Camera::instantUpdate(Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPos
 	mCameraNode->setPosition(cameraPosition);
 	mTargetNode->setPosition(targetPosition);
 }
-void Camera::update(Ogre::Real elapsedTime, Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPosition)
+//void Camera::update(Ogre::Real elapsedTime, Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPosition)
+//{
+//	// handle camera movement
+//	Ogre::Vector3 displacement;
+//
+//	displacement = (cameraPosition - mCameraNode->getPosition()) * mTightness;
+//	mCameraNode->translate(displacement);
+//	displacement = (targetPosition - mTargetNode->getPosition()) * mTightness;
+//	mTargetNode->translate(displacement);
+//}
+void Camera::Transupdate(Ogre::Vector3 translate)
 {
-	// handle camera movement
-	Ogre::Vector3 displacement;
+	mTargetNode->translate(translate,Ogre::Node::TS_LOCAL);
+	//mCameraNode->translate(translate, Ogre::Node::TS_PARENT);
+}
+void Camera::Rotateupdate(Ogre::Vector3 axis, Ogre::Radian turnAmount)
+{
+	mTargetNode->rotate(axis, turnAmount, Ogre::Node::TS_WORLD);
 
-	displacement = (cameraPosition - mCameraNode->getPosition()) * mTightness;
-	mCameraNode->translate(displacement);
-	displacement = (targetPosition - mTargetNode->getPosition()) * mTightness;
-	mTargetNode->translate(displacement);
 }

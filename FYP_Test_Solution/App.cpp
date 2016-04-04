@@ -98,7 +98,7 @@ bool App::Go()
 void App::Create_Scene()
 {
 	// Lights 
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2));
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2f, 0.2f, 0.2f));
 	Ogre::Light* L = mSceneMgr->createLight("MainLight");
 	L->setType(Ogre::Light::LT_DIRECTIONAL);
 	L->setDirection(-0.5, -0.5, 0);

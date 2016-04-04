@@ -1,13 +1,12 @@
 #pragma once
 #include <vector>
-#include"..\header\Bone.h"
 #include"..\header\Bone_Builder.h"
 #include"..\header\Skeleton.h"
 #include"Muscle_Builder.h"
 
 class Skeleton_Builder
 {
-	
+
 public:
 	enum LegType
 	{
@@ -39,22 +38,24 @@ public:
 	};
 	Skeleton_Builder(Ogre::SceneManager* scene, btDynamicsWorld* world);
 	~Skeleton_Builder();
-	void SetDimensions(int NeckIncline, int TailIncline, int height, int width);
+	void SetDimensions(float NeckIncline, float TailIncline, float height, float width);
 	void SetBodyType(LegType leg, ArmType arm, TorsoType torso);
 	bool BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos);
-	
+
+
+	static void SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3& JointPosWorld, Ogre::Vector3 boneA, Ogre::Vector3 boneB, btVector3& Axis);
+
 
 private: // this is only used by the class
-	bool BuildArm(int arm_Width, int arm_height, int torso_width);
-	bool BuildNeck(int neck_width, int neck_height);
-	bool BuildLeg(int leg_width, int leg_height, int torso_width);
-	bool BuildTail(int tail_width, int tail_height);
+	bool BuildArm(float arm_Width, float arm_height, float torso_width);
+	bool BuildNeck(float neck_width, float neck_height, float torso_height);
+	bool BuildLeg(float leg_width, float leg_height, float torso_width, float torso_height);
+	bool BuildTail(float tail_width, float tail_height);
 	bool Upright();
 	bool LongNeck();
 	bool LongTail();
 	bool ShortTail();
 	void ClearData();
-	void SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3 JointPosWorld, Bone* boneA, Bone* boneB);
 
 
 	LegType mLeg;

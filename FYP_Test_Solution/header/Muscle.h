@@ -1,11 +1,14 @@
 #pragma once
-#include "Bone.h"
 #include "BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.h"
 #include "Bullet\BulletDynamics\ConstraintSolver\btSliderConstraint.h"
-class Muscle
+#include "BulletDynamics\ConstraintSolver\btFixedConstraint.h"
+
+ class Muscle
 {
 public:
-	Muscle(Bone* BoneA, Bone* BoneB, btDynamicsWorld* world);
+	BT_DECLARE_ALIGNED_ALLOCATOR();
+	Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
+		btFixedConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB);
 	~Muscle();
 	float ForceLength(float ContractileLength);
 	float ForceVelocity(float ContractileVelocity);
@@ -31,8 +34,9 @@ private:
 	float mForceSerial;
 	float mTotalForce;
 	float mActivationState;
-	btGeneric6DofSpring2Constraint* mTendon;
+	btFixedConstraint* mTendon;
 	btSliderConstraint* mMuscle;
 	btRigidBody* mBodyA, *mBodyB, *mBodyC;
+	btVector3 mAttachmentPointA, mAttachmentPointC;
 };
 

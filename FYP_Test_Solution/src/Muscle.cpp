@@ -5,54 +5,27 @@
 #include <math.h>
 
 
-Muscle::Muscle(Bone* BoneA, Bone* BoneB, btDynamicsWorld* world)
+Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
+	btFixedConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB)
 {
-	
+	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance(BodyC->getCenterOfMassPosition() + AttachmentPointC));//muscle/ slider dist 
+	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance(BodyA->getCenterOfMassPosition() + AttachmentPointA));//tendon dist
+	mLength = mParallelLength + mSerialLength;// total length
 	mContractileVelocity = 0;
 	mForceMax = 0;
 	mForceCont = 0;
 	mForceParallel = 0;
 	mForceSerial = 0;
 	mTotalForce = 0;
-	// model the muscle as 3 points 
-	// point A and C connected to a bone
-	// or should we make A and C the bone 
-	// make more sense 
-	// 
-	// A and B connected by 6DOfConst
-	// B and C connected via Slider, to simulate contraction
-	btDefaultMotionState* state = new btDefaultMotionState();
-	btCollisionShape* shape = new btSphereShape(0.1f);
-	mBodyA = BoneA->GetRigidBody();
-	mBodyB = new btRigidBody(0, state, shape);
-	mBodyC = BoneB->GetRigidBody();
-	// what we need now is to compute the tendon dist B-A
-	// and the muscle distance B-C
-	// should it be computered or predefined
-	// not sure where to start for computed soooooooooo
-	// if predefined needs to be considerations at too 
-	// will the muscle be on the correct side of the leg for the appropriate motion
-	auto identity = new btMatrix3x3();
-	btVector3* transA = new btVector3(-0.1f, 0.1f, 0);
-	btVector3* transB = new btVector3(0.1f, -0.1f, 0);
-	btVector3* transB2 = new btVector3(0.5f, -0.1f, 0);
-	btVector3* transC = new btVector3(-0.5f, 0.1f, 0);
+	mBodyA = BodyA;
+	mBodyB = BodyB;
+	mBodyC = BodyC;
+	mAttachmentPointA = AttachmentPointA;
+	mAttachmentPointC = AttachmentPointC;
+	mTendon = Tendon;
+	mMuscle = muscle;
 
-	btTransform* transformA = new btTransform(identity->getIdentity(), *transA);
-	btTransform* transformB = new btTransform(identity->getIdentity(), *transB);
-	btTransform* transformC = new btTransform(identity->getIdentity(), *transC);
-	btTransform* transformB2 = new btTransform(identity->getIdentity(), *transB2);
-	mTendon = new btGeneric6DofSpring2Constraint(*mBodyA, *mBodyB, *transformA, *transformB);
-	mMuscle = new btSliderConstraint(*mBodyC, *mBodyB, *transformC, *transformB2, true);
-	world->addRigidBody(mBodyA);
-	world->addRigidBody(mBodyB);
-	world->addRigidBody(mBodyC);
-	world->addConstraint(mTendon);
-	world->addConstraint(mMuscle);
-	
-	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));//muscle/ slider dist 
-	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));//tendon dist
-	mLength = mParallelLength + mSerialLength;// total length
+
 }
 Muscle::~Muscle()
 {
@@ -61,12 +34,12 @@ Muscle::~Muscle()
 float Muscle::ForceLength(float ContractileLength)
 {
 	auto c = log(0.05f);
-	auto w = 0.4 * mOptimumLength;
+	float w = 0.4f * mOptimumLength;
 	return exp(pow(c*(mParallelLength - mOptimumLength) / pow(mOptimumLength, w), 3));
 }
 float Muscle::ForceVelocity(float ContractileVelocity)
 {
-	float VCE;
+	float VCE = 0;
 	if (ContractileVelocity < 0)
 	{
 		VCE = mVelocityMax - ContractileVelocity / mVelocityMax + 5;
@@ -74,7 +47,7 @@ float Muscle::ForceVelocity(float ContractileVelocity)
 	else if (ContractileVelocity >= 0)
 	{
 		
-		VCE = -mVelocityMax + (-mVelocityMax - 1)*mVelocityMax - ContractileVelocity / 7.56 * 5 * ContractileVelocity - mVelocityMax;
+		VCE = -mVelocityMax + (-mVelocityMax - 1)*mVelocityMax - ContractileVelocity / 7.56f * 5 * ContractileVelocity - mVelocityMax;
 	}
 
 	return VCE;
@@ -89,7 +62,7 @@ float Muscle::ForceSerial()
 	// non linear spring
 	if (tendon_strain <= 0)
 		return 0;
-	return pow((tendon_strain / (0.04 * mSerialLength)), 2);
+	return pow((tendon_strain / (0.04f * mSerialLength)), 2);
 }
 float Muscle::ForcePassive()
 {
@@ -97,7 +70,7 @@ float Muscle::ForcePassive()
 	// non linear spring
 	if (muscle_strain <= 0)
 		return 0;
-	return pow((muscle_strain / (0.04 * mParallelLength)), 2);
+	return pow((muscle_strain / (0.04f * mParallelLength)), 2);
 }
 void Muscle::ActivationState(float a)
 {
@@ -118,7 +91,7 @@ void Muscle::Update(float dt)
 	// force can only be applied to rigid bodies so we gotta get hacky xD
 	mTotalForce = ForceContractile() + ForceSerial() + ForcePassive();
 	btVector3 Muscleaxisinworld = mBodyC->getWorldTransform().getBasis() * mMuscle->getFrameOffsetA().getBasis().getColumn(2);
-	mBodyC->applyCentralForce(-Muscleaxisinworld * mTotalForce);
-	mBodyB->applyCentralForce(Muscleaxisinworld * mTotalForce);
+	mBodyC->applyForce(-Muscleaxisinworld * mTotalForce, mAttachmentPointC);
+	mBodyB->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointA);
 
 }

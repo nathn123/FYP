@@ -51,12 +51,16 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Include\Bullet;$(SolutionDir)\Include\OIS;$(SolutionDir)\Include\Overlay;$(SolutionDir)\Include\OGRE;$(SolutionDir)\Include;$(ProjectDir)\header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;bulletcollision_Debug.lib;bulletdynamics_Debug.lib;LinearMath_Debug.lib;GIMPACTutils_Debug.lib;ConvexDecomposition_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -82,10 +86,12 @@
     <ClCompile Include="src\Bone_Builder.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Camera_FrameListener.cpp" />
+    <ClCompile Include="src\DebugDrawer.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
     <ClCompile Include="src\Muscle.cpp" />
     <ClCompile Include="src\Muscle_Builder.cpp" />
+    <ClCompile Include="src\OgreBulletDebugDrawer.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Physics_FrameListener.cpp" />
     <ClCompile Include="src\Skeleton.cpp" />
@@ -98,10 +104,12 @@
     <ClInclude Include="header\Bone_Builder.h" />
     <ClInclude Include="header\Camera.h" />
     <ClInclude Include="header\Camera_FrameListener.h" />
+    <ClInclude Include="header\DebugDrawer.h" />
     <ClInclude Include="header\InputManager.h" />
     <ClInclude Include="header\MotionState.h" />
     <ClInclude Include="header\Muscle.h" />
     <ClInclude Include="header\Muscle_Builder.h" />
+    <ClInclude Include="header\OgreBulletDebugDrawer.h" />
     <ClInclude Include="header\Physics.h" />
     <ClInclude Include="header\Physics_FrameListener.h" />
     <ClInclude Include="header\Skeleton.h" />

@@ -11,7 +11,8 @@ public:
 	Ogre::Vector3 getCameraPosition();
 	bool TestRayCast(Ogre::Vector2 mousepos, Ogre::SceneNode* newNode);
 	void instantUpdate(Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPosition);
-	void update(Ogre::Real elapsedTime, Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPosition);
+	void Transupdate(Ogre::Vector3 translate);
+	void Rotateupdate(Ogre::Vector3 axis, Ogre::Radian turnAmount);
 
 
 protected:

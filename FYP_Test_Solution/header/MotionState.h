@@ -5,6 +5,7 @@ class MotionState :
 	public btMotionState
 {
 public:
+	BT_DECLARE_ALIGNED_ALLOCATOR();
 	MotionState(const btTransform &initialPosition,Ogre::SceneNode* node);
 	MotionState(Ogre::SceneNode* node);
 

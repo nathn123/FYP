@@ -7,11 +7,12 @@ class Physics_FrameListener : public Ogre::FrameListener
 public:
 	Physics_FrameListener(Ogre::SceneManager* sceneMgr);
 	~Physics_FrameListener();
-	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	bool frameEnded(const Ogre::FrameEvent& evt);
 
 private:
 	InputManager* mInput;
 	Physics* mPhysics;
-	float mToggleTime;
+	float mToggleTime, muscle1,muscle2;
+	bool mToggleUpdate;
 };
 

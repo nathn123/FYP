@@ -1,4 +1,5 @@
 #include "..\header\Skeleton.h"
+#include "Utils.h"
 
 
 Skeleton::Skeleton(std::vector<Bone*> Bones, std::vector<Muscle*> muscles, std::vector<btTypedConstraint*> Constraints, Ogre::SceneNode* Node, btDynamicsWorld* World)
@@ -6,14 +7,13 @@ Skeleton::Skeleton(std::vector<Bone*> Bones, std::vector<Muscle*> muscles, std::
 	mBones = Bones;
 	mNode = Node;
 	mMuscles = muscles;
-	for (int i = 0; i < 2 /*Constraints.size()*/; ++i)
-		World->addConstraint(Constraints[i]);
+	for (auto constraint: Constraints)
+		World->addConstraint(constraint);
 }
 Skeleton::Skeleton()
 {
 
 }
-
 Skeleton::~Skeleton()
 {
 }
