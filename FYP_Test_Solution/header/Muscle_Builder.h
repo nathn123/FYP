@@ -3,6 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "Utils.h"
 #include "Bone.h"
+#include "KinematicMotionState.h"
 #include "BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.h"
 class Muscle_Builder
 {

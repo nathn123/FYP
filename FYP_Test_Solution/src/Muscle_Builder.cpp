@@ -272,7 +272,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 	if (!FindAttachmentPoints(boneA, boneB, attachmentpoints))
 		return false;
 	std::vector<Muscle*> mMuscles;
-	for (unsigned int i = 2; i <  attachmentpoints.size(); i+=2)
+	for (unsigned int i = 0; i <  attachmentpoints.size(); i+=2)
 	{
 		// model the muscle as 3 points 
 		// point A and C attachment points on connected to a bone
@@ -302,7 +302,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		pointmasspositon = AttachmentA + AttachmentA.normalized() * 5; 
 		
 		
-		btDefaultMotionState* state = new btDefaultMotionState(btTransform(btQuaternion(0,0,0),pointmasspositon));
+		MyKinematicMotionState* state = new MyKinematicMotionState(btTransform(btQuaternion(0, 0, 0), pointmasspositon));
 		btCollisionShape* shape = new btSphereShape(0.5f);
 		
 		auto BodyB = new btRigidBody(0.01f, state, shape);
@@ -350,7 +350,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 
 		mWorld->addConstraint(Tendon);
 		mWorld->addConstraint(Musclepart);
-		mMuscles.push_back(new Muscle(BodyA, BodyC, AttachmentA, AttachmentC, Tendon, Musclepart, BodyB));
+		mMuscles.push_back(new Muscle(BodyA, BodyC, AttachmentA - Utils::OgreBTVector(boneA->GetNode()->_getDerivedPosition()), AttachmentC - Utils::OgreBTVector(boneB->GetNode()->_getDerivedPosition()), Tendon, Musclepart, BodyB, state));
 	}
 	Muscle_Out =  mMuscles;
 	return true;

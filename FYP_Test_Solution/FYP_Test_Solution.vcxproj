@@ -110,6 +110,7 @@
     <ClInclude Include="header\Camera_FrameListener.h" />
     <ClInclude Include="header\DebugDrawer.h" />
     <ClInclude Include="header\InputManager.h" />
+    <ClInclude Include="header\KinematicMotionState.h" />
     <ClInclude Include="header\MotionState.h" />
     <ClInclude Include="header\Muscle.h" />
     <ClInclude Include="header\Muscle_Builder.h" />

@@ -128,5 +128,8 @@
     <ClInclude Include="BulletDebugDraw\DynamicLineDrawer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="header\KinematicMotionState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 
 
 Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
-	btGeneric6DofConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB)
+	btGeneric6DofConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state)
 {
 	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointC));//muscle/ slider dist 
 	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointA));//tendon dist
@@ -14,12 +14,13 @@ Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPoin
 	mLength = mParallelLength + mSerialLength;// total length
 	mOptimumLength = mParallelLength;
 	mContractileVelocity = 0;
-	mForceMax = 22;
-	mVelocityMax =  (-12 * mOptimumLength * (-1*mSerialLength))/1000; // bring this to a lower scale
+	mForceMax = 11;
+	mVelocityMax =  (-12 * mOptimumLength * (-1*mSerialLength))/2000; // bring this to a lower scale
 	mForceCont = 0;
 	mForceParallel = 0;
 	mForceSerial = 0;
 	mTotalForce = 0;
+	mForceLength = 0;
 	mBodyA = BodyA;
 	mBodyB = BodyB;
 	mBodyC = BodyC;
@@ -27,6 +28,7 @@ Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPoin
 	mAttachmentPointC = AttachmentPointC;
 	mTendon = Tendon;
 	mMuscle = muscle;
+	mPointMassState = state;
 
 
 }
@@ -58,9 +60,9 @@ float Muscle::ForceVelocity(float ContractileVelocity)
 }
 float Muscle::ForceContractile()
 {
-	auto FLEN = ForceLength(mParallelLength);
+	mForceLength = ForceLength(mParallelLength);
 	auto FVel = ForceVelocity(mContractileVelocity);
-	return mActivationState * mForceMax*  FLEN * FVel;
+	return mActivationState * mForceMax*  mForceLength * FVel;
 }
 float Muscle::ForceSerial()
 {
@@ -110,5 +112,27 @@ void Muscle::Update(float dt)
 	mBodyB->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointA);
 	mPrevParallelLength = mParallelLength;
 	mPrevSerialLength = mSerialLength;
+
+	// now we need to move the pointmass to account for change in the contractile element
+	
+	btTransform newstate, bonetrans, pointmasstrans;
+	btVector3 neworigin;
+	mPointMassState->getWorldTransform(newstate);
+	neworigin = newstate.getOrigin();
+	float moveamount;
+	if (mActivationState != 0)
+		 moveamount = (FSER - FPAS) / (mActivationState * mForceMax *mForceLength);
+	else
+		moveamount = 0;
+	//get the relative attachment point position
+	mBodyC->getMotionState()->getWorldTransform(bonetrans);
+	mBodyB->getMotionState()->getWorldTransform(pointmasstrans);
+	
+	auto moveDirection = (bonetrans.getBasis() *  ((bonetrans.getOrigin() + mAttachmentPointC) + pointmasstrans.getOrigin())).normalize();
+	neworigin += moveamount * moveDirection;
+	auto test = moveamount * moveDirection;
+ 
+	newstate.setOrigin(neworigin);
+	mPointMassState->setKinematicPos(newstate);
 
 }
