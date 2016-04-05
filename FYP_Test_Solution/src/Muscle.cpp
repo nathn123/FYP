@@ -6,13 +6,16 @@
 
 
 Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
-	btFixedConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB)
+	btGeneric6DofConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB)
 {
-	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance(BodyC->getCenterOfMassPosition() + AttachmentPointC));//muscle/ slider dist 
-	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance(BodyA->getCenterOfMassPosition() + AttachmentPointA));//tendon dist
+	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointC));//muscle/ slider dist 
+	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointA));//tendon dist
+
 	mLength = mParallelLength + mSerialLength;// total length
+	mOptimumLength = mParallelLength;
 	mContractileVelocity = 0;
-	mForceMax = 0;
+	mForceMax = 22;
+	mVelocityMax =  (-12 * mOptimumLength * (-1*mSerialLength))/1000; // bring this to a lower scale
 	mForceCont = 0;
 	mForceParallel = 0;
 	mForceSerial = 0;
@@ -35,7 +38,8 @@ float Muscle::ForceLength(float ContractileLength)
 {
 	auto c = log(0.05f);
 	float w = 0.4f * mOptimumLength;
-	return exp(pow(c*(mParallelLength - mOptimumLength) / pow(mOptimumLength, w), 3));
+	auto testval = exp(pow(c*(mParallelLength - mOptimumLength) / pow(mOptimumLength, w), 3));
+	return testval;
 }
 float Muscle::ForceVelocity(float ContractileVelocity)
 {
@@ -54,7 +58,9 @@ float Muscle::ForceVelocity(float ContractileVelocity)
 }
 float Muscle::ForceContractile()
 {
-	return mActivationState * mForceMax* ForceLength(mParallelLength)*ForceVelocity(mContractileVelocity);
+	auto FLEN = ForceLength(mParallelLength);
+	auto FVel = ForceVelocity(mContractileVelocity);
+	return mActivationState * mForceMax*  FLEN * FVel;
 }
 float Muscle::ForceSerial()
 {
@@ -74,14 +80,18 @@ float Muscle::ForcePassive()
 }
 void Muscle::ActivationState(float a)
 {
-	mActivationState = a;
+	mActivationState = 0.01f * (a - mActivationState);
+	if (mActivationState < 0.f)
+		mActivationState = 0.f;
+	if (mActivationState > 1.f)
+		mActivationState = 1.f;
 }
 void Muscle::Update(float dt)
 {
 	// calculate the contractile length
-	mPrevParallelLength = mParallelLength;
+	
 	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
-	mPrevSerialLength = mSerialLength;
+	
 	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
 	// calculate the contractile velocity
 	//velocity = displacement/time
@@ -89,9 +99,16 @@ void Muscle::Update(float dt)
 	mContractileVelocity = (mParallelLength - mPrevParallelLength) / dt; 
 	// now we need to apply the force of the muscle into the slider
 	// force can only be applied to rigid bodies so we gotta get hacky xD
-	mTotalForce = ForceContractile() + ForceSerial() + ForcePassive();
+	auto FCON = ForceContractile();
+	auto FSER = ForceSerial();
+	auto FPAS = ForcePassive();
+	mTotalForce = FCON + FSER + FPAS;
 	btVector3 Muscleaxisinworld = mBodyC->getWorldTransform().getBasis() * mMuscle->getFrameOffsetA().getBasis().getColumn(2);
-	mBodyC->applyForce(-Muscleaxisinworld * mTotalForce, mAttachmentPointC);
+	mBodyC->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointC);
+	Muscleaxisinworld = mBodyB->getWorldTransform().getBasis() * mMuscle->getFrameOffsetB().getBasis().getColumn(2);
+	//force applied to this 
 	mBodyB->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointA);
+	mPrevParallelLength = mParallelLength;
+	mPrevSerialLength = mSerialLength;
 
 }

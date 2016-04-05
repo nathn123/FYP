@@ -3,6 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "Utils.h"
 #include "Bone.h"
+#include "BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.h"
 class Muscle_Builder
 {
 public:
@@ -14,6 +15,7 @@ public:
 private:
 	Ogre::SceneManager* mSceneMgr;
 	btDynamicsWorld* mWorld;
+	
 
 
 };

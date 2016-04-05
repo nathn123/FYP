@@ -6,7 +6,7 @@ Physics_FrameListener::Physics_FrameListener(Ogre::SceneManager* sceneMgr)
 	mPhysics = new Physics(sceneMgr);
 	mInput = InputManager::getSingletonPtr();
 	mToggleTime = 1.0f;
-	mToggleUpdate = false;
+	mToggleUpdate = true;
 }
 
 
@@ -39,22 +39,22 @@ bool Physics_FrameListener::frameEnded(const Ogre::FrameEvent& evt)
 	}
 	if (key->isKeyDown(OIS::KC_U))
 	{
-		muscle1 += 0.001f;
+		muscle1 += 1.f;
 		mPhysics->mMuscles[0]->ActivationState(muscle1);
 	}
 	if (key->isKeyDown(OIS::KC_J))
 	{
-		muscle1 -= 0.001f;
+		muscle1 -= 1.f;
 		mPhysics->mMuscles[0]->ActivationState(muscle1);
 	}
 	if (key->isKeyDown(OIS::KC_I))
 	{
-		muscle2 += 0.001f;
+		muscle2 += 1.f;
 		mPhysics->mMuscles[1]->ActivationState(muscle2);
 	}
 	if (key->isKeyDown(OIS::KC_K))
 	{
-		muscle2 -= 0.001f;
+		muscle2 -= 1.f;
 		mPhysics->mMuscles[1]->ActivationState(muscle2);
 	}
 	for each (auto muscle in mPhysics->mMuscles)

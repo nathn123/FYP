@@ -18,6 +18,7 @@ public:
 	virtual void     draw3dText(const btVector3 &location, const char *textString);
 	virtual void     setDebugMode(int debugMode);
 	virtual int     getDebugMode() const;
+
 protected:
 	bool frameStarted(const Ogre::FrameEvent& evt);
 	bool frameRenderingQueued(const Ogre::FrameEvent& evt);

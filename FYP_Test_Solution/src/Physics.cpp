@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "Bone_Builder.h"
 #include "Bone.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -65,6 +66,7 @@ bool Physics::TestLimb()
 	mBoneBuilder->SetDimensions(10, 20);
 	mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 100, 0)));
 	mBoneBuilder->BuildBone(*Upper, Bone::BoneType::LUpperLeg);
+	Upper->GetRigidBody()->setMassProps(0, btVector3(0, 0, 0));
 	mBoneBuilder->ClearData();
 	mBoneBuilder->SetDimensions(10, 20);
 	mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *Upper->GetNode()->createChildSceneNode(Ogre::Vector3(0, -50, 0)));
@@ -75,9 +77,9 @@ bool Physics::TestLimb()
 	auto vec = Lower->GetNode()->_getDerivedPosition();
 	vec += offset;
 
-	Skeleton_Builder::SetJointTransform(localA, localB, Utils::OgreBTVector(Lower->GetNode()->_getDerivedPosition() + offset), Upper->GetNode()->_getDerivedPosition(), Lower->GetNode()->_getDerivedPosition(), btVector3(0, btScalar(M_PI_2), 0));
-	btHingeConstraint* LshoulderConst = new btHingeConstraint(*Upper->GetRigidBody(), *Lower->GetRigidBody(), localA, localB,true);
-	//m
+	Skeleton_Builder::SetJointTransform(localA, localB, Utils::OgreBTVector(Lower->GetNode()->_getDerivedPosition() + offset), Upper->GetNode()->_getDerivedPosition(), Lower->GetNode()->_getDerivedPosition(), btVector3(0,btScalar(M_PI_2), 0));
+	btHingeConstraint* LshoulderConst = new btHingeConstraint(*Upper->GetRigidBody(), *Lower->GetRigidBody(), localA, localB,false);
+
 	mWorld->addConstraint(LshoulderConst);
 	Musclebuilder->CreateMuscle(Upper, Lower, mMuscles);
 	auto test = mMuscles;
@@ -89,7 +91,9 @@ void Physics::TestUpdate()
 }
 void Physics::Update(Ogre::Real frametime, bool step)
 {
+	auto test = mWorld->getDebugDrawer()->getDebugMode();
 	if (step)
-		mWorld->stepSimulation(frametime);
+		mWorld->stepSimulation(0.001f);
+
 	mWorld->debugDrawWorld();
 }

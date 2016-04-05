@@ -81,6 +81,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="BulletDebugDraw\DebugDraw.cpp" />
+    <ClCompile Include="BulletDebugDraw\DynamicLineDrawer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\Bone_Builder.cpp" />
@@ -100,6 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="BulletDebugDraw\DebugDraw.hpp" />
+    <ClInclude Include="BulletDebugDraw\DynamicLineDrawer.hpp" />
     <ClInclude Include="header\Bone.h" />
     <ClInclude Include="header\Bone_Builder.h" />
     <ClInclude Include="header\Camera.h" />
