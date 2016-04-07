@@ -1,5 +1,5 @@
 #include "..\header\InputManager.h"
-
+// all code take from http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Using+OIS#InputManager_Class
 InputManager* InputManager::mInputmanager;
 
 InputManager::InputManager() : mMouse(0), mKeyboard(0), mInputSystem(0)
@@ -40,6 +40,18 @@ void InputManager::initialise(Ogre::RenderWindow* rw)
 		rw->getCustomAttribute("WINDOW", &windowHnd);
 		windowHndStr << (unsigned int)windowHnd;
 		paramList.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+#if defined OIS_WIN32_PLATFORM
+		paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND")));
+		paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+		paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+		paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
+#elif defined OIS_LINUX_PLATFORM
+		paramList.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+		paramList.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
+		paramList.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+		paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+#endif
+
 		mInputSystem = OIS::InputManager::createInputSystem(paramList);
 
 		if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0)
@@ -47,7 +59,7 @@ void InputManager::initialise(Ogre::RenderWindow* rw)
 			mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));
 			mKeyboard->setEventCallback(this);
 		}
-		if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0)
+		if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0)
 		{
 			mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, true));
 			mMouse->setEventCallback(this);

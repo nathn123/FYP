@@ -13,24 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Skeleton">
+      <UniqueIdentifier>{2403bf09-8844-4fe4-a39a-8577fddf365f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{d9df0362-c237-4188-9436-fd2680baa8b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bone">
+      <UniqueIdentifier>{7488d555-c279-48cc-9cf1-6f274f6e4d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Muscle">
+      <UniqueIdentifier>{ed78635f-b05b-496b-b0fe-24faff99062e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bone">
+      <UniqueIdentifier>{d9a0572a-12ce-4ca1-b531-07062b31e3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Muscle">
+      <UniqueIdentifier>{472f4362-1c55-4501-a3bb-a0c52136f249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{95fdf5d5-0c47-44c3-b1d2-ff92015f173b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Skeleton">
+      <UniqueIdentifier>{bdef3e01-e021-4972-9a27-0af76093e887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{599750bd-4739-4443-81d8-9fbba5993820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{b4a1195a-1e4c-43b3-9178-f59e004627d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Camera">
+      <UniqueIdentifier>{1006e6e7-d38b-4666-a59a-6fb8635a80f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{63d65d3c-c917-4a13-a963-3d734e23cc8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Skeleton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bone.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Skeleton_Builder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bone_Builder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MotionState.cpp">
@@ -40,24 +61,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics_FrameListener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TrackableObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera_FrameListener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Muscle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Muscle_Builder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DebugDrawer.cpp">
@@ -72,48 +75,60 @@
     <ClCompile Include="BulletDebugDraw\DynamicLineDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bone.cpp">
+      <Filter>Source Files\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bone_Builder.cpp">
+      <Filter>Source Files\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Muscle.cpp">
+      <Filter>Source Files\Muscle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Muscle_Builder.cpp">
+      <Filter>Source Files\Muscle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skeleton.cpp">
+      <Filter>Source Files\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skeleton_Builder.cpp">
+      <Filter>Source Files\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics_FrameListener.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="src\State.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IntroState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera_FrameListener.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Skeleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Bone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Skeleton_Builder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Bone_Builder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Physics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\MotionState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Physics_FrameListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Camera_FrameListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Muscle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Muscle_Builder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\DebugDrawer.h">
@@ -128,8 +143,56 @@
     <ClInclude Include="BulletDebugDraw\DynamicLineDrawer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\KinematicMotionState.h">
+    <ClInclude Include="header\GUIManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Bone.h">
+      <Filter>Header Files\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Bone_Builder.h">
+      <Filter>Header Files\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Muscle.h">
+      <Filter>Header Files\Muscle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Muscle_Builder.h">
+      <Filter>Header Files\Muscle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\KinematicMotionState.h">
+      <Filter>Header Files\Muscle</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Skeleton.h">
+      <Filter>Header Files\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Skeleton_Builder.h">
+      <Filter>Header Files\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics_FrameListener.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Physics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MotionState.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="header\StateManager.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="header\State.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="header\GameState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="header\IntroState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Camera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Camera_FrameListener.h">
+      <Filter>Header Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -318,9 +318,9 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		btVector3 anglow, linlow, linupp;
 		Tendon->getAngularLowerLimit(anglow);
 		//Tendon->setAngularUpperLimit(anglow);// should lock angular limits
-		Tendon->setLinearLowerLimit(pointmasspositon - AttachmentA); // distance between point mass and bone
+		Tendon->setLinearLowerLimit((pointmasspositon - AttachmentA)*0.06f); // distance between point mass and bone
 		// need a directional vector from pointmass to attachmentC
-		Tendon->setLinearUpperLimit(pointmasspositon - AttachmentC);
+		Tendon->setLinearUpperLimit((pointmasspositon - AttachmentC)*0.06f);
 		Tendon->getLinearLowerLimit(linlow);
 		Tendon->getLinearUpperLimit(linupp);
 		auto test = Tendon->getDbgDrawSize();
@@ -341,9 +341,9 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 
 		auto muscledist = pointmasspositon.distance(AttachmentC);
 		muscledist /= 2; // half width
-		muscledist /= 10; // 10% of dist
-		muscledist *= 3; // 30& of dist
-		// can move 30% in either direction i.e 60% total
+		muscledist /= 10; // 1% of dist
+		muscledist *= 3; // 3& of dist
+		// can move 3% in either direction i.e 6% total
 		Musclepart->setUpperLinLimit(muscledist);
 		Musclepart->setLowerLinLimit(-muscledist);
 		mWorld->addRigidBody(BodyB, Utils::COL_NOTHING, Utils::COL_NOTHING);

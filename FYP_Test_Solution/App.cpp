@@ -27,48 +27,13 @@ App::~App()
 
 bool App::Go()
 {
-#ifdef _DEBUG
-	mResourcesCfg = "resources_d.cfg";
-	mPluginsCfg = "plugins_d.cfg";
-#else
-	mResourcesCfg = "resources.cfg";
-	mPluginsCfg = "plugins.cfg";
-#endif
-	// construct ogre root
-	mRoot = new Ogre::Root(mPluginsCfg);
-	// set up resources
-	// Load resource paths from config file
-	Ogre::ConfigFile cf;
-	cf.load(mResourcesCfg);
 
-	// go through all sections and settings in the file
-	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
-	Ogre::String secName, typeName, archName;
-	while (seci.hasMoreElements())
-	{
-		secName = seci.peekNextKey();
-		Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
-		Ogre::ConfigFile::SettingsMultiMap::iterator i;
-		for (i = settings->begin(); i != settings->end(); ++i)
-		{
-			typeName = i->first;
-			archName = i->second;
-			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
-		}
-	}
 
 	//configure
-	//show the config dialog and initialise system
-	if (!(/*mRoot->restoreConfig()||*/ mRoot->showConfigDialog()))
-	{
-		return false;
-	}
-	mWindow = mRoot->initialise(true, "Final Year Project - Nathan O'Connor");
-	// set default mipmap level
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	//initialise all resource groups
-	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+
+
+
 	// create the SceneManager
 	mSceneMgr = mRoot->createSceneManager("DefaultSceneManager");
 

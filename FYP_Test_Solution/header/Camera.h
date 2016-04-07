@@ -9,6 +9,7 @@ public:
 	void setTightness(Ogre::Real tightness);
 	Ogre::Real getTightness();
 	Ogre::Vector3 getCameraPosition();
+	Ogre::Camera* getOgreCam();
 	bool TestRayCast(Ogre::Vector2 mousepos, Ogre::SceneNode* newNode);
 	void instantUpdate(Ogre::Vector3 cameraPosition, Ogre::Vector3 targetPosition);
 	void Transupdate(Ogre::Vector3 translate);

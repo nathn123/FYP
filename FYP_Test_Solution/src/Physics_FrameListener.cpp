@@ -1,6 +1,5 @@
 #include "../header/Physics_FrameListener.h"
 
-
 Physics_FrameListener::Physics_FrameListener(Ogre::SceneManager* sceneMgr)
 {
 	mPhysics = new Physics(sceneMgr);

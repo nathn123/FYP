@@ -56,7 +56,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;bulletcollision_Debug.lib;bulletdynamics_Debug.lib;LinearMath_Debug.lib;GIMPACTutils_Debug.lib;ConvexDecomposition_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;bulletcollision_Debug.lib;bulletdynamics_Debug.lib;LinearMath_Debug.lib;GIMPACTutils_Debug.lib;ConvexDecomposition_Debug.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -76,7 +76,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\libs\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;GIMPACTUtils.lib;ConvexDecomposition.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;GIMPACTUtils.lib;ConvexDecomposition.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -89,7 +89,10 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Camera_FrameListener.cpp" />
     <ClCompile Include="src\DebugDrawer.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GUIManager.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\IntroState.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
     <ClCompile Include="src\Muscle.cpp" />
     <ClCompile Include="src\Muscle_Builder.cpp" />
@@ -98,7 +101,8 @@
     <ClCompile Include="src\Physics_FrameListener.cpp" />
     <ClCompile Include="src\Skeleton.cpp" />
     <ClCompile Include="src\Skeleton_Builder.cpp" />
-    <ClCompile Include="src\TrackableObject.cpp" />
+    <ClCompile Include="src\State.cpp" />
+    <ClCompile Include="src\StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -109,7 +113,10 @@
     <ClInclude Include="header\Camera.h" />
     <ClInclude Include="header\Camera_FrameListener.h" />
     <ClInclude Include="header\DebugDrawer.h" />
+    <ClInclude Include="header\GameState.h" />
+    <ClInclude Include="header\GUIManager.h" />
     <ClInclude Include="header\InputManager.h" />
+    <ClInclude Include="header\IntroState.h" />
     <ClInclude Include="header\KinematicMotionState.h" />
     <ClInclude Include="header\MotionState.h" />
     <ClInclude Include="header\Muscle.h" />
@@ -119,6 +126,8 @@
     <ClInclude Include="header\Physics_FrameListener.h" />
     <ClInclude Include="header\Skeleton.h" />
     <ClInclude Include="header\Skeleton_Builder.h" />
+    <ClInclude Include="header\State.h" />
+    <ClInclude Include="header\StateManager.h" />
     <ClInclude Include="header\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

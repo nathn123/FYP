@@ -39,6 +39,16 @@ f:\fyp_solution\trunk\fyp_test_solution\debug\physics_framelistener.obj
 f:\fyp_solution\trunk\fyp_test_solution\debug\skeleton.obj
 f:\fyp_solution\trunk\fyp_test_solution\debug\skeleton_builder.obj
 f:\fyp_solution\trunk\fyp_test_solution\debug\trackableobject.obj
+f:\fyp_solution\trunk\fyp_test_solution\debug\guimanager.sbr
+f:\fyp_solution\trunk\fyp_test_solution\debug\guimanager.obj
+f:\fyp_solution\trunk\fyp_test_solution\debug\statemanager.sbr
+f:\fyp_solution\trunk\fyp_test_solution\debug\state.sbr
+f:\fyp_solution\trunk\fyp_test_solution\debug\introstate.sbr
+f:\fyp_solution\trunk\fyp_test_solution\debug\gamestate.sbr
+f:\fyp_solution\trunk\fyp_test_solution\debug\gamestate.obj
+f:\fyp_solution\trunk\fyp_test_solution\debug\introstate.obj
+f:\fyp_solution\trunk\fyp_test_solution\debug\statemanager.obj
+f:\fyp_solution\trunk\fyp_test_solution\debug\state.obj
 f:\fyp_solution\trunk\bin\debug\fyp_solution.ilk
 f:\fyp_solution\trunk\bin\debug\fyp_solution.exe
 f:\fyp_solution\trunk\bin\debug\fyp_solution.pdb

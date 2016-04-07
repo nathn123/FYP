@@ -18,8 +18,8 @@ LGPL like the rest of the OGRE engine.
 -----------------------------------------------------------------------------
 */
 
-#include"App.h"
-
+#include"StateManager.h"
+#include"IntroState.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -37,10 +37,10 @@ extern "C" {
 #endif
 	{
 		// Create application object
-		App app;
+		 StateManager* App = new StateManager();
 
 		try {
-			app.Go();
+			App->start(IntroState::getState());
 		}
 		catch (Ogre::Exception& e) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

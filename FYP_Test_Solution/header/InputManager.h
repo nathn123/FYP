@@ -1,6 +1,7 @@
 #pragma once
 #include <Ogre.h>
 #include <OIS\OIS.h>
+// all code take from http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Using+OIS#InputManager_Class
 class InputManager : public OIS::KeyListener, public OIS::MouseListener
 {
 public:

@@ -121,7 +121,7 @@ void Muscle::Update(float dt)
 	neworigin = newstate.getOrigin();
 	float moveamount;
 	if (mActivationState != 0)
-		 moveamount = (FSER - FPAS) / (mActivationState * mForceMax *mForceLength);
+		 moveamount = ((FSER - FPAS) / (mActivationState * mForceMax *mForceLength)); // reduce the move amount per tick to increase stability
 	else
 		moveamount = 0;
 	//get the relative attachment point position

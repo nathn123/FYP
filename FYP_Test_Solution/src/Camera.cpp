@@ -33,7 +33,7 @@ Camera::Camera(Ogre::String name, Ogre::SceneManager* sceneMgr, Ogre::RenderWind
 }
 Camera::~Camera()
 {
-	mCameraNode->detachAllObjects();
+	//mCameraNode->detachAllObjects();
 	if (mOwnCamera)
 		delete mCamera;
 	mSceneMgr->destroySceneNode(mName);
@@ -50,6 +50,10 @@ Ogre::Real Camera::getTightness()
 Ogre::Vector3 Camera::getCameraPosition()
 {
 	return mCameraNode->getPosition();
+}
+Ogre::Camera* Camera::getOgreCam()
+{
+	return mCamera;
 }
 bool Camera::TestRayCast(Ogre::Vector2 mousepos, Ogre::SceneNode* newNode)
 {
