@@ -63,16 +63,7 @@
     <ClCompile Include="src\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DebugDrawer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\OgreBulletDebugDrawer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletDebugDraw\DebugDraw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletDebugDraw\DynamicLineDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GUIManager.cpp">
@@ -131,16 +122,7 @@
     <ClInclude Include="header\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\DebugDrawer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\OgreBulletDebugDrawer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletDebugDraw\DebugDraw.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletDebugDraw\DynamicLineDrawer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\GUIManager.h">

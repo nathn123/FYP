@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="DefaultWindow" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="Font" value="DejaVuSans-12" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Property name="ClippedByParent" value="false" />
+        <Window type="TaharezLook/Button" name="Quit" >
+            <Property name="Area" value="{{0,32},{0,698},{0,143},{0,740}}" />
+            <Property name="Text" value="Quit" />
+        </Window>
+        <Window type="TaharezLook/Button" name="BuildSkeleton" >
+            <Property name="Area" value="{{0,269},{0,694},{0,445},{0,740}}" />
+            <Property name="Text" value="Create Skeleton" />
+        </Window>
+        <Window type="TaharezLook/GroupBox" name="Settings Box" >
+            <Property name="Area" value="{{0,524},{0,63},{0.3,715},{0.3,318}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="TaharezLook/StaticText" name="Skeleton Height" >
+                <Property name="Area" value="{{0,31},{0,11},{0,466},{0,46}}" />
+                <Property name="Text" value="Height" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="425" />
+                <Property name="VertScrollPageSize" value="25" />
+                <Property name="HorzScrollDocumentSize" value="45" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="HeightEdit" >
+                    <Property name="Area" value="{{0,322},{0,0},{0,430},{0,32}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Skeleton Width" >
+                <Property name="Area" value="{{0,31},{0,47},{0,467},{0,78}}" />
+                <Property name="Text" value="Width" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="426" />
+                <Property name="VertScrollPageSize" value="21" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="WidthEditBox" >
+                    <Property name="Area" value="{{0,322},{0,0},{0,431},{0,32}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Neck Incline" >
+                <Property name="Area" value="{{0,32},{0,79},{0,469},{0,114}}" />
+                <Property name="Text" value="Neck Incline" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="427" />
+                <Property name="VertScrollPageSize" value="25" />
+                <Property name="HorzScrollDocumentSize" value="85" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="NeckEditbox" >
+                    <Property name="Area" value="{{0,319},{0,0},{0,431},{0,32}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Tail Incline" >
+                <Property name="Area" value="{{0,32},{0,116},{0,469},{0,152}}" />
+                <Property name="Text" value="Tail Incline" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="427" />
+                <Property name="VertScrollPageSize" value="26" />
+                <Property name="HorzScrollDocumentSize" value="75" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="TailEditbox" >
+                    <Property name="Area" value="{{0,319},{0,0},{0,431},{0,32}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Neck Type" >
+                <Property name="Area" value="{{0,33},{0,154},{0,470},{0,189}}" />
+                <Property name="Text" value="Neck Type" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="427" />
+                <Property name="VertScrollPageSize" value="25" />
+                <Property name="HorzScrollDocumentSize" value="73" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Tail Type" >
+                <Property name="Area" value="{{0,33},{0,190},{0,469},{0,223}}" />
+                <Property name="Text" value="Tail Type" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="426" />
+                <Property name="VertScrollPageSize" value="23" />
+                <Property name="HorzScrollDocumentSize" value="63" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Arm Type" >
+                <Property name="Area" value="{{0,31},{0,266},{0,471},{0,300}}" />
+                <Property name="Text" value="Arm Type" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="430" />
+                <Property name="VertScrollPageSize" value="24" />
+                <Property name="HorzScrollDocumentSize" value="66" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Torso Type" >
+                <Property name="Area" value="{{0,31},{0,302},{0,471},{0,334}}" />
+                <Property name="Text" value="Torso Type" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="430" />
+                <Property name="VertScrollPageSize" value="22" />
+                <Property name="HorzScrollDocumentSize" value="80" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Spawn Position" >
+                <Property name="Area" value="{{0,29},{0,336},{0,469},{0,366}}" />
+                <Property name="Text" value="Position" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="430" />
+                <Property name="VertScrollPageSize" value="20" />
+                <Property name="HorzScrollDocumentSize" value="57" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="X Editbox" >
+                    <Property name="Area" value="{{0,226},{0,1},{0,281},{0,31}}" />
+                </Window>
+                <Window type="TaharezLook/Editbox" name="Z Editbox" >
+                    <Property name="Area" value="{{0,368},{0,2},{0,425},{0,28}}" />
+                </Window>
+                <Window type="TaharezLook/Editbox" name="Y Editbox" >
+                    <Property name="Area" value="{{0,297},{0,2},{0,352},{0,31}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Leg Type" >
+                <Property name="Area" value="{{0,32},{0,227},{0,470},{0,262}}" />
+                <Property name="Text" value="Leg Type" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="428" />
+                <Property name="VertScrollPageSize" value="25" />
+                <Property name="HorzScrollDocumentSize" value="65" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+            </Window>
+            <Window type="TaharezLook/Combobox" name="Neck Combobox" >
+                <Property name="Area" value="{{0,211},{0,159},{0,467},{0,419}}" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="TaharezLook/Combobox" name="Tail Combobox" >
+                <Property name="Area" value="{{0,210},{0,194},{0,466},{0,450}}" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="TaharezLook/Combobox" name="Leg Combobox" >
+                <Property name="Area" value="{{0,209},{0,233},{0,465},{0,489}}" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="TaharezLook/Combobox" name="Torso Combobox" >
+                <Property name="Area" value="{{0,209},{0,305},{0,465},{0,560}}" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="TaharezLook/Combobox" name="Arm Combobox" >
+                <Property name="Area" value="{{0,208},{0,272},{0,464},{0,528}}" />
+                <Property name="ClippedByParent" value="false" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="true" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window type="TaharezLook/StaticText" name="skeleton Setting" >
+            <Property name="Area" value="{{0.572266,-59},{0.46224,-344},{0.572266,434},{0.334635,-195}}" />
+            <Property name="Text" value="Skeleton Settings" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="HorzScrollPageSize" value="483" />
+            <Property name="VertScrollPageSize" value="41" />
+            <Property name="HorzScrollDocumentSize" value="124" />
+            <Property name="VertScrollDocumentSize" value="14.5776" />
+            <Window type="TaharezLook/Checkbox" name="Checkbox" >
+                <Property name="Area" value="{{0,430},{0,10},{0,558},{0,42}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

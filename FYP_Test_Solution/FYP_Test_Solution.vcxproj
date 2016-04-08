@@ -81,14 +81,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="BulletDebugDraw\DebugDraw.cpp" />
-    <ClCompile Include="BulletDebugDraw\DynamicLineDrawer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Bone.cpp" />
     <ClCompile Include="src\Bone_Builder.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Camera_FrameListener.cpp" />
-    <ClCompile Include="src\DebugDrawer.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GUIManager.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
@@ -106,13 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="BulletDebugDraw\DebugDraw.hpp" />
-    <ClInclude Include="BulletDebugDraw\DynamicLineDrawer.hpp" />
     <ClInclude Include="header\Bone.h" />
     <ClInclude Include="header\Bone_Builder.h" />
     <ClInclude Include="header\Camera.h" />
     <ClInclude Include="header\Camera_FrameListener.h" />
-    <ClInclude Include="header\DebugDrawer.h" />
     <ClInclude Include="header\GameState.h" />
     <ClInclude Include="header\GUIManager.h" />
     <ClInclude Include="header\InputManager.h" />

@@ -114,8 +114,19 @@ bool OgreDebugDrawer::frameStarted(const Ogre::FrameEvent& evt)
 
 bool OgreDebugDrawer::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	mLines->beginUpdate(0);
-	mTriangles->beginUpdate(0);
+	// just incase end has not been called due to state switch
+	try {
+		mLines->end();
+		mTriangles->end();
+		mLines->beginUpdate(0);
+		mTriangles->beginUpdate(0);
+	}
+	catch (const Exception& e)
+	{
+		mLines->beginUpdate(0);
+		mTriangles->beginUpdate(0);
+	}
+	
 	return true;
 }
 

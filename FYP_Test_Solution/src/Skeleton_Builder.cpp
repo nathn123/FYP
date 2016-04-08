@@ -20,15 +20,17 @@ void Skeleton_Builder::SetDimensions(float NeckIncline, float TailIncline, float
 	mHeight = height;
 	mWidth = width;
 }
-void Skeleton_Builder::SetBodyType(LegType leg, ArmType arm, TorsoType torso)
+void Skeleton_Builder::SetBodyType(LegType leg, ArmType arm, TorsoType torso, NeckType neck, TailType tail)
 {
 	mLeg = leg;
 	mArm = arm;
 	mTorso = torso;
+	mNeck = neck;
+	mTail = tail;
 }
 bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 {
-	if (mLeg == LegType::None || mTorso == TorsoType::None1 || mHeight <= 10) // check to ensure all attribs required
+	if (mLeg == LegType::None || mHeight <= 10) // check to ensure all attribs required
 		return false;
 	
 	float neck_height;
@@ -44,11 +46,11 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 	// else torso 25% 
 	
 	
-	if (Upright())
+	if (IsUpright())
 	{
 		auto onepercent = mHeight / 100;
 		torso_height = onepercent * 40;
-		if (LongNeck())
+		if (IsLongNeck())
 		{
 			neck_height = onepercent * 40;
 			Leg_height = onepercent * 20;
@@ -63,7 +65,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 	{
 		auto onepercent = mHeight / 100;
 		torso_height = onepercent * 25;
-		if (LongNeck())
+		if (IsLongNeck())
 		{
 			neck_height = onepercent * 50;
 			Leg_height = onepercent * 25;
@@ -74,7 +76,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 			Leg_height = onepercent * 50;
 		}
 	}
-	if (LongTail())
+	if (IsLongTail())
 	{
 		auto onepercent = mHeight / 100;
 		tail_height = onepercent * 50;
@@ -100,7 +102,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 
 	//build the torso here
 
-	if (Upright())
+	if (IsUpright())
 	{
 		Bone* CentreTorso = new Bone();
 		Bone* TopTorso = new Bone();
@@ -182,50 +184,33 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 		ClearData();
 		return true;
 }
-bool Skeleton_Builder::Upright()
+bool Skeleton_Builder::IsUpright()
 {
-	if (mTorso == LongNeckShortTailUpright ||
-		mTorso == LongNeckLongTailUpright ||
-		mTorso == LongNeckNoTailUpright ||
-		mTorso == ShortNeckShortTailUpright ||
-		mTorso == ShortNeckLongTailUpright ||
-		mTorso == ShortNeckNoTailUpright)
+	if (mTorso == TorsoType::Upright)
 		return true;
 	return false;
 }
-bool Skeleton_Builder::LongNeck()
+bool Skeleton_Builder::IsLongNeck()
 {
-	if (mTorso == LongNeckShortTail ||
-		mTorso == LongNeckLongTail ||
-		mTorso == LongNeckNoTail ||
-		mTorso == LongNeckShortTailUpright ||
-		mTorso == LongNeckLongTailUpright ||
-		mTorso == LongNeckNoTailUpright)
+	if (mTorso == NeckType::LongNeck)
 		return true;
 	return false;
 }
-bool Skeleton_Builder::LongTail()
+bool Skeleton_Builder::IsLongTail()
 {
-	if (mTorso == LongNeckLongTail ||
-		mTorso == ShortNeckLongTail ||
-		mTorso == LongNeckLongTailUpright ||
-		mTorso == ShortNeckLongTailUpright )
+	if (mTail == TailType::LongTail)
 		return true;
 	return false;
 }
-bool Skeleton_Builder::ShortTail()
+bool Skeleton_Builder::IsShortTail()
 {
-	if (mTorso == LongNeckShortTail ||
-		mTorso == ShortNeckShortTail ||
-		mTorso == LongNeckShortTailUpright ||
-		mTorso == ShortNeckShortTailUpright)
+	if (mTail == TailType::ShortTail)
 		return true;
 	return false;
 }
 void Skeleton_Builder::ClearData()
 {
 	mLeg = LegType::None;
-	mTorso = TorsoType::None1;
 	mHeight = -1;
 	mBones.clear();
 	mConstraints.clear();

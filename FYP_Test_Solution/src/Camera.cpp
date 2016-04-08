@@ -35,9 +35,10 @@ Camera::~Camera()
 {
 	//mCameraNode->detachAllObjects();
 	if (mOwnCamera)
-		delete mCamera;
+		mSceneMgr->destroyCamera(mName);
 	mSceneMgr->destroySceneNode(mName);
 	mSceneMgr->destroySceneNode(mName + "_target");
+	
 }
 void Camera::setTightness(Ogre::Real tightness)
 {

@@ -62,21 +62,7 @@ bool App::Go()
 
 void App::Create_Scene()
 {
-	// Lights 
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2f, 0.2f, 0.2f));
-	Ogre::Light* L = mSceneMgr->createLight("MainLight");
-	L->setType(Ogre::Light::LT_DIRECTIONAL);
-	L->setDirection(-0.5, -0.5, 0);
-	//Camera
 
-	// create terrain
-	Ogre::Entity* FloorEnt;
-	Ogre::Plane FloorP;
-	FloorP.normal = Ogre::Vector3(0, 1, 0); FloorP.d = 0;
-	Ogre::MeshManager::getSingleton().createPlane("FloorPlane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, FloorP, 20000, 20000, 20, 20, true, 1, 9000, 900, Ogre::Vector3::UNIT_Z);
-	FloorEnt = mSceneMgr->createEntity("Floor", "FloorPlane");
-	FloorEnt->setMaterialName("Examples/BumpyMetal");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
 
 	Camera_FrameListener* camframe = new Camera_FrameListener(mSceneMgr,mWindow, "Maincam");
 	Physics_FrameListener* physicsframe = new Physics_FrameListener(mSceneMgr);

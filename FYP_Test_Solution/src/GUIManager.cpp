@@ -5,12 +5,9 @@ GUIManager::GUIManager()
 {
 	mInput = InputManager::getSingletonPtr();
 }
-
-
 GUIManager::~GUIManager()
 {
 }
-
 void GUIManager::Initialise()
 {
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
@@ -93,4 +90,3 @@ bool GUIManager::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id
 	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
 	return true;
 }
-

@@ -21,7 +21,7 @@ bool Physics_FrameListener::frameEnded(const Ogre::FrameEvent& evt)
 
 	if (key->isKeyDown(OIS::KC_P) && mToggleTime<=0)
 	{
-		mPhysics->BuildCharacter();
+		//mPhysics->BuildCharacter();
 		mToggleTime = 10.0f;
 	}
 	if (key->isKeyDown(OIS::KC_O) && mToggleTime <= 0)

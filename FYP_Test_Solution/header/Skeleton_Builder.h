@@ -22,24 +22,24 @@ public:
 	};
 	enum TorsoType
 	{
-		None1,
-		LongNeckShortTail,
-		LongNeckLongTail,
-		LongNeckNoTail,
-		ShortNeckShortTail,
-		ShortNeckLongTail,
-		ShortNeckNoTail,
-		LongNeckShortTailUpright,
-		LongNeckLongTailUpright,
-		LongNeckNoTailUpright,
-		ShortNeckShortTailUpright,
-		ShortNeckLongTailUpright,
-		ShortNeckNoTailUpright,
+		Upright,
+		Horizontal
+	};
+	enum NeckType
+	{
+		LongNeck,
+		ShortNeck
+	};
+	enum TailType
+	{
+		NoTail,
+		ShortTail,
+		LongTail
 	};
 	Skeleton_Builder(Ogre::SceneManager* scene, btDynamicsWorld* world);
 	~Skeleton_Builder();
 	void SetDimensions(float NeckIncline, float TailIncline, float height, float width);
-	void SetBodyType(LegType leg, ArmType arm, TorsoType torso);
+	void SetBodyType(LegType leg, ArmType arm, TorsoType torso,NeckType neck,TailType tail);
 	bool BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos);
 
 
@@ -51,16 +51,18 @@ private: // this is only used by the class
 	bool BuildNeck(float neck_width, float neck_height, float torso_height);
 	bool BuildLeg(float leg_width, float leg_height, float torso_width, float torso_height);
 	bool BuildTail(float tail_width, float tail_height);
-	bool Upright();
-	bool LongNeck();
-	bool LongTail();
-	bool ShortTail();
+	bool IsUpright();
+	bool IsLongNeck();
+	bool IsLongTail();
+	bool IsShortTail();
 	void ClearData();
 
 
 	LegType mLeg;
 	ArmType mArm;
 	TorsoType mTorso;
+	NeckType mNeck;
+	TailType mTail;
 	Bone* mShouldernode,*mHipNode;
 	float mNeckIncline;
 	float mTailIncline;

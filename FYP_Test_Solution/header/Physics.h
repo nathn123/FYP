@@ -11,7 +11,7 @@ public:
 	Physics(Ogre::SceneManager* sceneMgr);
 	~Physics();
 	bool BuildCourse(std::string filename); // possible xml based courses
-	bool BuildCharacter();
+	bool BuildCharacter(Skeleton_Builder::TorsoType Torso, Skeleton_Builder::ArmType Arm, Skeleton_Builder::LegType Leg,Skeleton_Builder::NeckType Neck, Skeleton_Builder::TailType Tail, float height, float width, float neckincline, float tailincline, Ogre::Vector3 Position);
 	bool TestBone();
 	bool TestLimb();
 	void TestUpdate();
