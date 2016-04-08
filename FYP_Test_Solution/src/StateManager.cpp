@@ -34,9 +34,9 @@ void StateManager::start(State* state)
 	setupResources();
 	mRoot->addFrameListener(this);
 	mGui = new GUIManager();
-	mGui->Initialise();
 	mInput = InputManager::getSingletonPtr();
 	mInput->initialise(mRW);
+	mGui->Initialise();
 	//mInput->addKeyListener(mInput, "default");
 	//mInput->addMouseListener(mInput, "default");
 	changeState(state);

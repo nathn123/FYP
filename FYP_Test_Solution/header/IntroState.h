@@ -17,11 +17,15 @@ public:
 private:
 
 	IntroState();
+	void Exit();
+	void GoToGame();
 
 	Ogre::Root* mRoot;
 	Ogre::SceneManager* mScenMgr;
 	Ogre::Viewport* mView;
 	GUIManager* mGui;
+	CEGUI::Window* mGuiRoot;
+	std::vector<CEGUI::Window*> mGuiObjects;
 	InputManager* mInput;
 	Camera* mCam;
 	bool mExit;
