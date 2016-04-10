@@ -25,26 +25,7 @@ Physics::Physics(Ogre::SceneManager* sceneMgr)
 	// add ground
 	//viusal representation ogre
 	// Lights 
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2f, 0.2f, 0.2f));
-	Ogre::Light* L = mSceneMgr->createLight("MainLight");
-	L->setType(Ogre::Light::LT_DIRECTIONAL);
-	L->setDirection(-0.5, -0.5, 0);
-	L->setDiffuseColour(Ogre::ColourValue::White);
-	L->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
 	// create terrain
-	Ogre::Entity* FloorEnt;
-	Ogre::Plane FloorP(Ogre::Vector3::UNIT_Y,0);
-	
-	Ogre::MeshManager::getSingleton().createPlane("FloorPlane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, FloorP, 1500, 1500, 20, 20,
-		true,
-		1, 5, 5,
-		Ogre::Vector3::UNIT_Z);
-	FloorEnt = mSceneMgr->createEntity("FloorPlane");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
-	FloorEnt->setCastShadows(false);
-	FloorEnt->setMaterialName("Dirt.jpg");
-	
-
 	//physics representation
 	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
 	btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
@@ -64,11 +45,13 @@ Physics::~Physics()
 	delete collisionConfiguration;
 	delete broadphase;
 }
-bool Physics::BuildCharacter(Skeleton_Builder::TorsoType Torso, Skeleton_Builder::ArmType Arm, Skeleton_Builder::LegType Leg, Skeleton_Builder::NeckType Neck, Skeleton_Builder::TailType Tail, float height, float width, float neckincline, float tailincline, Ogre::Vector3 Position)
+bool Physics::BuildCharacter(Skeleton_Builder::TorsoType Torso, Skeleton_Builder::ArmType Arm, Skeleton_Builder::LegType Leg, Skeleton_Builder::NeckType Neck, Skeleton_Builder::TailType Tail,
+							float height, float width, float neckincline, float tailincline, bool hideArms,bool hideLegs,bool hideNeck, bool hasMuscle, bool Fixed, Ogre::Vector3 Position)
 {
 	Skeleton* skel = new Skeleton();
 	mBuilder->SetDimensions(neckincline,tailincline,height,width);
-	mBuilder->SetBodyType(Leg,Arm,Torso,Neck,Tail);
+	mBuilder->SetHidden(hideArms, hideLegs, hideNeck);
+	mBuilder->SetBodyType(Leg,Arm,Torso,Neck,Tail,hasMuscle,Fixed);
 	return mBuilder->BuildSkeleton(*skel, Position);
 }
 bool Physics::TestBone()

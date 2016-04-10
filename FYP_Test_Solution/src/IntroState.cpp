@@ -9,10 +9,9 @@ void IntroState::enter()
 {
 	mInput = InputManager::getSingletonPtr();
 	mRoot = Ogre::Root::getSingletonPtr();
-	if (!mRoot->hasSceneManager("IntroSceneMgr"))
-		mScenMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "IntroSceneMgr");
-	else
-		mScenMgr = mRoot->getSceneManager("IntroSceneMgr");
+	if (mRoot != StateManager::getSingletonPtr()->GetRoot())
+		return;
+	mScenMgr = mRoot->getSceneManager("Scene");
 	if (mScenMgr->hasCamera("IntroCam"))
 		mCam = new Camera("IntroCam", mScenMgr, mRoot->getAutoCreatedWindow(), mScenMgr->getCamera("IntroCam"));
 	else
@@ -29,7 +28,7 @@ void IntroState::enter()
 void IntroState::exit()
 {
 	mCam->~Camera();
-	mScenMgr->clearScene();
+	//mScenMgr->clearScene();
 	mRoot->getAutoCreatedWindow()->removeAllViewports();
 }
 void IntroState::pause()

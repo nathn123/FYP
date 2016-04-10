@@ -39,7 +39,8 @@ public:
 	Skeleton_Builder(Ogre::SceneManager* scene, btDynamicsWorld* world);
 	~Skeleton_Builder();
 	void SetDimensions(float NeckIncline, float TailIncline, float height, float width);
-	void SetBodyType(LegType leg, ArmType arm, TorsoType torso,NeckType neck,TailType tail);
+	void SetBodyType(LegType leg, ArmType arm, TorsoType torso,NeckType neck,TailType tail,bool hasmuscle, bool fixed);
+	void SetHidden(bool arm, bool leg, bool neck);
 	bool BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos);
 
 
@@ -68,6 +69,7 @@ private: // this is only used by the class
 	float mTailIncline;
 	float mHeight;
 	float mWidth;
+	bool mHidearms, mHideneck, mHidelegs, mFixed, mHasMuscle;
 	Bone_Builder* mBuilder;
 	Muscle_Builder* mMuscleBuilder;
 	Ogre::SceneManager* mSceneMgr;

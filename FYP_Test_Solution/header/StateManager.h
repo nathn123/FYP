@@ -16,6 +16,8 @@ public:
 	void changeState(State* state);
 	void pushState(State* state);
 	void popState();
+	Ogre::Root* GetRoot();
+	
 
 	void Initialise();
 private:
@@ -24,12 +26,14 @@ private:
 	bool frameEnded(const Ogre::FrameEvent& evt);
 	void setupResources();
 	bool configure();
+	void CreateScene();
 	//variables
 	InputManager* mInput;
 	Ogre::String mPluginsCfg;
 	Ogre::String mResourcesCfg;
 	Ogre::Root* mRoot;
 	Ogre::RenderWindow* mRW;
+	Ogre::SceneManager* mSceneMgr;
 	GUIManager* mGui;
 	std::vector<State*> mStates;
 };

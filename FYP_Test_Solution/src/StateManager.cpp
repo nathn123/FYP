@@ -18,6 +18,10 @@ StateManager::~StateManager()
 	if (mRoot)
 		delete mRoot;
 }
+Ogre::Root* StateManager::GetRoot()
+{
+	return mRoot;
+}
 void StateManager::start(State* state)
 {
 #ifdef _DEBUG
@@ -29,6 +33,8 @@ void StateManager::start(State* state)
 #endif
 	// construct ogre root
 	mRoot = new Ogre::Root(mPluginsCfg);
+	if (mRoot != Ogre::Root::getSingletonPtr())
+		return;
 	if (!configure())
 		return;
 	setupResources();
@@ -94,6 +100,34 @@ void StateManager::setupResources()
 			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
 		}
 	}
+	// set default mipmap level
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	//initialise all resource groups
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	// create the SceneManager
+	mSceneMgr = mRoot->createSceneManager("DefaultSceneManager","Scene");
+	CreateScene();
+}
+void StateManager::CreateScene()
+{
+	
+	// Lights 
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2f, 0.2f, 0.2f));
+	Ogre::Light* L = mSceneMgr->createLight("MainLight");
+	L->setType(Ogre::Light::LT_DIRECTIONAL);
+	L->setDirection(-0.5, -0.5, 0);
+	//Camera
+
+	// create terrain
+	Ogre::Entity* FloorEnt;
+	Ogre::Plane FloorP;
+	FloorP.normal = Ogre::Vector3(0, 1, 0); FloorP.d = 0;
+	Ogre::MeshManager::getSingleton().createPlane("FloorPlane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, FloorP, 20000, 20000, 20, 20, true, 1, 9000, 900, Ogre::Vector3::UNIT_Z);
+	FloorEnt = mSceneMgr->createEntity("Floor", "FloorPlane");
+	FloorEnt->setMaterialName("Examples/BumpyMetal");
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(FloorEnt);
+	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+
 }
 bool StateManager::configure()
 {

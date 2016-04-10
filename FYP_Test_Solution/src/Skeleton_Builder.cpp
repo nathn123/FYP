@@ -12,6 +12,13 @@ Skeleton_Builder::Skeleton_Builder(Ogre::SceneManager* scene,btDynamicsWorld* wo
 }
 Skeleton_Builder::~Skeleton_Builder()
 {
+	
+}
+void Skeleton_Builder::SetHidden(bool arm, bool leg, bool neck)
+{
+	mHidearms = arm;
+	mHidelegs = leg;
+	mHideneck = neck;
 }
 void Skeleton_Builder::SetDimensions(float NeckIncline, float TailIncline, float height, float width)
 {
@@ -20,8 +27,10 @@ void Skeleton_Builder::SetDimensions(float NeckIncline, float TailIncline, float
 	mHeight = height;
 	mWidth = width;
 }
-void Skeleton_Builder::SetBodyType(LegType leg, ArmType arm, TorsoType torso, NeckType neck, TailType tail)
+void Skeleton_Builder::SetBodyType(LegType leg, ArmType arm, TorsoType torso, NeckType neck, TailType tail, bool hasmuscle, bool Fixed)
 {
+	mHasMuscle = hasmuscle;
+	mFixed = Fixed;
 	mLeg = leg;
 	mArm = arm;
 	mTorso = torso;
@@ -101,10 +110,10 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 	neck_width = onepercentW * 35;
 
 	//build the torso here
-
+	Bone* CentreTorso = new Bone();
 	if (IsUpright())
 	{
-		Bone* CentreTorso = new Bone();
+		
 		Bone* TopTorso = new Bone();
 		Bone* BotTorso = new Bone();
 		//build 3 torso pieces
@@ -140,7 +149,7 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 		SetJointTransform(TransA, TransB, Utils::OgreBTVector(BotTorso->GetNode()->_getDerivedPosition() + (torsoPiece_height / 2)), CentreTorso->GetNode()->_getDerivedPosition(), BotTorso->GetNode()->_getDerivedPosition(), btVector3(0, btScalar(M_PI_4), 0));
 		btSliderConstraint* BotSpine = new btSliderConstraint(*CentreTorso->GetRigidBody(), *BotTorso->GetRigidBody(), TransB, TransA, false);
 
-		CentreTorso->GetRigidBody()->setMassProps(0, btVector3(0, 0, 0));
+		
 		mConstraints.push_back(TopSpine);
 		mConstraints.push_back(BotSpine);
 		
@@ -154,18 +163,23 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 		if (!mBuilder->BuildBone(*CentreTorso,Bone::BoneType::HipShoulder))
 			return false;
 		mBones.push_back(CentreTorso);
-		CentreTorso->GetRigidBody()->setMassProps(0, btVector3(0, 0, 0));
+		
 		mShouldernode = CentreTorso;
 		mHipNode = CentreTorso;
 	}
+	if (mFixed)
+		CentreTorso->GetRigidBody()->setMassProps(0, btVector3(0, 0, 0));
 
 	//if (!BuildArm(Arm_width, Leg_height, torso_width) || !BuildNeck(neck_width, neck_height, torso_height) || !BuildLeg(Leg_width, Leg_height, torso_width, torso_height))
 	//	return false;
-	if (!BuildArm(Arm_width, Leg_height, torso_width))
-		return false;
-	if (!BuildNeck(neck_width, neck_height, torso_height))
-		return false;
-	if (!BuildLeg(Leg_width, Leg_height, torso_width, torso_height))
+	if (!mHidearms)
+		if (!BuildArm(Arm_width, Leg_height, torso_width))
+			return false;
+	if (!mHideneck)
+		if (!BuildNeck(neck_width, neck_height, torso_height))
+			return false;
+	if (!mHidelegs)
+		if (!BuildLeg(Leg_width, Leg_height, torso_width, torso_height))
 		return false;
 
 	//if (ShortTail() || LongTail())

@@ -9,17 +9,19 @@ void GameState::enter()
 {
 	mInput = InputManager::getSingletonPtr();
 	mRoot = Ogre::Root::getSingletonPtr();
-	if (!mRoot->hasSceneManager("GameSceneMgr"))
-		mScenMgr = mRoot->createSceneManager(Ogre::ST_GENERIC, "GameSceneMgr");
-	else
-		mScenMgr = mRoot->getSceneManager("GameSceneMgr");
+	if (mRoot != StateManager::getSingletonPtr()->GetRoot())
+		return;
+	mScenMgr = mRoot->getSceneManager("Scene");
 	if (mScenMgr->hasCamera("GameCam"))
 		mCam = new Camera("GameCam", mScenMgr, mRoot->getAutoCreatedWindow(), mScenMgr->getCamera("GameCam"));
 	else
 		mCam = new Camera("GameCam", mScenMgr, mRoot->getAutoCreatedWindow());
-	mCam->getOgreCam()->getViewport()->setBackgroundColour(Ogre::ColourValue::Green);
+	mCam->getOgreCam()->getViewport()->setBackgroundColour(Ogre::ColourValue::Black);
 	mGui = GUIManager::getSingleton();
 	mPhysics = new Physics(mScenMgr);
+
+
+
 	mExit = false;
 	if (!CEGUI::FontManager::getSingleton().isDefined("DejaVuSans-10"))
 		CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
@@ -105,8 +107,8 @@ void GameState::exit()
 {
 	
 	mCam->~Camera();
-	mScenMgr->clearScene();
-	mScenMgr->destroyAllCameras();
+	//mScenMgr->clearScene();
+	//mScenMgr->destroyAllCameras();
 	delete mPhysics;
 	mRoot->getAutoCreatedWindow()->removeAllViewports();
 }
@@ -234,7 +236,17 @@ void GameState::BuildSkeleton()
 		Neck = Skeleton_Builder::NeckType::LongNeck;
 
 	auto Position = Ogre::Vector3(std::stof(Xbox->getText().c_str()), std::stof(Ybox->getText().c_str()), std::stof(Zbox->getText().c_str()));
-	mPhysics->BuildCharacter(Torso, Arm, Leg,Neck,Tail, std::stof(heightbox->getText().c_str()), std::stof(widthbox->getText().c_str()), std::stof(neckbox->getText().c_str()), std::stof(tailbox->getText().c_str()), Position);
+	mPhysics->BuildCharacter(Torso, Arm, Leg,Neck,Tail,
+		std::stof(heightbox->getText().c_str()),
+		std::stof(widthbox->getText().c_str()),
+		std::stof(neckbox->getText().c_str()),
+		std::stof(tailbox->getText().c_str()),
+		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Hide Arm/Checkbox"))->isSelected(),
+		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Hide Leg/Checkbox"))->isSelected(),
+		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Hide Neck/Checkbox"))->isSelected(),
+		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Has Muscles/Checkbox"))->isSelected(),
+		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Is Fixed/Checkbox"))->isSelected(),
+		Position);
 }
 void GameState::HideSettings()
 {
