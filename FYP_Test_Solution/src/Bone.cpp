@@ -8,7 +8,7 @@ Bone::Bone(Ogre::ManualObject* newbone,Bone::BoneType type, Ogre::Vector3 RelPos
 {
 	mNode = parent->createChildSceneNode(RelPos, RelRot);
 	mType = type;
-	//mNode->attachObject(newbone);
+	mNode->attachObject(newbone);
 	mCollider = new btBoxShape(Utils::OgreBTVector(newbone->getBoundingBox().getHalfSize()));
 	mMotionState = new MotionState(mNode);
 	mMuscleAttachments = MuscleAttachments;

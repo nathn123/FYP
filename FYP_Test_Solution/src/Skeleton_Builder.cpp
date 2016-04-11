@@ -9,6 +9,7 @@ Skeleton_Builder::Skeleton_Builder(Ogre::SceneManager* scene,btDynamicsWorld* wo
 	mSceneMgr = scene;
 	mWorld = world;
 	mBuilder = new Bone_Builder(mSceneMgr, mWorld);
+	mMuscleBuilder = new Muscle_Builder(mSceneMgr, mWorld);
 }
 Skeleton_Builder::~Skeleton_Builder()
 {
@@ -139,17 +140,25 @@ bool Skeleton_Builder::BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos)
 		mBones.push_back(CentreTorso);
 		mBones.push_back(TopTorso);
 		mBones.push_back(BotTorso);
+		//add muscles
+		mMuscleBuilder->CreateMuscle(CentreTorso, TopTorso, mMuscles);
+		mMuscleBuilder->CreateMuscle(CentreTorso, BotTorso, mMuscles);
 
 		btTransform TransA;
 		btTransform TransB;
-		//add constraints
+		/*add constraints*/
 		SetJointTransform(TransA, TransB, Utils::OgreBTVector(CentreTorso->GetNode()->_getDerivedPosition() + (torsoPiece_height / 2)), TopTorso->GetNode()->_getDerivedPosition(), CentreTorso->GetNode()->_getDerivedPosition(), btVector3(0, btScalar(M_PI_4), 0));
 		btSliderConstraint* TopSpine = new btSliderConstraint(*TopTorso->GetRigidBody(),*CentreTorso->GetRigidBody(), TransB, TransA, false);
-
+		TopSpine->setLowerAngLimit(-M_PI_4 / 2);
+		TopSpine->setUpperAngLimit(M_PI_4 /2);
+		TopSpine->setLowerLinLimit(-2);
+		TopSpine->setUpperLinLimit(2);
 		SetJointTransform(TransA, TransB, Utils::OgreBTVector(BotTorso->GetNode()->_getDerivedPosition() + (torsoPiece_height / 2)), CentreTorso->GetNode()->_getDerivedPosition(), BotTorso->GetNode()->_getDerivedPosition(), btVector3(0, btScalar(M_PI_4), 0));
 		btSliderConstraint* BotSpine = new btSliderConstraint(*CentreTorso->GetRigidBody(), *BotTorso->GetRigidBody(), TransB, TransA, false);
-
-		
+		BotSpine->setLowerAngLimit(-M_PI_4 / 2);
+		BotSpine->setUpperAngLimit(M_PI_4 / 2);
+		BotSpine->setLowerLinLimit(-2);
+		BotSpine->setUpperLinLimit(2);
 		mConstraints.push_back(TopSpine);
 		mConstraints.push_back(BotSpine);
 		
@@ -327,6 +336,13 @@ bool Skeleton_Builder::BuildArm(float arm_Width, float arm_height, float torso_w
 		mBones.push_back(RUpperArm);
 		mBones.push_back(LLowerArm);
 		mBones.push_back(RLowerArm);
+		if (mHasMuscle)
+		{
+			mMuscleBuilder->CreateMuscle(mShouldernode, LUpperArm, mMuscles);
+			mMuscleBuilder->CreateMuscle(LUpperArm, LLowerArm, mMuscles);
+			mMuscleBuilder->CreateMuscle(mShouldernode, RUpperArm, mMuscles);
+			mMuscleBuilder->CreateMuscle(RUpperArm, RLowerArm, mMuscles);
+		}
 		//add joints
 		btTransform localA, localB;
 		Ogre::Vector3 offset;
@@ -337,10 +353,12 @@ bool Skeleton_Builder::BuildArm(float arm_Width, float arm_height, float torso_w
 		SetJointTransform(localA, localB, Utils::OgreBTVector(mShouldernode->GetNode()->_getDerivedPosition() + offset), mShouldernode->GetNode()->_getDerivedPosition(), LUpperArm->GetNode()->_getDerivedPosition(), btVector3(-btScalar(M_PI), 0, 0));
 		btConeTwistConstraint* LshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(), *LUpperArm->GetRigidBody(), localA, localB);
 		LshoulderConst->setLimit(btScalar(M_PI_2), btScalar(M_PI_2), 0);
+		LshoulderConst->setAngularOnly(true);
+
 		SetJointTransform(localA, localB, Utils::OgreBTVector(mShouldernode->GetNode()->_getDerivedPosition() - offset), mShouldernode->GetNode()->_getDerivedPosition(), RUpperArm->GetNode()->_getDerivedPosition(), btVector3(-btScalar(M_PI), 0, 0));
 		btConeTwistConstraint* RshoulderConst = new btConeTwistConstraint(*mShouldernode->GetRigidBody(), *RUpperArm->GetRigidBody(), localA, localB);
 		RshoulderConst->setLimit(btScalar(M_PI_2), btScalar(M_PI_2), 0);
-
+		RshoulderConst->setAngularOnly(true);
 		//offset = Ogre::Vector3(0, arm_height / 4, 0);
 
 		SetJointTransform(localA, localB, Utils::OgreBTVector(LUpperArm->GetNode()->_getDerivedPosition() - offset), LUpperArm->GetNode()->_getDerivedPosition(), LLowerArm->GetNode()->_getDerivedPosition(), btVector3(0, btScalar(M_PI_2), 0));
@@ -386,6 +404,13 @@ bool Skeleton_Builder::BuildNeck(float neck_width, float neck_height, float tors
 	mBuilder->SetRelativePosition(Ogre::Vector3(0, neck_height / 4, 0), neckrotation, *MNeck->GetNode());
 	if (!mBuilder->BuildBone(*UNeck, Bone::BoneType::Neck))
 		return false;
+	if (mHasMuscle)
+	{
+		mMuscleBuilder->CreateMuscle(mShouldernode, LLNeck, mMuscles);
+		mMuscleBuilder->CreateMuscle(LLNeck, LNeck, mMuscles);
+		mMuscleBuilder->CreateMuscle(LNeck, MNeck, mMuscles);
+		mMuscleBuilder->CreateMuscle(MNeck, UNeck, mMuscles);
+	}
 	
 	//add joints
 	btTransform localA, localB;
@@ -488,6 +513,16 @@ bool Skeleton_Builder::BuildLeg(float leg_width, float leg_height, float torso_w
 	mBones.push_back(RLowerLeg);
 	mBones.push_back(LFoot);
 	mBones.push_back(RFoot);
+	if (mHasMuscle)
+	{
+		mMuscleBuilder->CreateMuscle(mHipNode, LUpperLeg, mMuscles);
+		mMuscleBuilder->CreateMuscle(LUpperLeg, LLowerLeg, mMuscles);
+		mMuscleBuilder->CreateMuscle(LLowerLeg, LFoot, mMuscles);
+
+		mMuscleBuilder->CreateMuscle(mHipNode, RUpperLeg, mMuscles);
+		mMuscleBuilder->CreateMuscle(RUpperLeg, RLowerLeg, mMuscles);
+		mMuscleBuilder->CreateMuscle(RLowerLeg, RFoot, mMuscles);
+	}
 	//add joints
 	Ogre::Vector3 offset;
 	btTransform localA, localB;
@@ -550,7 +585,13 @@ bool Skeleton_Builder::BuildTail(float tail_width, float tail_height)
 	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height / 4, 0), neckrotation, *MTail->GetNode());
 	if (!mBuilder->BuildBone(*UTail, Bone::BoneType::Tail))
 		return false;
-
+	if (mHasMuscle)
+	{
+		mMuscleBuilder->CreateMuscle(mHipNode, LLTail, mMuscles);
+		mMuscleBuilder->CreateMuscle(LLTail, LTail, mMuscles);
+		mMuscleBuilder->CreateMuscle(LTail, MTail, mMuscles);
+		mMuscleBuilder->CreateMuscle(MTail, UTail, mMuscles);
+	}
 	return true;
 }
 void Skeleton_Builder::SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3& JointPosWorld, Ogre::Vector3 boneA, Ogre::Vector3 boneB, btVector3& Axis)

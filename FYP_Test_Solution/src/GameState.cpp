@@ -34,7 +34,6 @@ void GameState::enter()
 	checkbox->setSelected(true);
 	mGUIRoot->getChild("skeleton Setting/Checkbox")->subscribeEvent(CEGUI::ToggleButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&GameState::HideSettings, this));
 	// add the drop box options
-
 	CEGUI::Combobox* ArmList = static_cast<CEGUI::Combobox*>(mGUIRoot->getChild("Settings Box/Arm Combobox"));
 	ArmList->setReadOnly(true);
 	ArmList->setSelection(0, 10);

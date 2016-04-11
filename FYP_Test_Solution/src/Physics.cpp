@@ -94,9 +94,8 @@ void Physics::TestUpdate()
 }
 void Physics::Update(Ogre::Real frametime, bool step)
 {
-	auto test = mWorld->getDebugDrawer()->getDebugMode();
 	if (step)
-		mWorld->stepSimulation(0.001f);
+		mWorld->stepSimulation(frametime);
 
 	mWorld->debugDrawWorld();
 }

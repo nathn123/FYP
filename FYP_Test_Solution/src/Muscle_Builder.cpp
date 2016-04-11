@@ -299,7 +299,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		// B and C connected via Slider, to simulate contraction
 
 		// calculate WORLD position of pointmass
-		pointmasspositon = AttachmentA + AttachmentA.normalized() * 5; 
+		pointmasspositon = AttachmentA + (AttachmentC - AttachmentA).normalized() * (AttachmentC.distance(AttachmentA) * 0.05f);
 		
 		
 		MyKinematicMotionState* state = new MyKinematicMotionState(btTransform(btQuaternion(0, 0, 0), pointmasspositon));
@@ -313,16 +313,13 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 
 		SetMuscleTransform(transformA, transformB, AttachmentA, pointmasspositon);
 
-		auto Tendon = new btGeneric6DofConstraint(*BodyA, *BodyB, transformA, transformB, true);
+		auto Tendon = new btSliderConstraint(*BodyA, *BodyB, transformA, transformB, true);
 		//LOCK THE CONSTRAINT
 		btVector3 anglow, linlow, linupp;
-		Tendon->getAngularLowerLimit(anglow);
 		//Tendon->setAngularUpperLimit(anglow);// should lock angular limits
-		Tendon->setLinearLowerLimit((pointmasspositon - AttachmentA)*0.06f); // distance between point mass and bone
+		Tendon->setLowerLinLimit((pointmasspositon).distance(AttachmentA)*0.06f); // distance between point mass and bone
 		// need a directional vector from pointmass to attachmentC
-		Tendon->setLinearUpperLimit((pointmasspositon - AttachmentC)*0.06f);
-		Tendon->getLinearLowerLimit(linlow);
-		Tendon->getLinearUpperLimit(linupp);
+		Tendon->setUpperLinLimit((pointmasspositon).distance(AttachmentC)*0.06f);
 		auto test = Tendon->getDbgDrawSize();
 		Tendon->setDbgDrawSize(btScalar(10.0f));
 		test = Tendon->getDbgDrawSize();
@@ -340,9 +337,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		SlinUp = Musclepart->getUpperLinLimit();
 
 		auto muscledist = pointmasspositon.distance(AttachmentC);
-		muscledist /= 2; // half width
-		muscledist /= 10; // 1% of dist
-		muscledist *= 3; // 3& of dist
+		muscledist *= 0.03f; // 3& of dist
 		// can move 3% in either direction i.e 6% total
 		Musclepart->setUpperLinLimit(muscledist);
 		Musclepart->setLowerLinLimit(-muscledist);

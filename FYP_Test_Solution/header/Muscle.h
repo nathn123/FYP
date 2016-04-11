@@ -9,7 +9,7 @@
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
 	Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
-		btGeneric6DofConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state);
+		btSliderConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state);
 	~Muscle();
 	float ForceLength(float ContractileLength);
 	float ForceVelocity(float ContractileVelocity);
@@ -37,7 +37,7 @@ private:
 	float mTotalForce;
 	float mActivationState;
 	MyKinematicMotionState* mPointMassState;
-	btGeneric6DofConstraint* mTendon;
+	btSliderConstraint* mTendon;
 	btSliderConstraint* mMuscle;
 	btRigidBody* mBodyA, *mBodyB, *mBodyC;
 	btVector3 mAttachmentPointA, mAttachmentPointC;

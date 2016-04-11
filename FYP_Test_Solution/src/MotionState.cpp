@@ -28,6 +28,6 @@ void MotionState::setWorldTransform(const btTransform& worldTrans)
 {
 	if (mNode == nullptr)
 		return; // do nothing if no node attached
-	mNode->setOrientation(Utils::BTOgreQuat(worldTrans.getRotation()));
-	mNode->setPosition(Utils::BTOgreVector(worldTrans.getOrigin()));
+	mNode->setPosition(mNode->convertWorldToLocalPosition(Utils::BTOgreVector(worldTrans.getOrigin())));
+	mNode->setOrientation(mNode->convertWorldToLocalOrientation(Utils::BTOgreQuat(worldTrans.getRotation())));
 }

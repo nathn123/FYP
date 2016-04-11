@@ -6,7 +6,7 @@
 
 
 Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
-	btGeneric6DofConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state)
+	btSliderConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state)
 {
 	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointC));//muscle/ slider dist 
 	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointA));//tendon dist
@@ -93,7 +93,6 @@ void Muscle::Update(float dt)
 	// calculate the contractile length
 	
 	mParallelLength = abs(mBodyC->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
-	
 	mSerialLength = abs(mBodyA->getCenterOfMassPosition().distance(mBodyB->getCenterOfMassPosition()));
 	// calculate the contractile velocity
 	//velocity = displacement/time
@@ -109,7 +108,7 @@ void Muscle::Update(float dt)
 	mBodyC->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointC);
 	Muscleaxisinworld = mBodyB->getWorldTransform().getBasis() * mMuscle->getFrameOffsetB().getBasis().getColumn(2);
 	//force applied to this 
-	mBodyB->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointA);
+	mBodyB->applyCentralForce(Muscleaxisinworld * mTotalForce);
 	mPrevParallelLength = mParallelLength;
 	mPrevSerialLength = mSerialLength;
 
@@ -121,7 +120,7 @@ void Muscle::Update(float dt)
 	neworigin = newstate.getOrigin();
 	float moveamount;
 	if (mActivationState != 0)
-		 moveamount = ((FSER - FPAS) / (mActivationState * mForceMax *mForceLength)); // reduce the move amount per tick to increase stability
+		 moveamount = ((FSER - FPAS) / FCON); // reduce the move amount per tick to increase stability
 	else
 		moveamount = 0;
 	//get the relative attachment point position
