@@ -1,6 +1,6 @@
 #include "..\header\IntroState.h"
 #include "..\header\GameState.h"
-
+#include "TestState.h"
 IntroState IntroState::mIntrostate;
 IntroState::IntroState()
 {
@@ -19,7 +19,6 @@ void IntroState::enter()
 	mCam->getOgreCam()->getViewport()->setBackgroundColour(Ogre::ColourValue::Red);
 	mGui = GUIManager::getSingleton();
 	mExit = false;
-	auto state = GameState::getState();
 	// set up the GUI
 	mGuiRoot = mGui->LoadGUIsheet("IntroMenuLayout.layout");
 	mGuiRoot->getChild("Quit")->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::Exit, this));
@@ -40,10 +39,13 @@ void IntroState::resume()
 bool IntroState::frameStarted(const Ogre::FrameEvent& evt)
 {
 	mInput->capture();
-	//auto key = mInput->getKeyboard();
-	//auto mouse = mInput->getMouse()->getMouseState();
-	//if (key->isKeyDown(OIS::KC_SPACE))
-	//	changeState(GameState::getState());
+	auto key = mInput->getKeyboard();
+	auto mouse = mInput->getMouse()->getMouseState();
+	if (key->isKeyDown(OIS::KC_SPACE))
+	{
+		mGuiRoot->destroy();
+		changeState(TestState::getState());
+	}
 	//if (key->isKeyDown(OIS::KC_ESCAPE))
 	//	mExit = true;
 	return true;

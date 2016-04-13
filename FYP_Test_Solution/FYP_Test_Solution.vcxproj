@@ -100,6 +100,7 @@
     <ClCompile Include="src\Skeleton_Builder.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
+    <ClCompile Include="src\TestState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="header\Skeleton_Builder.h" />
     <ClInclude Include="header\State.h" />
     <ClInclude Include="header\StateManager.h" />
+    <ClInclude Include="header\TestState.h" />
     <ClInclude Include="header\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

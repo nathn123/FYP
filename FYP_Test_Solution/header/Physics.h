@@ -12,14 +12,15 @@ public:
 	~Physics();
 	bool BuildCourse(std::string filename); // possible xml based courses
 	bool BuildCharacter(Skeleton_Builder::TorsoType Torso, Skeleton_Builder::ArmType Arm, Skeleton_Builder::LegType Leg,Skeleton_Builder::NeckType Neck, Skeleton_Builder::TailType Tail,
-		float height, float width, float neckincline, float tailincline, bool hideArms, bool hideLegs, bool hideNeck, bool hasMuscle, bool Fixed, Ogre::Vector3 Position);
+		float height, float width, float depth, float neckincline, float tailincline, bool hideArms, bool hideLegs, bool hideNeck, bool hasMuscle, bool Fixed, Ogre::Vector3 Position);
 	bool TestBone();
-	bool TestLimb();
+	bool TestLimb(char constrainttype);
 	void TestUpdate();
 	//bool AddSkeleton(Skeleton* skel);
 	void Update(Ogre::Real frametime, bool step);
 
 	std::vector<Muscle*> mMuscles;
+	btRigidBody* mTestBody;
 
 private:
 	Ogre::SceneManager* mSceneMgr;
@@ -27,12 +28,12 @@ private:
 	
 	OgreDebugDrawer* mDrawer;
 	Bone_Builder*mBoneBuilder;
-	btDynamicsWorld *mWorld;	// OgreBullet World
+	btDynamicsWorld *mWorld;	// Bullet World
 	btBroadphaseInterface* broadphase;
 	btDefaultCollisionConfiguration* collisionConfiguration;
 	btCollisionDispatcher* dispatcher;
 	btSequentialImpulseConstraintSolver* solver;
-	std::deque<btRigidBody *>         mBodies;
+	std::deque<btRigidBody *> mBodies;
 	std::deque<btCollisionShape *>  mShapes;
 };
 

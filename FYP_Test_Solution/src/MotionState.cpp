@@ -10,8 +10,7 @@ MotionState::MotionState(const btTransform &initialPosition, Ogre::SceneNode* no
 MotionState::MotionState(Ogre::SceneNode* node)
 {
 	mNode = node;
-	mInitialPosition = btTransform(Utils::OgreBTQuat(mNode->_getDerivedOrientation()),
-								Utils::OgreBTVector(mNode->_getDerivedPosition()));
+	mInitialPosition = Utils::OgreNodeBtTransform(mNode);
 }
 MotionState::~MotionState()
 {

@@ -38,20 +38,18 @@ public:
 	};
 	Skeleton_Builder(Ogre::SceneManager* scene, btDynamicsWorld* world);
 	~Skeleton_Builder();
-	void SetDimensions(float NeckIncline, float TailIncline, float height, float width);
+	void SetDimensions(float NeckIncline, float TailIncline, float height, float width, float depth);
 	void SetBodyType(LegType leg, ArmType arm, TorsoType torso,NeckType neck,TailType tail,bool hasmuscle, bool fixed);
 	void SetHidden(bool arm, bool leg, bool neck);
 	bool BuildSkeleton(Skeleton& newSkel, Ogre::Vector3 pos);
 
-
-	static void SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3& JointPosWorld, Ogre::Vector3 boneA, Ogre::Vector3 boneB, btVector3& Axis);
-
+	void Skeleton_Builder::SetJointTransform(btTransform& TransformA, btTransform& TransformB, btVector3& JointPosWorld, Bone* boneA, Bone* boneB, btVector3& Axis);
 
 private: // this is only used by the class
 	bool BuildArm(float arm_Width, float arm_height, float torso_width);
 	bool BuildNeck(float neck_width, float neck_height, float torso_height);
 	bool BuildLeg(float leg_width, float leg_height, float torso_width, float torso_height);
-	bool BuildTail(float tail_width, float tail_height);
+	bool BuildTail(float tail_width, float tail_height, float torso_height);
 	bool IsUpright();
 	bool IsLongNeck();
 	bool IsLongTail();
@@ -69,6 +67,7 @@ private: // this is only used by the class
 	float mTailIncline;
 	float mHeight;
 	float mWidth;
+	float mDepth;
 	bool mHidearms, mHideneck, mHidelegs, mFixed, mHasMuscle;
 	Bone_Builder* mBuilder;
 	Muscle_Builder* mMuscleBuilder;

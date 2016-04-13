@@ -9,7 +9,7 @@ public:
 
 	Bone_Builder(Ogre::SceneManager* scenemanager, btDynamicsWorld* world);
 	~Bone_Builder();
-	void SetDimensions(float width, float height);
+	void SetDimensions(float width, float height, float depth);
 	void SetRelativePosition(Ogre::Vector3 pos, Ogre::Quaternion RelRot, Ogre::SceneNode& mNode);
 	bool BuildBone(Bone& newBone, Bone::BoneType bone);
 	void SetAttachmentPoints(Bone::BoneType bone);

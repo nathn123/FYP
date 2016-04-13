@@ -11,11 +11,11 @@ Bone_Builder::Bone_Builder(Ogre::SceneManager* scenemanger, btDynamicsWorld* wor
 Bone_Builder::~Bone_Builder()
 {
 }
-void Bone_Builder::SetDimensions(float width, float height)
+void Bone_Builder::SetDimensions(float width, float height, float depth)
 {
 	mWidth = width;
 	mHeight = height;
-	mLength = 15;
+	mLength = depth;
 }
 void Bone_Builder::SetRelativePosition(Ogre::Vector3 relpos, Ogre::Quaternion RelRot, Ogre::SceneNode& parent)
 {

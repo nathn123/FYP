@@ -15,7 +15,7 @@
             <Property name="Text" value="Create Skeleton" />
         </Window>
         <Window type="TaharezLook/GroupBox" name="Settings Box" >
-            <Property name="Area" value="{{0,524},{0,63},{0.3,715},{0.3,447}}" />
+            <Property name="Area" value="{{0,524},{0,63},{0.3,715},{0.3,472}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Window type="TaharezLook/StaticText" name="Skeleton Height" >
                 <Property name="Area" value="{{0,31},{0,11},{0,466},{0,46}}" />
@@ -42,7 +42,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Neck Incline" >
-                <Property name="Area" value="{{0,32},{0,79},{0,469},{0,114}}" />
+                <Property name="Area" value="{{0,28},{0,112},{0,465},{0,147}}" />
                 <Property name="Text" value="Neck Incline" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="427" />
@@ -54,7 +54,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Tail Incline" >
-                <Property name="Area" value="{{0,32},{0,116},{0,469},{0,152}}" />
+                <Property name="Area" value="{{0,28},{0,149},{0,465},{0,185}}" />
                 <Property name="Text" value="Tail Incline" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="427" />
@@ -66,7 +66,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Neck Type" >
-                <Property name="Area" value="{{0,33},{0,154},{0,470},{0,189}}" />
+                <Property name="Area" value="{{0,29},{0,187},{0,466},{0,222}}" />
                 <Property name="Text" value="Neck Type" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="427" />
@@ -75,7 +75,7 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Tail Type" >
-                <Property name="Area" value="{{0,33},{0,190},{0,469},{0,223}}" />
+                <Property name="Area" value="{{0,29},{0,223},{0,465},{0,256}}" />
                 <Property name="Text" value="Tail Type" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="426" />
@@ -84,7 +84,7 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Arm Type" >
-                <Property name="Area" value="{{0,31},{0,266},{0,471},{0,300}}" />
+                <Property name="Area" value="{{0,27},{0,299},{0,467},{0,333}}" />
                 <Property name="Text" value="Arm Type" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="430" />
@@ -93,7 +93,7 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Torso Type" >
-                <Property name="Area" value="{{0,31},{0,302},{0,471},{0,334}}" />
+                <Property name="Area" value="{{0,27},{0,335},{0,467},{0,367}}" />
                 <Property name="Text" value="Torso Type" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="430" />
@@ -102,7 +102,7 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
             </Window>
             <Window type="TaharezLook/StaticText" name="Spawn Position" >
-                <Property name="Area" value="{{0,29},{0,336},{0,469},{0,366}}" />
+                <Property name="Area" value="{{0,25},{0,369},{0,465},{0,399}}" />
                 <Property name="Text" value="Position" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="430" />
@@ -120,7 +120,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Leg Type" >
-                <Property name="Area" value="{{0,32},{0,227},{0,470},{0,262}}" />
+                <Property name="Area" value="{{0,28},{0,260},{0,466},{0,295}}" />
                 <Property name="Text" value="Leg Type" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="428" />
@@ -280,7 +280,7 @@
                 </AutoWindow>
             </Window>
             <Window type="TaharezLook/StaticText" name="Hide Neck" >
-                <Property name="Area" value="{{0,28},{0,438},{0,468},{0,473}}" />
+                <Property name="Area" value="{{0,24},{0,471},{0,464},{0,506}}" />
                 <Property name="Text" value="Hide Neck" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="430" />
@@ -292,7 +292,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Hide Leg" >
-                <Property name="Area" value="{{0,28},{0,400},{0,468},{0,435}}" />
+                <Property name="Area" value="{{0,24},{0,433},{0,464},{0,468}}" />
                 <Property name="Text" value="Hide Leg" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="430" />
@@ -304,7 +304,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Hide Arm" >
-                <Property name="Area" value="{{0,29},{0,367},{0,468},{0,400}}" />
+                <Property name="Area" value="{{0,25},{0,400},{0,464},{0,433}}" />
                 <Property name="Text" value="Hide Arm" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="429" />
@@ -316,7 +316,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Has Muscles" >
-                <Property name="Area" value="{{0,28},{0,475},{0,471},{0,515}}" />
+                <Property name="Area" value="{{0,24},{0,508},{0,467},{0,548}}" />
                 <Property name="Text" value="Has Muscles" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="433" />
@@ -328,7 +328,7 @@
                 </Window>
             </Window>
             <Window type="TaharezLook/StaticText" name="Is Fixed" >
-                <Property name="Area" value="{{0,29},{0,516},{0,471},{0,556}}" />
+                <Property name="Area" value="{{0,25},{0,549},{0,467},{0,589}}" />
                 <Property name="Text" value="Is Fixed" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Property name="HorzScrollPageSize" value="432" />
@@ -337,6 +337,18 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
                 <Window type="TaharezLook/Checkbox" name="Checkbox" >
                     <Property name="Area" value="{{0,362},{0,4},{0,490},{0,36}}" />
+                </Window>
+            </Window>
+            <Window type="TaharezLook/StaticText" name="Skeleton Depth" >
+                <Property name="Area" value="{{0,29},{0,80},{0,465},{0,111}}" />
+                <Property name="Text" value="Depth" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="426" />
+                <Property name="VertScrollPageSize" value="21" />
+                <Property name="HorzScrollDocumentSize" value="41" />
+                <Property name="VertScrollDocumentSize" value="14.5776" />
+                <Window type="TaharezLook/Editbox" name="DepthEditBox" >
+                    <Property name="Area" value="{{0,322},{0,1},{0,435},{0,29}}" />
                 </Window>
             </Window>
         </Window>

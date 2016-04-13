@@ -189,6 +189,7 @@ void GameState::BuildSkeleton()
 {
 	CEGUI::Editbox* heightbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Skeleton Height/HeightEdit"));
 	CEGUI::Editbox* widthbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Skeleton Width/WidthEditBox"));
+	CEGUI::Editbox* depthbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Skeleton Depth/DepthEditBox"));
 	CEGUI::Editbox* neckbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Neck Incline/NeckEditbox"));
 	CEGUI::Editbox* tailbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Tail Incline/TailEditbox"));
 	CEGUI::Editbox* Xbox = static_cast<CEGUI::Editbox*>(mGUIRoot->getChild("Settings Box/Spawn Position/X Editbox"));
@@ -238,6 +239,7 @@ void GameState::BuildSkeleton()
 	mPhysics->BuildCharacter(Torso, Arm, Leg,Neck,Tail,
 		std::stof(heightbox->getText().c_str()),
 		std::stof(widthbox->getText().c_str()),
+		std::stof(depthbox->getText().c_str()),
 		std::stof(neckbox->getText().c_str()),
 		std::stof(tailbox->getText().c_str()),
 		static_cast<CEGUI::ToggleButton*>(mGUIRoot->getChild("Settings Box/Hide Arm/Checkbox"))->isSelected(),
