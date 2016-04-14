@@ -164,9 +164,9 @@ bool Physics::TestLimb(char constrainttype)
 	else if (constrainttype == 'Z')
 	{
 		Skeleton skel = Skeleton();
-		SkeletonBuilder->SetBodyType(Skeleton_Builder::LegType::Uninverted,Skeleton_Builder::ArmType::LongArms,Skeleton_Builder::TorsoType::Upright,Skeleton_Builder::NeckType::LongNeck,Skeleton_Builder::TailType::NoTail,false,true);
-		SkeletonBuilder->SetHidden(false,false,false);
-		SkeletonBuilder->SetDimensions(0, 0, 100, 25, 15);
+		SkeletonBuilder->SetBodyType(Skeleton_Builder::LegType::Uninverted,Skeleton_Builder::ArmType::LongArms,Skeleton_Builder::TorsoType::Upright,Skeleton_Builder::NeckType::LongNeck,Skeleton_Builder::TailType::LongTail,false,false);
+		SkeletonBuilder->SetHidden(false, false, false);
+		SkeletonBuilder->SetDimensions(-35, -35, 100, 25, 15);
 		SkeletonBuilder->BuildSkeleton(skel, Ogre::Vector3(0, 100, 0));
 	}
 	

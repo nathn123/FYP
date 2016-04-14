@@ -82,7 +82,10 @@ void Bone_Builder::SetAttachmentPoints(Bone::BoneType bone)
 	}
 	else if (bone == Bone::BoneType::Tail)
 	{
-
+		mAttachments.push_back(Ogre::Vector3(mWidth / 2, 0, 0));
+		mAttachments.push_back(Ogre::Vector3(-mWidth / 2, 0, 0));
+		mAttachments.push_back(Ogre::Vector3(0, 0, mLength / 2));
+		mAttachments.push_back(Ogre::Vector3(0, 0, -mLength / 2));
 	}
 	else if (bone == Bone::BoneType::Foot)
 	{

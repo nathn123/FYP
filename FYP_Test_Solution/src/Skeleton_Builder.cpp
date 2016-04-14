@@ -586,22 +586,27 @@ bool Skeleton_Builder::BuildTail(float tail_width, float tail_height, float tors
 	Bone* LTail = new Bone();
 	Bone* LLTail = new Bone();
 	tail_height /= 4;
-	mBuilder->SetDimensions(tail_width, tail_height, mDepth /2);
+	
 	Ogre::Quaternion neckrotation;
 	neckrotation.FromAngleAxis(Ogre::Radian(Ogre::Degree(mTailIncline)), Ogre::Vector3::UNIT_X);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height, 0), neckrotation, *mHipNode->GetNode());
+	btTransform t;
+	btVector3 min, max;
+
+	mHipNode->GetCollider()->getAabb(t, min, max);
+	mBuilder->SetDimensions(tail_width, tail_height, mDepth / 2);
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, -(torso_height /2), mDepth / 2), neckrotation, *mHipNode->GetNode());
 	if (!mBuilder->BuildBone(*LLTail, Bone::BoneType::Tail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height, mDepth / 2);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height , 0), neckrotation, *LLTail->GetNode());
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, -tail_height , 0), neckrotation, *LLTail->GetNode());
 	if (!mBuilder->BuildBone(*LTail, Bone::BoneType::Tail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height, mDepth / 2);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height, 0), neckrotation, *LTail->GetNode());
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, -tail_height, 0), neckrotation, *LTail->GetNode());
 	if (!mBuilder->BuildBone(*MTail, Bone::BoneType::Tail))
 		return false;
 	mBuilder->SetDimensions(tail_width, tail_height, mDepth / 2);
-	mBuilder->SetRelativePosition(Ogre::Vector3(0, tail_height, 0), neckrotation, *MTail->GetNode());
+	mBuilder->SetRelativePosition(Ogre::Vector3(0, -tail_height, 0), neckrotation, *MTail->GetNode());
 	if (!mBuilder->BuildBone(*UTail, Bone::BoneType::Tail))
 		return false;
 	if (mHasMuscle)

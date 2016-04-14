@@ -8,7 +8,7 @@ Skeleton::Skeleton(std::vector<Bone*> Bones, std::vector<Muscle*> muscles, std::
 	mNode = Node;
 	mMuscles = muscles;
 	for (auto constraint: Constraints)
-		World->addConstraint(constraint);
+		World->addConstraint(constraint,true);
 }
 Skeleton::Skeleton()
 {
