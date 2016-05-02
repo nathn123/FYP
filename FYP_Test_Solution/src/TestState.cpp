@@ -53,19 +53,19 @@ bool TestState::frameStarted(const Ogre::FrameEvent& evt)
 	{
 		if (!mPhysics->mTestBody->isActive())
 			mPhysics->mTestBody->activate();
-		mPhysics->mTestBody->applyCentralForce(btVector3(0, 0, 100));
+		mPhysics->mTestBody->applyCentralForce(btVector3(0, 0, 1000));
 	}
 	if (key->isKeyDown(OIS::KC_K))
 	{
 		if (!mPhysics->mTestBody->isActive())
 			mPhysics->mTestBody->activate();
-		mPhysics->mTestBody->applyCentralForce(btVector3(0, 100, 0));
+		mPhysics->mTestBody->applyCentralForce(btVector3(0, 10000, 0));
 	}
 	if (key->isKeyDown(OIS::KC_J))
 	{
 		if (!mPhysics->mTestBody->isActive())
 			mPhysics->mTestBody->activate();
-		mPhysics->mTestBody->applyCentralForce(btVector3(100, 0, 0));
+		mPhysics->mTestBody->applyCentralForce(btVector3(1000, 0, 0));
 	}
 	if (key->isKeyDown(OIS::KC_M))
 	{
@@ -181,6 +181,11 @@ bool TestState::frameStarted(const Ogre::FrameEvent& evt)
 	else if (key->isKeyDown(OIS::KC_Z) && mToggleTime <= 0.f)
 	{
 		mPhysics->TestLimb('Z');
+		mToggleTime = 2.0f;
+	}
+	else if (key->isKeyDown(OIS::KC_C) && mToggleTime <= 0.f)
+	{
+		mPhysics->TestLimb('M');
 		mToggleTime = 2.0f;
 	}
 	else if (key->isKeyDown(OIS::KC_SPACE) && mToggleTime <= 0.f)

@@ -1,8 +1,8 @@
-﻿Build started 14/04/2016 15:38:04.
+﻿Build started 18/04/2016 15:15:54.
      1>Project "F:\FYP_Solution\trunk\FYP_Test_Solution\FYP_Test_Solution.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IF:\FYP_Solution\trunk\\Include\Bullet /IF:\FYP_Solution\trunk\\Include\OIS /IF:\FYP_Solution\trunk\\Include\Overlay /IF:\FYP_Solution\trunk\\Include\OGRE /IF:\FYP_Solution\trunk\\Include /IF:\FYP_Solution\trunk\FYP_Test_Solution\\header /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /FR"Debug\\" /Gd /TP /analyze- /errorReport:prompt src\Physics.cpp
-         Physics.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IF:\FYP_Solution\trunk\\Include\Bullet /IF:\FYP_Solution\trunk\\Include\OIS /IF:\FYP_Solution\trunk\\Include\Overlay /IF:\FYP_Solution\trunk\\Include\OGRE /IF:\FYP_Solution\trunk\\Include /IF:\FYP_Solution\trunk\FYP_Test_Solution\\header /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /FR"Debug\\" /Gd /TP /analyze- /errorReport:prompt src\Bone.cpp
+         Bone.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\FYP_Solution\trunk\\bin\Debug\FYP_Solution.exe" /INCREMENTAL /NOLOGO /LIBPATH:F:\FYP_Solution\trunk\\libs\Debug\ OgreMain_d.lib OIS_d.lib OgreOverlay_d.lib bulletcollision_Debug.lib bulletdynamics_Debug.lib LinearMath_Debug.lib GIMPACTutils_Debug.lib ConvexDecomposition_Debug.lib "CEGUIBase-0_d.lib" "CEGUIOgreRenderer-0_d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\FYP_Solution\trunk\\bin\Debug\FYP_Solution.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\FYP_Solution\trunk\\bin\Debug\FYP_Solution.lib" /MACHINE:X86 Debug\App.obj
          Debug\main.obj
@@ -34,4 +34,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:38.58
+Time Elapsed 00:00:38.51

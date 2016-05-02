@@ -284,32 +284,22 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		btRigidBody* BodyA, *BodyC;
 		// calculate a muscle to tendon ratio
 		// possibly changable
-		/*if (i % 4 == 0)*/
-		{
 			BodyA = boneA->GetRigidBody();
 			BodyC = boneB->GetRigidBody();
 			WorldAttachmentA = Utils::OgreBTVector(boneA->GetNode()->_getDerivedPosition() + boneA->GetAttachments(attachmentpoints[i]));
 			WorldAttachmentC = Utils::OgreBTVector(boneB->GetNode()->_getDerivedPosition() + boneB->GetAttachments(attachmentpoints[i + 1]));
 			LocalAttachmentA = Utils::OgreBTVector(boneA->GetAttachments(attachmentpoints[i]));
 			LocalAttachmentC = Utils::OgreBTVector(boneB->GetAttachments(attachmentpoints[i + 1]));
-		}
-		//else
-		//{
-		//	// if odd numered then reverse
-		//	BodyC = boneA->GetRigidBody();
-		//	BodyA = boneB->GetRigidBody();
-		//	AttachmentC = Utils::OgreBTVector(boneA->GetNode()->_getDerivedPosition() + boneA->GetAttachments(attachmentpoints[i]));
-		//	AttachmentA = Utils::OgreBTVector(boneB->GetNode()->_getDerivedPosition() + boneB->GetAttachments(attachmentpoints[i + 1]));
-		//}
-		// A and B connected by 6DOfConst
+
+		// A and B connected by Slider
 		// B and C connected via Slider, to simulate contraction
 
 		// calculate WORLD position of pointmass
 		pointmasspositon = WorldAttachmentA + (WorldAttachmentC - WorldAttachmentA).normalized() *( (WorldAttachmentC.distance(WorldAttachmentA) * 0.15f));
 		
-		
-		MyKinematicMotionState* state = new MyKinematicMotionState(btTransform(btQuaternion(0, 0, 0), pointmasspositon));
-		btCollisionShape* shape = new btSphereShape(0.5f);
+		auto pointmassnode = mSceneMgr->getRootSceneNode()->createChildSceneNode(Utils::BTOgreVector(pointmasspositon));
+		MotionState* state = new MotionState(pointmassnode);
+		btCollisionShape* shape = new btSphereShape(0.01f);
 		
 		auto BodyB = new btRigidBody(0.01f, state, shape);
 		
@@ -319,9 +309,9 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		btTransform AttachTransA = btTransform(BodyA->getWorldTransform().getBasis(), WorldAttachmentA);
 		btTransform AttachTransB = btTransform(BodyB->getWorldTransform());
 
-		SetMuscleTransform(transformA, transformB, pointmasspositon, AttachTransA, AttachTransB, btVector3(0, 0, M_PI_2));
+		SetMuscleTransform(transformA, transformB, pointmasspositon, AttachTransA, AttachTransB, btVector3(M_PI_4, 0, 0));
 
-		auto Tendon = new btSliderConstraint(*BodyA, *BodyB, transformA, transformB, true);
+		auto Tendon = new btSliderConstraint(*BodyA, *BodyB, transformA, transformB, false);
 		// set constraint limits to allow 10% motion in either direction
 		// due to the slider point being the pointmass point
 		// the upper limit is positive because the attachment point should be over the pointmass
@@ -337,8 +327,8 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 		btTransform transformB2 = btTransform();
 		btTransform AttachTransC = btTransform(BodyA->getWorldTransform().getBasis(), WorldAttachmentC);
 
-		SetMuscleTransform(transformC, transformB2, pointmasspositon, AttachTransC, AttachTransB, btVector3(0, 0, M_PI_2));
-		auto Musclepart = new btSliderConstraint(*BodyC, *BodyB, transformC, transformB2,true);
+		SetMuscleTransform(transformC, transformB2, pointmasspositon, AttachTransC, AttachTransB, btVector3(M_PI_4, 0, 0));
+		auto Musclepart = new btSliderConstraint(*BodyC, *BodyB, transformC, transformB2, false);
 		
 
 
@@ -347,7 +337,7 @@ bool Muscle_Builder::CreateMuscle(Bone* boneA, Bone* boneB, std::vector<Muscle*>
 
 		Musclepart->setUpperLinLimit(0); // 
 		Musclepart->setLowerLinLimit(musclePerc);
-		mWorld->addRigidBody(BodyB, Utils::COL_NOTHING, Utils::COL_NOTHING);
+		mWorld->addRigidBody(BodyB);
 
 		mWorld->addConstraint(Tendon);
 		mWorld->addConstraint(Musclepart);

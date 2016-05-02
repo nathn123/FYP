@@ -6,7 +6,7 @@
 
 
 Muscle::Muscle(btRigidBody* BodyA, btRigidBody* BodyC, btVector3& AttachmentPointA, btVector3& AttachmentPointC,
-	btSliderConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MyKinematicMotionState* state)
+	btSliderConstraint* Tendon, btSliderConstraint* muscle, btRigidBody* BodyB, MotionState* state)
 {
 	mParallelLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointC));//muscle/ slider dist 
 	mSerialLength = abs(BodyB->getCenterOfMassPosition().distance( AttachmentPointA));//tendon dist
@@ -106,6 +106,7 @@ void Muscle::Update(float dt)
 	mTotalForce = FCON + FSER + FPAS;
 	btVector3 Muscleaxisinworld = mBodyC->getWorldTransform().getBasis() * mMuscle->getFrameOffsetA().getBasis().getColumn(2);
 	mBodyC->applyForce(Muscleaxisinworld * mTotalForce, mAttachmentPointC);
+	mBodyB->applyForce(Muscleaxisinworld * mTotalForce, btVector3(0,0,0));
 	Muscleaxisinworld = mBodyB->getWorldTransform().getBasis() * mMuscle->getFrameOffsetB().getBasis().getColumn(2);
 	//force applied to this 
 	mBodyB->applyCentralForce(Muscleaxisinworld * mTotalForce);
@@ -114,24 +115,24 @@ void Muscle::Update(float dt)
 
 	// now we need to move the pointmass to account for change in the contractile element
 	
-	btTransform newstate, bonetrans, pointmasstrans;
-	btVector3 neworigin;
-	mPointMassState->getWorldTransform(newstate);
-	neworigin = newstate.getOrigin();
-	float moveamount;
-	if (mActivationState != 0)
-		 moveamount = ((FSER - FPAS) / FCON); // reduce the move amount per tick to increase stability
-	else
-		moveamount = 0;
-	//get the relative attachment point position
-	mBodyC->getMotionState()->getWorldTransform(bonetrans);
-	mBodyB->getMotionState()->getWorldTransform(pointmasstrans);
-	
-	auto moveDirection = (bonetrans.getBasis() *  ((bonetrans.getOrigin() + mAttachmentPointC) + pointmasstrans.getOrigin())).normalize();
-	neworigin += moveamount * moveDirection;
-	auto test = moveamount * moveDirection;
- 
-	newstate.setOrigin(neworigin);
-	mPointMassState->setKinematicPos(newstate);
+	//btTransform newstate, bonetrans, pointmasstrans;
+	//btVector3 neworigin;
+	//mPointMassState->getWorldTransform(newstate);
+	//neworigin = newstate.getOrigin();
+	//float moveamount;
+	//if (mActivationState != 0)
+	//	 moveamount = ((FSER - FPAS) / FCON); // reduce the move amount per tick to increase stability
+	//else
+	//	moveamount = 0;
+	////get the relative attachment point position
+	//mBodyC->getMotionState()->getWorldTransform(bonetrans);
+	//mBodyB->getMotionState()->getWorldTransform(pointmasstrans);
+	//
+	//auto moveDirection = (bonetrans.getBasis() *  ((bonetrans.getOrigin() + mAttachmentPointC) + pointmasstrans.getOrigin())).normalize();
+	//neworigin += moveamount * moveDirection;
+	//auto test = moveamount * moveDirection;
+ //
+	//newstate.setOrigin(neworigin);
+	//mPointMassState->setKinematicPos(newstate);
 
 }

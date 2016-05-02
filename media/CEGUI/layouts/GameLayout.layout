@@ -129,7 +129,7 @@
                 <Property name="VertScrollDocumentSize" value="14.5776" />
             </Window>
             <Window type="TaharezLook/Combobox" name="Neck Combobox" >
-                <Property name="Area" value="{{0,211},{0,159},{0,467},{0,419}}" />
+                <Property name="Area" value="{{0,210},{0,191},{0,466},{0,460}}" />
                 <AutoWindow namePath="__auto_editbox__" >
                     <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
                 </AutoWindow>
@@ -159,7 +159,7 @@
                 </AutoWindow>
             </Window>
             <Window type="TaharezLook/Combobox" name="Tail Combobox" >
-                <Property name="Area" value="{{0,210},{0,194},{0,466},{0,450}}" />
+                <Property name="Area" value="{{0,209},{0,227},{0,465},{0,483}}" />
                 <AutoWindow namePath="__auto_editbox__" >
                     <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
                 </AutoWindow>
@@ -189,7 +189,7 @@
                 </AutoWindow>
             </Window>
             <Window type="TaharezLook/Combobox" name="Leg Combobox" >
-                <Property name="Area" value="{{0,209},{0,233},{0,465},{0,489}}" />
+                <Property name="Area" value="{{0,208},{0,266},{0,464},{0,522}}" />
                 <AutoWindow namePath="__auto_editbox__" >
                     <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
                 </AutoWindow>
@@ -219,7 +219,7 @@
                 </AutoWindow>
             </Window>
             <Window type="TaharezLook/Combobox" name="Torso Combobox" >
-                <Property name="Area" value="{{0,209},{0,305},{0,465},{0,560}}" />
+                <Property name="Area" value="{{0,208},{0,338},{0,464},{0,593}}" />
                 <AutoWindow namePath="__auto_editbox__" >
                     <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />
                 </AutoWindow>
@@ -249,7 +249,7 @@
                 </AutoWindow>
             </Window>
             <Window type="TaharezLook/Combobox" name="Arm Combobox" >
-                <Property name="Area" value="{{0,208},{0,272},{0,464},{0,528}}" />
+                <Property name="Area" value="{{0,207},{0,305},{0,463},{0,561}}" />
                 <Property name="ClippedByParent" value="false" />
                 <AutoWindow namePath="__auto_editbox__" >
                     <Property name="ActiveSelectionColour" value="tl:FF6060FF tr:FF6060FF bl:FF6060FF br:FF6060FF" />

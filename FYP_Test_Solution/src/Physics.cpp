@@ -100,7 +100,7 @@ bool Physics::TestLimb(char constrainttype)
 			// we need to ac
 			TestConstraint->setLimit(0, btScalar(M_PI_2));
 			mWorld->addConstraint(TestConstraint,true);
-			//Musclebuilder->CreateMuscle(Upper, Lower, mMuscles);
+			Musclebuilder->CreateMuscle(Upper, Lower, mMuscles);
 		}
 		else if (constrainttype == 'S')
 		{
@@ -131,35 +131,88 @@ bool Physics::TestLimb(char constrainttype)
 	else if (constrainttype == 'M')
 	{
 		// simulated muscles with constraint, no forces generated yet.
-		// we need to create three onbjects 1st attempt
-		Bone* Upper = new Bone();
-		Bone* Lower = new Bone();
-
+		// what we need are three bodies A and B connected by HINGE JOINT
+		// the above method does not produce the required force in the correct direction
+		// next attempt is to have Fixed constraints attached to the attachment points 
+		btFixedConstraint* FixedA,*FixedB;
+		
 		float width = 10.f;
 		float height = 20.f;
-		Ogre::Quaternion quat = Ogre::Quaternion(Ogre::Radian(Ogre::Real(M_PI_2)), Ogre::Vector3::UNIT_X);
-		btQuaternion btquat;
-		btquat.setRotation(btVector3(0, 0, 1), btScalar(M_PI_2));
-		mBoneBuilder->SetDimensions(width, height, 15);
+		float depth = 10.f;
+		float muscledist = 0.0f;
+		float tendondist = 0.0f;
+		float maxContract = 0.95f;
+		float TendonSlack = 0.0f;
+		Bone* Upper = new Bone();
+		Bone* Lower = new Bone();
+		btRigidBody *PointMassA, *PointMassB;
+		btCollisionShape* shape = new btSphereShape(0.1f);
+		btRigidBody* PointMassM = new btRigidBody(0.1f, new MotionState(mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(width / 2 + 1, 183, 0))), shape);
+		PointMassA = new btRigidBody(0.1f, new MotionState(mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(width / 2 +1, 200, 0))), shape);
+		PointMassB = new btRigidBody(0.1f, new MotionState(mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(width / 2 + 1, 180, 0))), shape);
+
+		mTestBody = PointMassM;
+		mBoneBuilder->SetDimensions(width, height, depth);
 		mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 200, 0)));
 		mBoneBuilder->BuildBone(*Upper, Bone::BoneType::LUpperLeg);
-
-		mBoneBuilder->ClearData();
-		mBoneBuilder->SetDimensions(width, height, 15);
+		mBoneBuilder->SetDimensions(width, height, depth);
 		mBoneBuilder->SetRelativePosition(Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY, *mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 180, 0)));
 		mBoneBuilder->BuildBone(*Lower, Bone::BoneType::LowerLeg);
-
 		Upper->GetRigidBody()->setMassProps(0, btVector3(0, 0, 0));
-
 		btTransform localA, localB, testA, testB, JointTransform;
-		SkeletonBuilder->SetJointTransform(testA, testB, btVector3(0, 190, 0), Upper, Lower, btVector3(0, btScalar(-M_PI_2), 0));
-		// this is along the Z axis
+		// now set up the joints
+		SkeletonBuilder->SetJointTransform(testA, testB, btVector3(0, 190, 0), Upper, Lower, btVector3(0, 0, btScalar(-M_PI_2)));
 		btHingeConstraint* TestConstraint = new btHingeConstraint(*Upper->GetRigidBody(), *Lower->GetRigidBody(), testA, testB);
-		TestConstraint->setLimit(0, btScalar(M_PI_4));
-		mWorld->addConstraint(TestConstraint);
-		Musclebuilder->CreateMuscle(Upper, Lower, mMuscles);
+		/*for hinge constraints we rotate the joint along Y by PI/2 */
+		// legs set limits as 0 PI/2
+		TestConstraint->setLimit(btScalar(M_PI_2), btScalar(M_PI_2));
+		mWorld->addConstraint(TestConstraint, true);
+		btTransform A, PA, B, BA, FixedTrans;
+		btQuaternion fixedQ;
+		fixedQ.setEulerZYX(0,M_PI_2,0);
+		FixedTrans.setRotation(fixedQ);
+		FixedTrans.setOrigin(btVector3(width / 4, 200, 0));
+		A = Upper->GetRigidBody()->getWorldTransform().inverse() * FixedTrans;
+		PA = PointMassA->getWorldTransform().inverse() * FixedTrans;
+		FixedTrans.setOrigin(btVector3(width / 4, 180, 0));
+		B = Lower->GetRigidBody()->getWorldTransform().inverse() * FixedTrans;
+		BA = PointMassB->getWorldTransform().inverse() * FixedTrans;
 
-		
+		FixedA = new btFixedConstraint(*Upper->GetRigidBody(), *PointMassA, A, PA);
+		FixedB = new btFixedConstraint(*Lower->GetRigidBody(), *PointMassB, B, PA);
+		FixedA->setEnabled(true);
+		FixedB->setEnabled(true);
+		// now the sliders
+		btQuaternion btquat;
+		btTransform JointTrans;
+		btquat.setEulerZYX(-M_PI_2, 0, 0);
+		JointTrans.setIdentity();
+		JointTrans.setRotation(btquat);
+		JointTrans.setOrigin(btVector3(width, 190, 0));
+		auto TransformA = Upper->GetRigidBody()->getWorldTransform().inverse() * JointTrans;
+		auto TransformB = PointMassM->getWorldTransform().inverse() * JointTrans;
+		// first muscle / rework from actual muscle class, so we want muscle attached to the immovable bone and the pointmass
+		muscledist = fabsf(PointMassM->getWorldTransform().getOrigin().distance(PointMassA->getWorldTransform().getOrigin()));
+		btSliderConstraint* MuscleTestConstraint = new btSliderConstraint(*PointMassA, *PointMassM, TransformA, TransformB, false);
+		MuscleTestConstraint->setLowerAngLimit(0);
+		MuscleTestConstraint->setUpperAngLimit(0);
+		MuscleTestConstraint->setUpperLinLimit(muscledist * maxContract);
+		mWorld->addConstraint(MuscleTestConstraint);
+
+		TransformA = PointMassM->getWorldTransform().inverse() * JointTrans;
+		TransformB = Lower->GetRigidBody()->getWorldTransform().inverse() * JointTrans;
+		tendondist = fabsf(PointMassM->getWorldTransform().getOrigin().distance(PointMassB->getWorldTransform().getOrigin()));
+		btSliderConstraint* TendonTestConstraint = new btSliderConstraint(*PointMassM, *PointMassB, TransformA, TransformB, false);
+		TendonTestConstraint->setLowerAngLimit(0);
+		TendonTestConstraint->setUpperAngLimit(0);
+		TendonTestConstraint->setUpperLinLimit(tendondist * TendonSlack);
+		TendonTestConstraint->setLowerLinLimit(tendondist);
+		mWorld->addConstraint(TendonTestConstraint);
+		mWorld->addRigidBody(PointMassM);
+		mWorld->addRigidBody(PointMassA);
+		mWorld->addRigidBody(PointMassB);
+	
+
 	}
 	else if (constrainttype == 'Z')
 	{
